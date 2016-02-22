@@ -1,12 +1,14 @@
 __author__ = 'morgenst'
 
 import unittest
-from plugins import TableMaker as TM
+from plugins.TableMaker import TableMaker as TM
+from plugins.TableMaker import Column
 
-class ColumnTest(unittest.TestCase):
+class TableMakerTest(unittest.TestCase):
     def setUp(self):
-        pass
+        self.tabConfig = {"cols" : ["Isotope", "Activity"]}
 
-    def colInitialisation(self):
-        c = TM.Column("ExcemptionLimit")
-
+    def testConfig(self):
+        tm = TM(self.tabConfig)
+        res = [Column(col) for col in self.tabConfig['cols']]
+        self.assertEqual(tm.cols, res)

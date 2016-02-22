@@ -9,10 +9,12 @@ class Column:
     def __init__(self, quantity):
         self.quantity = quantity
 
+    def __eq__(self, other):
+        return (self.quantity == other.quantity)
 
 class TableMaker(BasePlugin):
     def __init__(self, config):
-        print config
+        self.cols = [Column(col) for col in config['cols']]
 
     def invoke(self):
         pass
