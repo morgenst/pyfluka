@@ -11,19 +11,6 @@ class TestGraphBuilder(unittest.TestCase):
     def setUp(self):
         pass
 
-    def testSimplePath(self):
-        graph = {"A" : ["B"]}
-        res = ["A", "B"]
-        path = GB.build_path(graph, "A", "B")
-        self.assertEqual(path, res)
-
-    def testComplexPath(self):
-        graph = {"A" : ["B", "C"],
-                 "B" : ["C", "D"]}
-        res = ["A", "B", "D"]
-        path = GB.build_path(graph, "A", "D")
-        self.assertEqual(path, res)
-
     def testBuildGraphSimple(self):
         d = OrderedDict([("A", []), ("B", []), ("C", [])])
         res = ["Input", "A", "B", "C", "Output"]
