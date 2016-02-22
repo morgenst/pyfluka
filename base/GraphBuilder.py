@@ -8,8 +8,7 @@ def build_graph(initList):
     graph.add_node("Input")
     graph.add_node("Output")
     previousNode = "Input"
-    for item in initList:
-        key, attr = item.items()[0]
+    for key, attr in initList.items():
         graph.add_node(key, attr if isinstance(attr, dict) else {})
         graph.add_edge(previousNode, key)
         previousNode = key

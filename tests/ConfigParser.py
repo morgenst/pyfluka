@@ -39,5 +39,10 @@ class TestConfigParser(unittest.TestCase):
         res = [1,2,3]
         self.assertEqual(od['plugins'].keys(), res)
 
+    def testAttrParsing(self):
+        config = ConfigParser.parse("testconfig.yaml")
+        res = {"plugins": {"AoverLECalculator": None, "TableMaker": {"cols": ["Isotope", "Activity", "AoverLE"]}}}
+        self.assertEqual(config, res)
+
 if __name__ == '__main__':
     unittest.main()

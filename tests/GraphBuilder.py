@@ -25,7 +25,7 @@ class TestGraphBuilder(unittest.TestCase):
         self.assertEqual(path, res)
 
     def testBuildGraphSimple(self):
-        d = [{"A": []}, {"B": []}, {"C": []}]
+        d = OrderedDict([("A", []), ("B", []), ("C", [])])
         res = ["Input", "A", "B", "C", "Output"]
         graph = GB.build_graph(d)
         self.assertItemsEqual(graph.nodes(), res)
@@ -37,13 +37,13 @@ class TestGraphBuilder(unittest.TestCase):
         self.assertItemsEqual(graph.nodes(), graphRef)
 
     def testEdgesSimple(self):
-        d = [{"A": []}, {"B": []}, {"C": []}]
+        d = OrderedDict([("A", None), ("B", None), ("C", None)])
         res = [("Input", "A"), ("A", "B"), ("B", "C"), ("C", "Output")]
         graph = GB.build_graph(d)
         self.assertItemsEqual(graph.edges(), res)
 
     def testConfigDecorate(self):
-        d = [{"A": {"foo": "bar"}}, {"B": []}, {"C": []}]
+        d = {"A": {"foo": "bar"}, "B": [], "C": []}
         res = {"foo": "bar"}
         graph = GB.build_graph(d)
         self.assertEqual(graph.node["A"], res)

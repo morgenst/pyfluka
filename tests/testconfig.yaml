@@ -1,4 +1,7 @@
 plugins:
-  - AoverLECalculator:
-  - TableMaker:
-     cols: [Isotope Activity AoverLE]
+  AoverLECalculator:
+  TableMaker:
+     cols:
+      - Isotope
+      - Activity
+      - AoverLE
