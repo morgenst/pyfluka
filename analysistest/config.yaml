@@ -1,0 +1,3 @@
+plugins:
+  - Table:
+      - cols: Isotope Activity AoverLE
