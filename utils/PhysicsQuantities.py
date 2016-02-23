@@ -18,16 +18,12 @@ class AbsPhysicsQuantity:
         self.val = val * ureg.Quantity(unit)
         self.unc = unc * ureg.Quantity(unit)
 
-    @abstractmethod
-    def __str__(self):
-        return None
-
     def __setstate__(self, state):
         self.val = ureg.Quantity(state['val'].magnitude, state['val'].units)
         self.unc = ureg.Quantity(state['unc'].magnitude, state['unc'].units)
 
     def __eq__(self, other):
-        return self.val == other.val
+        return self.val == other.val and self.unc == other.unc
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -40,6 +36,7 @@ class AbsPhysicsQuantity:
 
     def __float__(self):
         return self.val.magnitude
+
 
 class Isotope:
     def __init__(self, A = -1, Z = "", iso = 0):
@@ -73,9 +70,6 @@ class Activity(AbsPhysicsQuantity):
     def __init__(self, val, unc = 0., unit=ureg.Bq):
         super(self.__class__, self).__init__(val, unc, unit)
 
-    #def __str__(self):
-    #    return str(self.val)
-
 
 class SpecificActivity(AbsPhysicsQuantity):
     def __init__(self, val, unc = 0., unit=ureg.Bq / ureg.kg):
@@ -91,6 +85,7 @@ class ExcemptionLimit(AbsPhysicsQuantity):
 
     def __str__(self):
         return "LE"
+
 
 class AoverLE(AbsPhysicsQuantity):
     def __init__(self, val, unc = 0., unit=ureg.dimensionless):

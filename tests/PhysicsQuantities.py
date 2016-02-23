@@ -77,3 +77,33 @@ class TestPhysicsQuantities(unittest.TestCase):
         val1 = PQ.H10(20.)
         val2 = PQ.H10(0.01, ureg.kBq / (ureg.mSv / ureg.hour))
         self.assertNotEqual(val1, val2)
+        
+    def testActivityEqualsSameUnit(self):
+        val1 = PQ.Activity(10.)
+        val2 = PQ.Activity(10.)
+        self.assertEqual(val1, val2)
+
+    def testActivityEqualsDiffUnit(self):
+        val1 = PQ.Activity(10.)
+        val2 = PQ.Activity(0.01, unit=ureg.kBq)
+        self.assertEqual(val1, val2)
+
+    def testActivityUnEqualsSameUnit(self):
+        val1 = PQ.Activity(20.)
+        val2 = PQ.Activity(10.)
+        self.assertNotEqual(val1, val2)
+
+    def testActivityUnEqualsDiffUnit(self):
+        val1 = PQ.Activity(20.)
+        val2 = PQ.Activity(20., unit=ureg.kBq)
+        self.assertNotEqual(val1, val2)
+
+    def testActivityEqualsUnc(self):
+        val1 = PQ.Activity(20., 2.1)
+        val2 = PQ.Activity(20., 2.1)
+        self.assertEqual(val1, val2)
+
+    def testActivityUnEqualsDiffUnc(self):
+        val1 = PQ.Activity(20., 2.1)
+        val2 = PQ.Activity(20., 3.1)
+        self.assertNotEqual(val1, val2)
