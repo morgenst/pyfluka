@@ -35,6 +35,11 @@ class AbsPhysicsQuantity:
     def __div__(self, other):
         return self.val / other.val
 
+    def __str__(self):
+        return str(self.val.magnitude)
+
+    def __float__(self):
+        return self.val.magnitude
 
 class Isotope:
     def __init__(self, A = -1, Z = "", iso = 0):
@@ -60,13 +65,16 @@ class Isotope:
             return False
         return True
 
+    def __str__(self):
+        return "Isotope"
+
 
 class Activity(AbsPhysicsQuantity):
     def __init__(self, val, unc = 0., unit=ureg.Bq):
         super(self.__class__, self).__init__(val, unc, unit)
 
-    def __str__(self):
-        return "A"
+    #def __str__(self):
+    #    return str(self.val)
 
 
 class SpecificActivity(AbsPhysicsQuantity):
