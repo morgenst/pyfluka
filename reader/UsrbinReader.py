@@ -29,7 +29,7 @@ class UsrbinReader(object):
                 BinShape = (axesdata[0][2], axesdata[1][2])  # x,y,z
             ReverseBinShape = list(BinShape)
             ReverseBinShape.reverse()
-            dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
+            #dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
             try:
                 return np.reshape(np.array(dataraw), ReverseBinShape).transpose()
             except:
@@ -80,48 +80,6 @@ class UsrbinReader(object):
         usrbinDataDict[currentDetectorName] = (usrbin_data, axesdata, primaries_weightInfo)
         return usrbinDataDict
 
-    def loadGeometryFile(self, filename, firstIndex=2, lastIndex=4):
-        """ Reads in a geometry file from FLUKA
-		x Axis -> Index 2
-		y Axis -> Index 3
-		z Axis -> Index 4
-		Default: x and z Axis
-		"""
-        X = []
-        Y = []
-        Xs = []
-        Ys = []
-        for line in file(filename):
-            if line[0] == "#":
-                continue
-            if line.strip() == "":
-                if X:
-                    Xs.append(copy.copy(X))
-                    Ys.append(copy.copy(Y))
-
-                    X = []
-                    Y = []
-            else:
-                try:
-                    splitted = map(float, line.split())
-                    if len(splitted) == 5:
-                        X.append(splitted[firstIndex])
-                        Y.append(splitted[lastIndex])
-                except:
-                    pass
-        if X:
-            Xs.append(copy.copy(X))
-            Ys.append(copy.copy(Y))
-            X = []
-            Y = []
-
-        return Xs, Ys
-
-    def getAxesRange(self, axisdata):
-        start, end, nBins = axisdata
-        step = (end - start) / nBins
-        return np.arange(start, end + step / 2., step)
-
     def getAxisIndex(self, axisdata, value):
         start, end, nBins = axisdata
         step = (end - start) / nBins
@@ -131,38 +89,7 @@ class UsrbinReader(object):
             return nBins
         return int((value - start) / step)
 
-    def plotMatrix(self, mat, axesdata, UseLog=True, vMinLog=None, vMaxLog=None, aspectRatioEqual=True, geometryData=None,
-                   savefilename=None, vMin=None, vMax=None):
-        X = getAxesRange(axesdata[0])
-        Y = getAxesRange(axesdata[1])
-        if UseLog:
-            pylab.pcolor(X, Y, mat, norm=LogNorm(vmin=vMinLog, vmax=vMaxLog))
-        else:
-            pylab.pcolor(X, Y, mat, norm=Normalize(vmin=vMin, vmax=vMax))
-        # pylab.colorbar()
-        pylab.xlim(axesdata[0][0], axesdata[0][1])
-        pylab.ylim(axesdata[1][0], axesdata[1][1])
-        if aspectRatioEqual:
-            pylab.axes().set_aspect('equal')  # , 'datalim')
-        if geometryData != None:
-            for x, y in izip(*geometryData):
-                pylab.plot(x, y, 'k-', linewidth=2)
-        if savefilename != None:
-            pylab.savefig(savefilename)
-        # pylab.show()
-        return pylab
-
-    def plotMatrixShort(self, data, axesdata, selection, transpose=False, UseLog=True, vMinLog=None, vMaxLog=None,
-                        aspectRatioEqual=True, geometryData=None, savefilename=None, vMin=None, vMax=None):
-        selecteddata = data[selection]
-        selectedaxesdata = [axesdata[i] for (i, selectionItem) in enumerate(selection) if selectionItem == Ellipsis]
-        print selectedaxesdata
-        if transpose:
-            selecteddata = selecteddata.transpose()
-        else:
-            selectedaxesdata.reverse()
-        return plotMatrix(selecteddata, selectedaxesdata, UseLog, vMinLog, vMaxLog, aspectRatioEqual, geometryData,
-                          savefilename, vMin=vMin, vMax=vMax)
+    """
 
     def getValue(self, x, y, z, data, axesdata):
         xIndex = getAxisIndex(axesdata[0], x)
@@ -172,7 +99,7 @@ class UsrbinReader(object):
         # print xIndex, yIndex, zIndex
         return data[xIndex, yIndex, zIndex]
 
-    """
+
     if __name__ == "__main__":
 
         import os
