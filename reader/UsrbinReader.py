@@ -29,7 +29,7 @@ class UsrbinReader(object):
                 BinShape = (axesdata[0][2], axesdata[1][2])  # x,y,z
             ReverseBinShape = list(BinShape)
             ReverseBinShape.reverse()
-            #dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
+            dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
             try:
                 return np.reshape(np.array(dataraw), ReverseBinShape).transpose()
             except:

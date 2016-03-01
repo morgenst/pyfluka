@@ -10,5 +10,6 @@ class TestUsrbinReader(unittest.TestCase):
 
     def testRead(self):
         d = self.reader.load("UsrbinInputTest.ascii")
-        print d['Dose-2y'][1]
+        print d['Dose-2y'][0]
         print len(d['Dose-2y'][0][0])
+        #print d
