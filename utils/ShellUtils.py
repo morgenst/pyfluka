@@ -3,7 +3,8 @@ __mail__ = ''
 
 import os
 
+
 def mkdir(path):
-    if not os.path.exists(path):
+    if os.path.exists(path):
         return
-    os.path.makedirs(path)
+    os.makedirs(path)
