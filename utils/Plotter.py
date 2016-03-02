@@ -55,3 +55,6 @@ class PlotConfig(object):
     def __init__(self, kwargs):
         for attr, val in kwargs.items():
             self.__setattr__(attr, val)
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
