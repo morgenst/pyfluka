@@ -15,7 +15,6 @@ def parse(config):
         _validate(cDict)
     except Exception as e:
         raise e
-
     return cDict
 
 def _validate(cDict):

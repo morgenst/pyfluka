@@ -53,5 +53,9 @@ class TestConfigParser(unittest.TestCase):
         config = {"plugins": [{"PlotMaker": None}]}
         self.assertRaises(IllegalArgumentError, ConfigParser._validate, config)
 
+    @unittest.skip("Not implemented")
+    def testNonExistingPlugin(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
