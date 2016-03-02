@@ -3,7 +3,7 @@ __mail__ = ''
 
 import unittest
 from utils.OrderedYAMLExtension import dump
-from base import ConfigParser
+from base import ConfigParser, IllegalArgumentError
 from collections import OrderedDict
 
 
@@ -11,8 +11,8 @@ class TestConfigParser(unittest.TestCase):
     def setUp(self):
         self.f = open("test.yaml", "w")
         self.f2 = open("test2.yaml", "w")
-        self.data = {"a": [1, 2, 3]}
-        self.data2 = {"a": [1, 2, 3, 4]}
+        self.data = {"plugins": {"a": [1, 2, 3]}}
+        self.data2 = {"plugin": {"a": [1, 2, 3, 4]}}
         self.data3 = {"plugins" : OrderedDict([(1,0), (3,1), (2,4)])}
         dump(self.data, self.f)
         dump(self.data3, self.f2)
@@ -39,10 +39,19 @@ class TestConfigParser(unittest.TestCase):
         res = [1,2,3]
         self.assertEqual(od['plugins'].keys(), res)
 
-    def testAttrParsing(self):
+    def testAttrParsingTable(self):
         config = ConfigParser.parse("testconfig.yaml")
         res = {"plugins": {"AoverLECalculator": None, "TableMaker": {"cols": ["Isotope", "Activity", "AoverLE"]}}}
         self.assertEqual(config, res)
+
+    def testAttrParsingPlot(self):
+        config = ConfigParser.parse("testconfig_plot.yaml")
+        res = {"plugins": {"PlotMaker": {"plots": {"activity": {"type": "2D", "quantity": "Activity"}}}}}
+        self.assertEqual(config, res)
+
+    def testInvalidInput(self):
+        config = {"plugins": [{"PlotMaker": None}]}
+        self.assertRaises(IllegalArgumentError, ConfigParser._validate, config)
 
 if __name__ == '__main__':
     unittest.main()
