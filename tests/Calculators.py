@@ -20,5 +20,14 @@ class TestCalculator(unittest.TestCase):
     def testSpecificActivitySimple(self):
         calculator = SpecificActivityCalculator()
         calculator.invoke(self.dataIsotopeAct)
-        tmp = PQ.SpecificActivity(1.)
         self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1.)])
+
+    def testSpecificActivitySimpleDiffMassUnit(self):
+        data = self.dataIsotopeAct
+        data["det1"]["Mass"] = PQ.Mass(10., ureg.g)
+        calculator = SpecificActivityCalculator()
+        calculator.invoke(data)
+        tmp = PQ.SpecificActivity(0.001)
+        print self.dataIsotopeAct["det1"]["SpecificActivity"][0].val
+        print tmp.val
+        self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1000.)])
