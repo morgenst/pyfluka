@@ -96,8 +96,8 @@ class ExcemptionLimit(AbsPhysicsQuantity):
 
 
 class AoverLE(AbsPhysicsQuantity):
-    def __init__(self, val, unc = 0., unit=ureg.dimensionless):
-        super(self.__class__, self).__init__(val, unc, unit)
+    def __init__(self, val, unc = 0.):
+        super(self.__class__, self).__init__(val, unc, ureg.dimensionless)
 
     def __str__(self):
         return "A/LE"
