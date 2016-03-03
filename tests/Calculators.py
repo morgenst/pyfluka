@@ -28,6 +28,4 @@ class TestCalculator(unittest.TestCase):
         calculator = SpecificActivityCalculator()
         calculator.invoke(data)
         tmp = PQ.SpecificActivity(0.001)
-        print self.dataIsotopeAct["det1"]["SpecificActivity"][0].val
-        print tmp.val
         self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1000.)])
