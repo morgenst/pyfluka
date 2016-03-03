@@ -16,3 +16,7 @@ class testBaseCycle(unittest.TestCase):
     def testConfigParse(self):
         bc = BC.AnalysisBase(None, "testconfig.yaml")
         bc.setup()
+
+    @unittest.skip("Not implemented")
+    def testNonExistingInputFileException(self):
+        pass

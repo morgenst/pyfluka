@@ -3,6 +3,7 @@ __mail__ = ''
 
 import networkx as nx
 
+
 def build_graph(initList):
     graph = nx.DiGraph()
     graph.add_node("Input")
@@ -14,4 +15,7 @@ def build_graph(initList):
         previousNode = key
     graph.add_edge(previousNode, "Output")
     return graph
+
+def getPaths(graph):
+    return nx.algorithms.all_simple_paths(graph, "Input", "Output")
 

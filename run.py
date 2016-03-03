@@ -1,6 +1,6 @@
 import argparse
 import sys
-import base.BaseCycle
+import base.AnalysisBase
 
 def main(argv):
     parser = argparse.ArgumentParser(description="Entry point to flair++ analysis")

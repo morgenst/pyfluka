@@ -1,3 +1,6 @@
 plugins:
-  - Table:
-      - cols: Isotope Activity AoverLE
+  TableMaker:
+    cols:
+      - Isotope
+      - Activity
+      - AoverLE

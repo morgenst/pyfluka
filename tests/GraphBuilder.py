@@ -34,3 +34,10 @@ class TestGraphBuilder(unittest.TestCase):
         res = {"foo": "bar"}
         graph = GB.build_graph(d)
         self.assertEqual(graph.node["A"], res)
+
+    def testPathCreation(self):
+        d = OrderedDict([("A", None), ("B", None), ("C", None)])
+        res = ["Input", "A", "B", "C", "Output"]
+        graph = GB.build_graph(d)
+        path = GB.getPaths(graph)
+        self.assertEqual(path.next(), res)

@@ -1,0 +1,6 @@
+plugins:
+  PlotMaker:
+     plots:
+      activity:
+        type: 2D
+        quantity: Activity

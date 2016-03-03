@@ -9,7 +9,7 @@ import utils.PhysicsQuantities as PQ
 class TableMakerTest(unittest.TestCase):
     def setUp(self):
         self.tabConfig = {"cols" : ["Isotope", "Activity"]}
-        self.data = {"Isotope" : [PQ.Isotope(3, "H")], "Activity" : [PQ.Activity(10.00101010101)]}
+        self.data = {"det1": {"Isotope" : [PQ.Isotope(3, "H")], "Activity" : [PQ.Activity(10.00101010101)]}}
         self.tm = TM(self.tabConfig)
 
     def testConfig(self):
