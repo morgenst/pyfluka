@@ -56,16 +56,12 @@ class AnalysisBase:
             pluginConfig = self.graph.node[pluginName]
             plugin = self.plugins[pluginName](pluginConfig)
             plugin.invoke(self.data)
-            #plugin = getattr(m, pluginName)
-            #plugin.invoke(self.data)
-
 
     def _loadPlugins(self):
         package = plugins
         self.plugins = dict()
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
-                                                      prefix=package.__name__+'.',
-                                                      onerror=lambda x: None):
-
+                                                              prefix=package.__name__+'.',
+                                                              onerror=lambda x: None):
             m = importlib.import_module(modname)
             self.plugins.update(dict((i[0], i[1]) for i in inspect.getmembers(m, inspect.isclass) if i[1].__module__ == m.__name__))

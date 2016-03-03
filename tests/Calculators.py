@@ -29,3 +29,4 @@ class TestCalculator(unittest.TestCase):
         calculator.invoke(data)
         tmp = PQ.SpecificActivity(0.001)
         self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1000.)])
+

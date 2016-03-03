@@ -1,17 +1,14 @@
 __author__ = 'morgenst'
 
-from abc import ABCMeta, abstractmethod
+from BasePlugin import BasePlugin
 from utils import PhysicsQuantities as PQ
 from reader import _dh
 
 
-class SimpleCalculator(object):
-    __metaclass__ = ABCMeta
-
-    def __init__(self):
+class SimpleCalculator(BasePlugin):
+    def __init__(self, config=None):
         pass
 
-    @abstractmethod
     def invoke(self, data):
         pass
 
@@ -20,7 +17,7 @@ class SimpleCalculator(object):
             raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " + ", ".join(data.keys()))
 
 class AoverLECalculator(SimpleCalculator):
-    def __init__(self):
+    def __init__(self, config=None):
         self.quantity = PQ.AoverLE
 
     def invoke(self, data):
@@ -36,7 +33,7 @@ class AoverLECalculator(SimpleCalculator):
 
 
 class SpecificActivityCalculator(SimpleCalculator):
-    def __init__(self):
+    def __init__(self, config=None):
         self.quantity = PQ.SpecificActivity
 
     def invoke(self, data):
