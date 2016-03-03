@@ -2,6 +2,7 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import pickle
+import pint
 from utils import ureg
 from abc import ABCMeta, abstractmethod
 
@@ -15,8 +16,15 @@ class AbsPhysicsQuantity:
 
     @abstractmethod
     def __init__(self, val, unc, unit):
-        self.val = val * ureg.Quantity(unit)
-        self.unc = unc * ureg.Quantity(unit)
+        if not isinstance(val, ureg.Quantity):
+            self.val = val * ureg.Quantity(unit)
+            self.unc = unc * ureg.Quantity(unit)
+        else:
+            self.val = val
+            if isinstance(unc, ureg.Quantity):
+                self.unc = unc
+            else:
+                self.unc = ureg.Quantity(unc, self.val.units)
 
     def __setstate__(self, state):
         self.val = ureg.Quantity(state['val'].magnitude, state['val'].units)
@@ -36,7 +44,6 @@ class AbsPhysicsQuantity:
 
     def __float__(self):
         return float(self.val.magnitude)
-
 
 
 class Isotope:

@@ -33,3 +33,21 @@ class AoverLECalculator(SimpleCalculator):
         data['AoverLE'] = []
         for isotope, activity in zip(data['Isotope'], data['SpecificActivity']):
             data['AoverLE'].append(PQ.AoverLE(activity / self._LE[isotope]))
+
+
+class SpecificActivityCalculator(SimpleCalculator):
+    def __init__(self):
+        self.quantity = PQ.SpecificActivity
+
+    def invoke(self, data):
+        for det in data.keys():
+            self._calc(data[det])
+
+    def _calc(self, data):
+        self._checkConsistency(data, ['Activity'])
+        mass = PQ.Mass(1.)
+        if data.has_key("Mass"):
+            mass = data['Mass']
+        data['SpecificActivity'] = []
+        for activity in data['Activity']:
+            data['SpecificActivity'].append(PQ.SpecificActivity(activity / mass))
