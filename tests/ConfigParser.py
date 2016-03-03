@@ -5,13 +5,14 @@ import unittest
 from utils.OrderedYAMLExtension import dump
 from base import ConfigParser, IllegalArgumentError
 from collections import OrderedDict
-
+import utils.PhysicsQuantities as PQ
+from utils import ureg
 
 class TestConfigParser(unittest.TestCase):
     def setUp(self):
         self.f = open("test.yaml", "w")
         self.f2 = open("test2.yaml", "w")
-        self.data = {"plugins": {"a": [1, 2, 3]}}
+        self.data = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1":{"mass": "100 kg"}}}
         self.data2 = {"plugin": {"a": [1, 2, 3, 4]}}
         self.data3 = {"plugins" : OrderedDict([(1,0), (3,1), (2,4)])}
         dump(self.data, self.f)
@@ -28,7 +29,8 @@ class TestConfigParser(unittest.TestCase):
 
     def test_parseConfig(self):
         d = ConfigParser.parse("test.yaml")
-        self.assertEqual(d, self.data)
+        res = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1":{"mass": PQ.Mass(100, ureg.kg)}}}
+        self.assertEqual(d, res)
 
     def test_falseParse(self):
         d = ConfigParser.parse("test.yaml")
@@ -56,6 +58,11 @@ class TestConfigParser(unittest.TestCase):
     @unittest.skip("Not implemented")
     def testNonExistingPlugin(self):
         pass
+
+    def testDetectorPassing(self):
+        res = {"det1": {"mass": PQ.Mass(100., ureg.kg)}}
+        config = ConfigParser.parse("test.yaml")
+        self.assertEqual(config['detectors'], res)
 
 if __name__ == '__main__':
     unittest.main()

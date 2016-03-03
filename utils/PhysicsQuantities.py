@@ -35,7 +35,8 @@ class AbsPhysicsQuantity:
         return str(self.val.magnitude)
 
     def __float__(self):
-        return self.val.magnitude
+        return float(self.val.magnitude)
+
 
 
 class Isotope:
@@ -117,3 +118,10 @@ class Hp007(AbsPhysicsQuantity):
 
     def __str__(self):
         return "Hp007"
+
+class Mass(AbsPhysicsQuantity):
+    def __init__(self, val, unit = ureg.kg):
+        super(self.__class__, self).__init__(val, 0., unit)
+
+    def __str__(self):
+        return "m"
