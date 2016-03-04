@@ -6,6 +6,7 @@ A tool aiming for comprehensive analysis of FLUKA simulations in a generic way.
 
 The following additional libraries are required:
 
+- numpy, scipy (http://docs.scipy.org/doc/numpy/index.html)
 - matplotlib (http://matplotlib.org/)
 - networkx (https://networkx.github.io/)
 - PyYAML (https://pypi.python.org/pypi/PyYAML)

@@ -5,6 +5,7 @@ import pickle
 import pint
 from utils import ureg
 from abc import ABCMeta, abstractmethod
+from numpy import sqrt
 
 f = open("../data/periodic_table.p")
 _periodic_table = pickle.load(f)
@@ -36,6 +37,12 @@ class AbsPhysicsQuantity:
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    def __add__(self, other):
+        val = self.val + other.val
+        unc = sqrt(pow(self.unc, 2) + pow(other.unc, 2))
+        assert(val.units == unc.units)
+        return self.__class__(val, unc)
+
     def __div__(self, other):
         return self.val / other.val
 
@@ -48,15 +55,14 @@ class AbsPhysicsQuantity:
 
 class Isotope:
     def __init__(self, A = -1, Z = "", iso = 0):
-        self.unit = ureg.dimensionless
         if type(Z) == str and Z > 0:
             self.Z = _periodic_table.index(Z) + 1
         elif type(Z) == int:
             self.Z = Z
         else:
             raise ValueError("Invalid input for Isotope. Z given as " + type(Z))
-        self.A = A
-        self.iso = iso
+        self.A = int(A)
+        self.iso = int(iso)
 
     def __hash__(self):
         return hash((self.A, self.Z, self.iso))

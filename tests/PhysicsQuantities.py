@@ -1,6 +1,7 @@
 import unittest
 import utils.PhysicsQuantities as PQ
 from utils import ureg
+from math import sqrt
 
 
 class TestPhysicsQuantities(unittest.TestCase):
@@ -107,3 +108,23 @@ class TestPhysicsQuantities(unittest.TestCase):
         val1 = PQ.Activity(20., 2.1)
         val2 = PQ.Activity(20., 3.1)
         self.assertNotEqual(val1, val2)
+
+    def testSummationActivityEquals(self):
+        val1 = PQ.Activity(20., 2.)
+        val2 = PQ.Activity(10., 3.)
+        unc = sqrt(pow(2., 2) + pow(3., 2))
+        res = PQ.Activity(30., unc)
+        self.assertEqual(val1+val2, res)
+
+    @unittest.skip("Not implemented")
+    def testSummationActivityDifferentUnitsEquals(self):
+        val1 = PQ.Activity(20., 2.)
+        val2 = PQ.Activity(10., 3.)
+        unc = sqrt(pow(2., 2) + pow(3., 2))
+        res = PQ.Activity(30., unc)
+        self.assertEqual(val1+val2, res)
+
+    @unittest.skip("Not implemented")
+    def testDose(self):
+        pass
+
