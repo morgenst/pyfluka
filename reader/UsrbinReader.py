@@ -77,7 +77,8 @@ class UsrbinReader(object):
                     dataReached = True
         data = list(chain.from_iterable(data))
         usrbin_data = packData(data, axesdata)
-        usrbinDataDict[currentDetectorName] = (usrbin_data, axesdata, primaries_weightInfo)
+
+        usrbinDataDict[currentDetectorName] = {self.pq.__name__: usrbin_data, "Binning": axesdata, "Weight": primaries_weightInfo}
         return usrbinDataDict
 
     def getAxisIndex(self, axisdata, value):

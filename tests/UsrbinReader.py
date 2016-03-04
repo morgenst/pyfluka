@@ -8,8 +8,9 @@ class TestUsrbinReader(unittest.TestCase):
     def setUp(self):
         self.reader = UR("Activity")
 
-    def testRead(self):
+    def testReadKeys(self):
         d = self.reader.load("UsrbinInputTest.ascii")
-        print d['Dose-2y'][0]
-        print len(d['Dose-2y'][0][0])
-        #print d
+        self.assertTrue(d.has_key("Dose-2y"))
+        self.assertTrue(d["Dose-2y"].has_key("Activity"))
+        self.assertTrue(d["Dose-2y"].has_key("Binning"))
+        self.assertTrue(d["Dose-2y"].has_key("Weight"))
