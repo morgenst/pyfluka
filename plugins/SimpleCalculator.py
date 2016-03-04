@@ -3,7 +3,7 @@ __author__ = 'morgenst'
 from BasePlugin import BasePlugin
 from utils import PhysicsQuantities as PQ
 from reader import _dh
-
+#from numpy import sum
 
 class SimpleCalculator(BasePlugin):
     def __init__(self, config = None):
@@ -13,6 +13,7 @@ class SimpleCalculator(BasePlugin):
         pass
 
     def _checkConsistency(self, data, attr):
+        print data
         if not set(data.keys()).issuperset(set(attr)):
             raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " + ", ".join(data.keys()))
 
@@ -52,3 +53,16 @@ class SpecificActivityCalculator(SimpleCalculator):
         data['SpecificActivity'] = []
         for activity in data['Activity']:
             data['SpecificActivity'].append(PQ.SpecificActivity(activity / mass))
+
+
+class TotalActivityCalculator(SimpleCalculator):
+    def __init__(self, config = None):
+        self.quantity = PQ.Activity
+
+    def invoke(self, data):
+        for det in data.keys():
+            self._calc(data[det])
+
+    def _calc(self, data):
+        self._checkConsistency(data, ['Activity'])
+        data["TotalActivity"] = sum(data["Activity"], PQ.Activity(0.))

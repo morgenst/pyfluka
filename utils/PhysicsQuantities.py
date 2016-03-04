@@ -43,6 +43,9 @@ class AbsPhysicsQuantity:
         assert(val.units == unc.units)
         return self.__class__(val, unc)
 
+    def __radd__(self, other):
+        return other.__add__(self)
+
     def __div__(self, other):
         return self.val / other.val
 
