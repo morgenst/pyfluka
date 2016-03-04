@@ -15,7 +15,7 @@ def dump(data, stream = None, Dumper = yaml.SafeDumper, **kwds):
     OrderedDumper.add_representer(OrderedDict, _dict_representer)
     return yaml.dump(data, stream, OrderedDumper, **kwds)
 
-
+"""
 def load(stream, Loader = yaml.SafeLoader, object_pairs_hook=OrderedDict):
     class OrderedLoader(Loader):
         pass
@@ -29,3 +29,4 @@ def load(stream, Loader = yaml.SafeLoader, object_pairs_hook=OrderedDict):
         construct_mapping
     )
     return yaml.load(stream, yaml.SafeLoader)
+"""
