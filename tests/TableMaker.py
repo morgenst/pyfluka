@@ -2,9 +2,12 @@ __author__ = 'morgenst'
 
 import unittest
 import os.path
+import utils.PhysicsQuantities as PQ
+from base import InvalidInputError
 from plugins.TableMaker import TableMaker as TM
 from plugins.TableMaker import Column
-import utils.PhysicsQuantities as PQ
+from utils.ShellUtils import mkdir
+from shutil import rmtree
 
 
 class TableMakerTest(unittest.TestCase):
@@ -20,6 +23,7 @@ class TableMakerTest(unittest.TestCase):
         os.remove("tables.tex")
         os.remove("table_det1.tex")
         os.remove("table_det2.tex")
+        rmtree("test_table_maker")
 
     def testConfig(self):
         tm = TM(self.tabConfig)
@@ -44,14 +48,21 @@ class TableMakerTest(unittest.TestCase):
         self.assertTrue(os.path.exists("table_det1.tex"))
         self.assertTrue(os.path.exists("table_det2.tex"))
 
-    @unittest.skip("Not implemented")
-    def testDumpCustomOutPath(self):
-        pass
+    def testDumpCustomOutPathSingleFile(self):
+        mkdir("test_table_maker")
+        tabConfig = {"cols": ["Isotope", "Activity"], "outputdir": "test_table_maker"}
+        tm = TM(tabConfig)
+        tm.invoke(self.data)
+        self.assertTrue(os.path.exists("test_table_maker/tables.tex"))
 
     @unittest.skip("Not implemented")
     def testHeader(self):
         pass
 
-    @unittest.skip("Not implemented")
     def testNoColDefinitionException(self):
-        pass
+        self.assertRaises(InvalidInputError, TM, {})
+
+    def testNonExistingOutDirException(self):
+        tabConfig = {"cols": ["Isotope", "Activity"], "outputdir": "non_existing_dir"}
+        self.assertRaises(ValueError, TM, tabConfig)
+
