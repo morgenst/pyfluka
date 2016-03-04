@@ -1,10 +1,12 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
-from base import IllegalArgumentError
-from utils.OrderedYAMLExtension import load, dump
+import yaml
+import yamlordereddictloader
 import utils.PhysicsQuantities as PQ
+from base import IllegalArgumentError
 from utils import ureg
+from collections import OrderedDict
 
 
 def parse(config):
@@ -12,7 +14,7 @@ def parse(config):
         f = open(config)
     except IOError:
         raise IOError('Config file %s does not exist.' % config)
-    cDict = load(f)
+    cDict = yaml.load(f, Loader=yamlordereddictloader.Loader)
     try:
         _validate(cDict)
     except Exception as e:
@@ -24,13 +26,14 @@ def parse(config):
 def _validate(cDict):
     if not cDict.has_key('plugins'):
         raise IllegalArgumentError("No plugins defined.")
-    if not type(cDict['plugins']) is type({}):
+    if not type(cDict['plugins']) is type(OrderedDict()):
         raise IllegalArgumentError("Plugins are required to be dictionaries, but " + str(type(cDict['plugins'])) + " given.")
 
 
 def _transform(config):
     if config.has_key("detectors"):
         _transformDetInfo(config["detectors"])
+
 
 def _transformDetInfo(config):
     for det in config.keys():
