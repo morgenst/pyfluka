@@ -12,7 +12,7 @@ class Column:
         self.quantity = quantity
 
     def __eq__(self, other):
-        return (self.quantity == other.quantity)
+        return self.quantity == other.quantity
 
 
 class TableMaker(BasePlugin):
@@ -31,3 +31,4 @@ class TableMaker(BasePlugin):
             if 'Isotope' in self.cols:
                 tab['Isotope'] = [i.__str__() for i in tab['Isotope']]
             _table = tabulate(tab, tablefmt='latex', floatfmt=".2f")
+            print _table
