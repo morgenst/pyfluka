@@ -33,11 +33,10 @@ class TableMaker(BasePlugin):
             self.storeMultipleOutputFiles = True
 
     def invoke(self, data):
-        for det, vals in data.items():
-            tab = OrderedDict(sorted(filter(lambda c: c[0] in self.cols, vals.iteritems()),
+        for det, values in data.items():
+            tab = OrderedDict(sorted(filter(lambda c: c[0] in self.cols, values.iteritems()),
                                      cmp=lambda x, y: self.cols.index(x) - self.cols.index(y),
                                      key=itemgetter(0)))
-
             """
             work around to stringify
             """
