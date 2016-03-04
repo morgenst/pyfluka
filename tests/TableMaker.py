@@ -18,6 +18,8 @@ class TableMakerTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         os.remove("tables.tex")
+        os.remove("table_det1.tex")
+        os.remove("table_det2.tex")
 
     def testConfig(self):
         tm = TM(self.tabConfig)
@@ -34,3 +36,22 @@ class TableMakerTest(unittest.TestCase):
     def testDumpSingleFile(self):
         self.tm.invoke(self.data)
         self.assertTrue(os.path.exists("tables.tex"))
+
+    def testDumpMultipleFiles(self):
+        tabConfig = {"cols": ["Isotope", "Activity"], "multipleOutputFiles": True}
+        tm = TM(tabConfig)
+        tm.invoke(self.dataMultiDet)
+        self.assertTrue(os.path.exists("table_det1.tex"))
+        self.assertTrue(os.path.exists("table_det2.tex"))
+
+    @unittest.skip("Not implemented")
+    def testDumpCustomOutPath(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def testHeader(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def testNoColDefinitionException(self):
+        pass
