@@ -6,7 +6,7 @@ from reader import _dh
 
 
 class SimpleCalculator(BasePlugin):
-    def __init__(self, config=None):
+    def __init__(self, config = None):
         pass
 
     def invoke(self, data):
@@ -16,8 +16,9 @@ class SimpleCalculator(BasePlugin):
         if not set(data.keys()).issuperset(set(attr)):
             raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " + ", ".join(data.keys()))
 
+
 class AoverLECalculator(SimpleCalculator):
-    def __init__(self, config=None):
+    def __init__(self, config = None):
         self.quantity = PQ.AoverLE
 
     def invoke(self, data):
@@ -29,11 +30,14 @@ class AoverLECalculator(SimpleCalculator):
         self._checkConsistency(data, ['Isotope', 'SpecificActivity'])
         data['AoverLE'] = []
         for isotope, activity in zip(data['Isotope'], data['SpecificActivity']):
-            data['AoverLE'].append(PQ.AoverLE(activity / self._LE[isotope]))
+            try:
+                data['AoverLE'].append(PQ.AoverLE(activity / self._LE[isotope]))
+            except KeyError:
+                data['AoverLE'].append(0.)
 
 
 class SpecificActivityCalculator(SimpleCalculator):
-    def __init__(self, config=None):
+    def __init__(self, config = None):
         self.quantity = PQ.SpecificActivity
 
     def invoke(self, data):

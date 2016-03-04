@@ -14,6 +14,10 @@ class TestCalculator(unittest.TestCase):
         self.AoverLECalculator.invoke(self.dataIsotopeSpecificAct)
         self.assertEqual(self.dataIsotopeSpecificAct["det1"]["AoverLE"], [PQ.AoverLE(10. / 2.00E+005)])
 
+    @unittest.skip("Not implemented")
+    def testAoverLENonExistingLimit(self):
+        pass
+
     def testAoverLEWrongInput(self):
         self.assertRaises(ValueError, self.AoverLECalculator.invoke, {"det1": {'Isotope': [], 'Activity': []}})
 
