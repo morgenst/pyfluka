@@ -50,6 +50,7 @@ class AnalysisBase:
                 break
 
     def processPath(self, path):
+        print path
         for pluginName in path[1:-1]:
             if pluginName not in self.plugins.keys():
                 raise ValueError("Invalid plugin request " + pluginName)

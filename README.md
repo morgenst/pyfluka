@@ -10,3 +10,4 @@ The following additional libraries are required:
 - networkx (https://networkx.github.io/)
 - PyYAML (https://pypi.python.org/pypi/PyYAML)
 - tabulate (https://pypi.python.org/pypi/tabulate)
+- yamlordereddictloader (https://pypi.python.org/pypi/yamlordereddictloader/0.1.0)

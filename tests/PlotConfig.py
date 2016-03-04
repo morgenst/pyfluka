@@ -8,11 +8,12 @@ class testPlotConfig(unittest.TestCase):
 
     def testType(self):
         x = {'type': '1D'}
-        pc = PC(x)
+        pc = PC("foo", x)
         self.assertEqual(pc.type, '1D')
 
-    def testEqulas(self):
+    def testEquals(self):
         x = {"type" : "1D"}
-        pc1 = PC(x)
-        pc2 = PC(x)
+        pc1 = PC("foo", x)
+        pc2 = PC("bar", x)
         self.assertEqual(pc1, pc2)
+

@@ -1,0 +1,12 @@
+storedQuantity: DoseRate
+detectors:
+  det1:
+    Mass: "10 kg"
+  det2:
+    Mass: "20 kg"
+
+plugins:
+  PlotMaker:
+    plot1:
+      quantity: DoseRate
+      type: 2D

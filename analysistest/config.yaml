@@ -1,6 +1,15 @@
+detectors:
+  det1:
+    Mass: "10 kg"
+  det2:
+    Mass: "20 kg"
+
 plugins:
+  SpecificActivityCalculator: None
+  AoverLECalculator: None
   TableMaker:
     cols:
       - Isotope
       - Activity
+      - SpecificActivity
       - AoverLE
