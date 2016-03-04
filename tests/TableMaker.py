@@ -10,6 +10,8 @@ class TableMakerTest(unittest.TestCase):
     def setUp(self):
         self.tabConfig = {"cols" : ["Isotope", "Activity"]}
         self.data = {"det1": {"Isotope" : [PQ.Isotope(3, "H")], "Activity" : [PQ.Activity(10.00101010101)]}}
+        self.dataMultiDet = {"det1": {"Isotope" : [PQ.Isotope(3, "H")], "Activity" : [PQ.Activity(10.00101010101)]},
+                             "det2": {"Isotope" : [PQ.Isotope(3, "H")], "Activity" : [PQ.Activity(100.00101010101)]}}
         self.tm = TM(self.tabConfig)
 
     def testConfig(self):
@@ -19,3 +21,8 @@ class TableMakerTest(unittest.TestCase):
 
     def testInvoke(self):
         self.tm.invoke(self.data)
+
+    def testMultipleDetectors(self):
+        self.tm.invoke(self.dataMultiDet)
+        self.assertEqual(self.dataMultiDet.keys(), self.tm.tables.keys())
+

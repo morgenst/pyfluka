@@ -18,6 +18,7 @@ class Column:
 class TableMaker(BasePlugin):
     def __init__(self, config):
         self.cols = config['cols']
+        self.tables = {}
 
     def invoke(self, data):
         for det, vals in data.items():
@@ -30,5 +31,5 @@ class TableMaker(BasePlugin):
             """
             if 'Isotope' in self.cols:
                 tab['Isotope'] = [i.__str__() for i in tab['Isotope']]
-            _table = tabulate(tab, tablefmt='latex', floatfmt=".2f")
-            print _table
+            table = tabulate(tab, tablefmt='latex', floatfmt=".2f")
+            self.tables[det] = table
