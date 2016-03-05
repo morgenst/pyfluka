@@ -2,13 +2,14 @@ import unittest
 import utils.PhysicsQuantities as PQ
 from plugins.SimpleCalculator import *
 from utils import ureg
+from math import sqrt
 
 
 class TestCalculator(unittest.TestCase):
     def setUp(self):
         self.dataIsotopeSpecificAct = {"det1": {'Isotope': [PQ.Isotope(3, 1)], 'SpecificActivity': [PQ.SpecificActivity(10.)]}}
-        self.dataIsotopeAct = {"det1": {'Mass' : PQ.Mass(10., ureg.kg), 'Isotope': [PQ.Isotope(3, 1)], 'Activity': [PQ.Activity(10.)]}}
-        self.dataIsotopeMultiAct = {"det1": {'Mass' : PQ.Mass(10., ureg.kg), 'Isotope': [PQ.Isotope(3, 1)], 'Activity': [PQ.Activity(10.), PQ.Activity(30.)]}}
+        self.dataIsotopeAct = {"det1": {'Mass': PQ.Mass(10., ureg.kg), 'Isotope': [PQ.Isotope(3, 1)], 'Activity': [PQ.Activity(10.)]}}
+        self.dataIsotopeMultiAct = {"det1": {'Mass': PQ.Mass(10., ureg.kg), 'Isotope': [PQ.Isotope(3, 1)], 'Activity': [PQ.Activity(10.), PQ.Activity(30.)]}}
         self.AoverLECalculator = AoverLECalculator()
 
     def testAoverLESimple(self):
@@ -32,7 +33,6 @@ class TestCalculator(unittest.TestCase):
         data["det1"]["Mass"] = PQ.Mass(10., ureg.g)
         calculator = SpecificActivityCalculator()
         calculator.invoke(data)
-        tmp = PQ.SpecificActivity(0.001)
         self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1000.)])
 
     def testTotalActivityCalculation(self):
@@ -40,3 +40,8 @@ class TestCalculator(unittest.TestCase):
         calculator.invoke(self.dataIsotopeMultiAct)
         self.assertEqual(self.dataIsotopeMultiAct["det1"]["TotalActivity"], PQ.Activity(40.))
 
+    def testTotalActivityCalculationDiffUnits(self):
+        calculator = TotalActivityCalculator()
+        data = {"det1": {'Activity': [PQ.Activity(10000., 10000., ureg.mBq), PQ.Activity(30., 10., ureg.Bq)]}}
+        calculator.invoke(data)
+        self.assertEqual(data["det1"]["TotalActivity"], PQ.Activity(40., sqrt(200.)))
