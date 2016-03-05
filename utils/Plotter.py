@@ -50,7 +50,7 @@ class Plotter(object):
         plt.ylim(axesdata[1][0], axesdata[1][1])
         if aspectRatioEqual:
             plt.axes().set_aspect('equal')
-        if geometryData != None:
+        if geometryData is not None:
             for x, y in izip(*geometryData):
                 plt.plot(x, y, 'k-', linewidth=2)
         if outFileName:
@@ -78,5 +78,5 @@ class PlotConfig(object):
 
     def __eq__(self, other):
         lhs = {(k, v) for k, v in self.__dict__.items() if not k == 'name'}
-        rhs = {(k, v) for k, v in self.__dict__.items() if not k == 'name'}
+        rhs = {(k, v) for k, v in other.__dict__.items() if not k == 'name'}
         return lhs == rhs
