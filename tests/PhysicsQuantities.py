@@ -128,3 +128,12 @@ class TestPhysicsQuantities(unittest.TestCase):
     def testDose(self):
         pass
 
+    def testLatexString(self):
+        val = PQ.Activity(20., 2.)
+        self.assertEqual('{:L}'.format(val), "$20.0 Bq \pm 2.0 Bq$")
+
+    def testString(self):
+        val = PQ.Activity(20., 2.)
+        self.assertEqual('{!s}'.format(val), "Activity: 20.0 Bq +- 2.0 Bq")
+
+

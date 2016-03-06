@@ -50,7 +50,19 @@ class AbsPhysicsQuantity:
         return self.val / other.val
 
     def __str__(self):
-        return str(self.val.magnitude)
+        return format(self)
+
+    def __format__(self, spec):
+        if "L" in spec:
+            spec = spec.replace("L", "")
+            magnitudeStr = format(self.val, spec)
+            uncStr = format(self.unc)
+            ret = "$%s \\pm %s$" % (magnitudeStr, uncStr)
+            return ret
+        magnitudeStr = format(self.val, spec)
+        uncStr = format(self.unc)
+        defaultStr = self.__class__.__name__ + ": %s +- %s" % (magnitudeStr, uncStr)
+        return defaultStr
 
     def __float__(self):
         return float(self.val.magnitude)
