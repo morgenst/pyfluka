@@ -6,7 +6,8 @@ class ResnucReader:
     def __init__(self):
         pass
 
-    def load(self, filename):
+    @staticmethod
+    def load(filename):
         resnucl_data_dict = {}
         first_line_of_detector = False
         data_section = False

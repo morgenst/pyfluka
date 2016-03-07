@@ -77,7 +77,8 @@ class UsrbinReader(object):
                                                    "Weight": primaries_weight_info}
         return usrbin_data_dict
 
-    def get_axis_index(self, axisdata, value):
+    @staticmethod
+    def get_axis_index(axisdata, value):
         start, end, nbins = axisdata
         step = (end - start) / nbins
         if value < start:
@@ -86,59 +87,3 @@ class UsrbinReader(object):
             return nbins
         return int((value - start) / step)
 
-    """
-
-    def getValue(self, x, y, z, data, axesdata):
-        xIndex = getAxisIndex(axesdata[0], x)
-
-        yIndex = getAxisIndex(axesdata[1], y)
-        zIndex = getAxisIndex(axesdata[2], z)
-        # print xIndex, yIndex, zIndex
-        return data[xIndex, yIndex, zIndex]
-
-
-    if __name__ == "__main__":
-
-        import os
-        filename = os.environ.get('PYTHONSTARTUP')
-        if filename and os.path.isfile(filename):
-            execfile(filename)
-
-        from pydoc import help
-        from pprint import pprint
-
-        usrbinDataDict = load(sys.argv[1])
-        # BinShape = (axesdata[0][2],axesdata[1][2],axesdata[2][2]) # x,y,z
-
-        # ReverseBinShape = list(BinShape)
-        # ReverseBinShape.reverse()
-        # a = np.array(data)
-        # b = np.reshape(a, (150,30, -1))
-        # usrbin_data = np.reshape(np.array(data),ReverseBinShape).transpose()
-
-        if False:
-            normalizationFactor = 1E-12 * 8.34E12 * 3600 * 1E6
-
-            # plotMatrix(usrbin_data[75,:,:].transpose(), axesdata[1:])
-            plotMatrixShort(usrbin_data, axesdata, (Ellipsis, 15, Ellipsis), transpose=True,
-                            geometryData=loadGeometryFile(sys.argv[2]), savefilename="plot.pdf")
-
-            # print getAxesRange(axesdata[0])
-
-
-
-            # print normalizationFactor * getValue(800,0.,44400, usrbin_data, axesdata)
-
-            def myfunc(x):
-                if np.isnan(x):
-                    return 0.
-                else:
-                    return x
-
-            vfunc = np.vectorize(myfunc)
-
-            da = usrbin_data * normalizationFactor / (usrbin_data * normalizationFactor / 5.)
-
-            plotMatrixShort(vfunc(da), axesdata, (Ellipsis, 15, Ellipsis), transpose=True, vMin=1e-1, UseLog=False,
-                            geometryData=loadGeometryFile(sys.argv[2]))
-    """
