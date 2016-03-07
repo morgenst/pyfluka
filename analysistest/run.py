@@ -3,6 +3,7 @@ import sys
 from base.AnalysisBase import AnalysisBase
 
 
+# noinspection PyUnusedLocal
 def main(argv):
     parser = argparse.ArgumentParser(description='Example analysis')
     parser.add_argument('--input', '-i', type=str, required=True, help='input file')
