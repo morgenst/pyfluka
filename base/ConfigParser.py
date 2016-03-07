@@ -14,29 +14,29 @@ def parse(config):
         f = open(config)
     except IOError:
         raise IOError('Config file %s does not exist.' % config)
-    cDict = yaml.load(f, Loader=yamlordereddictloader.Loader)
+    config_dict = yaml.load(f, Loader=yamlordereddictloader.Loader)
     try:
-        _validate(cDict)
+        _validate(config_dict)
     except Exception as e:
         raise e
-    _transform(cDict)
-    return cDict
+    _transform(config_dict)
+    return config_dict
 
 
-def _validate(cDict):
-    if 'plugins' not in cDict:
+def _validate(config_dict):
+    if 'plugins' not in config_dict:
         raise IllegalArgumentError("No plugins defined.")
-    if not isinstance(cDict['plugins'], OrderedDict):
-        raise IllegalArgumentError("Plugins are required to be dictionaries, but " + str(type(cDict['plugins'])) +
+    if not isinstance(config_dict['plugins'], OrderedDict):
+        raise IllegalArgumentError("Plugins are required to be dictionaries, but " + str(type(config_dict['plugins'])) +
                                    " given.")
 
 
 def _transform(config):
     if "detectors" in config:
-        _transformDetInfo(config["detectors"])
+        _transform_det_info(config["detectors"])
 
 
-def _transformDetInfo(config):
+def _transform_det_info(config):
     for det in config.keys():
         for quantity, val in config[det].items():
             if quantity.lower() == 'mass':

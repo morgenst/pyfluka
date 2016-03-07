@@ -12,18 +12,18 @@ import plugins
 
 
 class AnalysisBase:
-    def __init__(self, dataFile, configFile, outputDir='.'):
+    def __init__(self, data_file, config_file, output_dir='.'):
         """
         Constructor
-        :param dataFile (str): input file
-        :param configFile (str): configuration file in yaml format
-        :param outputDir (Optional[str]): output directory. Defaults to current directory
+        :param data_file (str): input file
+        :param config_file (str): configuration file in yaml format
+        :param output_dir (Optional[str]): output directory. Defaults to current directory
         :return: void
         """
 
-        self.dataFile = dataFile
-        self.configFile = configFile
-        self.outputDir = outputDir
+        self.data_file = data_file
+        self.config_file = config_file
+        self.output_dir = output_dir
         self._load_plugins()
         self.graph = None
         self.data = None
@@ -33,12 +33,12 @@ class AnalysisBase:
         Setup function to load configuration, build graph to be processed, creates output directory if necessary
         :return:
         """
-        self._loadConfig()
+        self._load_config()
         plugins = self.config['plugins']
         self.graph = GB.build_graph(plugins)
-        mkdir(self.outputDir)
+        mkdir(self.output_dir)
 
-    def _loadConfig(self):
+    def _load_config(self):
         """
         Loads configuration from input yaml file
         :return:
@@ -47,7 +47,7 @@ class AnalysisBase:
             IOError: If config file cannot be parsed
         """
         try:
-            self.config = CP.parse(self.configFile)
+            self.config = CP.parse(self.config_file)
         except IOError as e:
             raise e
 
@@ -57,11 +57,11 @@ class AnalysisBase:
         :return:
         """
         reader = None
-        if self.dataFile.lower().count('usrbin'):
+        if self.data_file.lower().count('usrbin'):
             reader = UsrbinReader.UsrbinReader(self.config['storedQuantity'])
-        elif self.dataFile.lower().count('resnuc'):
+        elif self.data_file.lower().count('resnuc'):
             reader = ResnucReader.ResnucReader()
-        self.data = reader.load(self.dataFile)
+        self.data = reader.load(self.data_file)
 
     def run(self):
         """
@@ -70,7 +70,7 @@ class AnalysisBase:
         """
         self.setup()
         self.read_data()
-        paths = GB.getPaths(self.graph)
+        paths = GB.get_paths(self.graph)
         while True:
             try:
                 self.process_path(paths.next())
