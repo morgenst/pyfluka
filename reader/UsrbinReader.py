@@ -8,14 +8,12 @@ from matplotlib.colors import LogNorm, Normalize
 from itertools import izip, chain
 
 
-
 class UsrbinReader(object):
-    def __init__(self, quantity, dim = None):
+    def __init__(self, quantity, dim=None):
         m = importlib.import_module("utils.PhysicsQuantities")
         if dim is not None:
             self.dim = ureg(dim)
         self.pq = getattr(m, quantity)
-
 
     def load(self, filename):
         """
@@ -78,7 +76,9 @@ class UsrbinReader(object):
         data = list(chain.from_iterable(data))
         usrbin_data = packData(data, axesdata)
 
-        usrbinDataDict[currentDetectorName] = {self.pq.__name__: usrbin_data, "Binning": axesdata, "Weight": primaries_weightInfo}
+        usrbinDataDict[currentDetectorName] = {self.pq.__name__: usrbin_data,
+                                               "Binning": axesdata,
+                                               "Weight": primaries_weightInfo}
         return usrbinDataDict
 
     def getAxisIndex(self, axisdata, value):

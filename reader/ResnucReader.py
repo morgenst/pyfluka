@@ -12,7 +12,7 @@ class ResnucReader:
         DataSection = False
         IsomereSection = False
         currentDetectorName = None
-        data = {'Isotope': [], 'Activity':[]}
+        data = {'Isotope': [], 'Activity': []}
 
         for (i, line) in enumerate(file(filename)):
             if line.find("Detector n:") > 0:

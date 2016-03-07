@@ -1,5 +1,6 @@
 import pickle
 
+
 def load(fName):
     f = open(fName, "r")
     obj = pickle.load(f)
@@ -9,6 +10,7 @@ def load(fName):
 
 def lazyprop(fn):
     attr_name = "_lazy_" + fn.__name__
+
     @property
     def _lazyprop(self):
         if not hasattr(self, attr_name):
