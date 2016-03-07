@@ -11,7 +11,9 @@ for line in fIn.readlines()[3:]:
         continue
     line = line.replace('\n', '')
     sl = line.split(',')
-    LEVals[PQ.Isotope(int(re.findall(r'\d+', sl[0])[0]), sl[0].split('-')[0], 1 if sl[0].endswith("m") else 0)] = PQ.ExcemptionLimit(float(sl[3]), ureg.Bq/ureg.kg)
+    LEVals[PQ.Isotope(int(re.findall(r'\d+', sl[0])[0]),
+                      sl[0].split('-')[0],
+                      1 if sl[0].endswith("m") else 0)] = PQ.ExcemptionLimit(float(sl[3]), ureg.Bq / ureg.kg)
 
 fIn.close()
 fOut = open("../data/LEDB.p", 'w')
