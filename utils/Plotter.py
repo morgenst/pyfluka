@@ -38,29 +38,29 @@ class Plotter(object):
         self.format = format
 
     def plotMatrix(self, mat, axesdata,
-                   outFileName=None,
-                   UseLog=True,
-                   vMinLog=None,
-                   vMaxLog=None,
-                   aspectRatioEqual=True,
-                   geometryData=None,
-                   vMin=None,
-                   vMax=None):
+                   out_filename=None,
+                   use_log=True,
+                   vmin_log=None,
+                   vmax_log=None,
+                   aspect_ratio_equal=True,
+                   geometry_data=None,
+                   vmin=None,
+                   vmax=None):
         X = getAxesRange(axesdata[2])
         Y = getAxesRange(axesdata[1])
-        if UseLog:
-            plt.pcolor(X, Y, mat.astype(float), norm=LogNorm(vmin=vMinLog, vmax=vMaxLog))
+        if use_log:
+            plt.pcolor(X, Y, mat.astype(float), norm=LogNorm(vmin=vmin_log, vmax=vmax_log))
         else:
-            plt.pcolor(X, Y, mat[0], norm=Normalize(vmin=vMin, vmax=vMax))
+            plt.pcolor(X, Y, mat[0], norm=Normalize(vmin=vmin, vmax=vmax))
         plt.xlim(axesdata[0][0], axesdata[0][1])
         plt.ylim(axesdata[1][0], axesdata[1][1])
-        if aspectRatioEqual:
+        if aspect_ratio_equal:
             plt.axes().set_aspect('equal')
-        if geometryData is not None:
-            for x, y in izip(*geometryData):
+        if geometry_data is not None:
+            for x, y in izip(*geometry_data):
                 plt.plot(x, y, 'k-', linewidth=2)
-        if outFileName:
-            plt.savefig(os.path.join(self.outputDir, outFileName), format = self.format)
+        if out_filename:
+            plt.savefig(os.path.join(self.outputDir, out_filename), format=self.format)
         return plt
 
     def plotMatrixShort(self, data, axesdata, selection, transpose=False, UseLog=True, vMinLog=None, vMaxLog=None,
@@ -73,7 +73,7 @@ class Plotter(object):
         else:
             selectedaxesdata.reverse()
         return self.plotMatrix(selecteddata, selectedaxesdata, UseLog, vMinLog, vMaxLog, aspectRatioEqual, geometryData,
-                               savefilename, vMin=vMin, vMax=vMax)
+                               savefilename, vmin=vMin, vmax=vMax)
 
 
 class PlotConfig(object):

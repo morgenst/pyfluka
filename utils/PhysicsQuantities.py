@@ -96,12 +96,12 @@ class Isotope:
 
 
 class Activity(AbsPhysicsQuantity):
-    def __init__(self, val, unc = 0., unit=ureg.Bq):
+    def __init__(self, val, unc=0., unit=ureg.Bq):
         super(self.__class__, self).__init__(val, unc, unit)
 
 
 class SpecificActivity(AbsPhysicsQuantity):
-    def __init__(self, val, unc = 0., unit=ureg.Bq / ureg.kg):
+    def __init__(self, val, unc=0., unit=ureg.Bq / ureg.kg):
         super(self.__class__, self).__init__(val, unc, unit)
 
     def __str__(self):
@@ -109,7 +109,7 @@ class SpecificActivity(AbsPhysicsQuantity):
 
 
 class ExcemptionLimit(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.Bq / ureg.kg):
+    def __init__(self, val, unit=ureg.Bq / ureg.kg):
         super(self.__class__, self).__init__(val, 0., unit)
 
     def __str__(self):
@@ -117,7 +117,7 @@ class ExcemptionLimit(AbsPhysicsQuantity):
 
 
 class AoverLE(AbsPhysicsQuantity):
-    def __init__(self, val, unc = 0.):
+    def __init__(self, val, unc=0.):
         super(self.__class__, self).__init__(val, unc, ureg.dimensionless)
 
     def __str__(self):
@@ -125,7 +125,7 @@ class AoverLE(AbsPhysicsQuantity):
 
 
 class DoseRate(AbsPhysicsQuantity):
-    def __init__(self, val, unc = 0., unit = ureg.Sv):
+    def __init__(self, val, unc=0., unit=ureg.Sv):
         super(self.__class__, self).__init__(val, unc, unit)
 
     def __str__(self):
@@ -133,7 +133,7 @@ class DoseRate(AbsPhysicsQuantity):
 
 
 class H10(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.Bq / (ureg.mSv / ureg.hour)):
+    def __init__(self, val, unit=ureg.Bq / (ureg.mSv / ureg.hour)):
         super(self.__class__, self).__init__(val, 0., unit)
 
     def __str__(self):
@@ -141,14 +141,14 @@ class H10(AbsPhysicsQuantity):
 
 
 class Hp007(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.Bq / (ureg.mSv / ureg.hour)):
+    def __init__(self, val, unit=ureg.Bq / (ureg.mSv / ureg.hour)):
         super(self.__class__, self).__init__(val, 0., unit)
 
     def __str__(self):
         return "Hp007"
 
 class Mass(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.kg):
+    def __init__(self, val, unit=ureg.kg):
         super(self.__class__, self).__init__(val, 0., unit)
 
     def __str__(self):

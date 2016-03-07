@@ -2,7 +2,7 @@ import yaml
 from collections import OrderedDict
 
 
-def dump(data, stream = None, Dumper = yaml.SafeDumper, **kwds):
+def dump(data, stream=None, Dumper=yaml.SafeDumper, **kwds):
     class OrderedDumper(Dumper):
         pass
 
@@ -14,19 +14,3 @@ def dump(data, stream = None, Dumper = yaml.SafeDumper, **kwds):
 
     OrderedDumper.add_representer(OrderedDict, _dict_representer)
     return yaml.dump(data, stream, OrderedDumper, **kwds)
-
-"""
-def load(stream, Loader = yaml.SafeLoader, object_pairs_hook=OrderedDict):
-    class OrderedLoader(Loader):
-        pass
-
-    def construct_mapping(loader, node):
-        loader.flatten_mapping(node)
-        return object_pairs_hook(loader.construct_pairs(node))
-
-    OrderedLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        construct_mapping
-    )
-    return yaml.load(stream, yaml.SafeLoader)
-"""
