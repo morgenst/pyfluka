@@ -12,7 +12,7 @@ def getAxesRange(axisdata):
     return np.arange(start, end + step / 2., step)
 
 
-#todo: duplicate of definition in UsrbinReader
+# todo: duplicate of definition in UsrbinReader
 def packData(dataraw, axesdata):
     try:
         BinShape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
@@ -27,8 +27,14 @@ def packData(dataraw, axesdata):
 
 
 class Plotter(object):
-    def __init__(self, outputDir = ".", format = "png"):
-        self.outputDir = outputDir
+    def __init__(self, output_dir=".", format="png"):
+        """
+        Constructor
+        :param output_dir (Optional[str]): Output directory. Defaults to current directory.
+        :param format: (Optional[str]): File format plots are stored. Defaults to png.
+        :return:
+        """
+        self.outputDir = output_dir
         self.format = format
 
     def plotMatrix(self, mat, axesdata,
