@@ -15,7 +15,8 @@ class SimpleCalculator(BasePlugin):
     @staticmethod
     def _checkConsistency(data, attr):
         if not set(data.keys()).issuperset(set(attr)):
-            raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " + ", ".join(data.keys()))
+            raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " +
+                             ", ".join(data.keys()))
 
 
 class AoverLECalculator(SimpleCalculator):
@@ -49,7 +50,7 @@ class SpecificActivityCalculator(SimpleCalculator):
     def _calc(self, data):
         self._checkConsistency(data, ['Activity'])
         mass = PQ.Mass(1.)
-        if data.has_key("Mass"):
+        if "Mass" in data:
             mass = data['Mass']
         data['SpecificActivity'] = []
         for activity in data['Activity']:

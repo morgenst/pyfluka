@@ -19,17 +19,17 @@ class Column:
 
 class TableMaker(BasePlugin):
     def __init__(self, config):
-        if not config.has_key('cols') or not len(config['cols']):
+        if 'cols' not in config or not len(config['cols']):
             raise InvalidInputError("No colums defined for table. Nothing to do, so giving up.")
         self.cols = config['cols']
         self.tables = OrderedDict()
         self.outputDir = os.path.curdir
         self.storeMultipleOutputFiles = False
-        if config.has_key('outputdir'):
+        if 'outputdir' in config:
             self.outputDir = config['outputdir']
             if not os.path.exists(self.outputDir):
                 raise IllegalArgumentError("Output directory " + self.outputDir + " does not exist.")
-        if config.has_key('multipleOutputFiles'):
+        if 'multipleOutputFiles' in config:
             self.storeMultipleOutputFiles = True
 
     def invoke(self, data):
