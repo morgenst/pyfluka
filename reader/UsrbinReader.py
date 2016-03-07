@@ -1,10 +1,6 @@
-import copy
 import importlib
-import pylab
 import numpy as np
-from functools import partial
 from utils import ureg
-from matplotlib.colors import LogNorm, Normalize
 from itertools import izip, chain
 
 
