@@ -3,24 +3,25 @@ __author__ = 'morgenst'
 from BasePlugin import BasePlugin
 from utils import PhysicsQuantities as PQ
 from reader import _dh
-#from numpy import sum
+
 
 class SimpleCalculator(BasePlugin):
-    def __init__(self, config = None):
+    def __init__(self, config=None):
         pass
 
     def invoke(self, data):
         pass
 
-    def _checkConsistency(self, data, attr):
-        print data
+    @staticmethod
+    def _checkConsistency(data, attr):
         if not set(data.keys()).issuperset(set(attr)):
             raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " + ", ".join(data.keys()))
 
 
 class AoverLECalculator(SimpleCalculator):
-    def __init__(self, config = None):
+    def __init__(self, config=None):
         self.quantity = PQ.AoverLE
+        self._LE = None
 
     def invoke(self, data):
         self._LE = _dh._LE
@@ -38,7 +39,7 @@ class AoverLECalculator(SimpleCalculator):
 
 
 class SpecificActivityCalculator(SimpleCalculator):
-    def __init__(self, config = None):
+    def __init__(self, config=None):
         self.quantity = PQ.SpecificActivity
 
     def invoke(self, data):
@@ -56,7 +57,7 @@ class SpecificActivityCalculator(SimpleCalculator):
 
 
 class TotalActivityCalculator(SimpleCalculator):
-    def __init__(self, config = None):
+    def __init__(self, config=None):
         self.quantity = PQ.Activity
 
     def invoke(self, data):
@@ -66,3 +67,4 @@ class TotalActivityCalculator(SimpleCalculator):
     def _calc(self, data):
         self._checkConsistency(data, ['Activity'])
         data["TotalActivity"] = sum(data["Activity"], PQ.Activity(0.))
+

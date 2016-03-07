@@ -12,7 +12,7 @@ class BasePlugin():
 
     __metaclass__ = ABCMeta
 
-    def __init__(self, config = None):
+    def __init__(self, config=None):
         """
         initialisation
         :param config (dict): configuration params for plugin
