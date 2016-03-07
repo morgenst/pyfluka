@@ -5,25 +5,25 @@ from matplotlib import pyplot as plt
 from matplotlib.colors import LogNorm, Normalize
 
 
-def getAxesRange(axisdata):
-    start, end, nBins = axisdata
-    step = (end - start) / nBins
-    print start, end, nBins, step
+def get_axes_range(axisdata):
+    start, end, nbins = axisdata
+    step = (end - start) / nbins
+    print start, end, nbins, step
     return np.arange(start, end + step / 2., step)
 
 
 # todo: duplicate of definition in UsrbinReader
-def packData(dataraw, axesdata):
+def pack_data(dataraw, axesdata):
     try:
-        BinShape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
+        bin_shape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
     except:
-        BinShape = (axesdata[0][2], axesdata[1][2])  # x,y,z
-    ReverseBinShape = list(BinShape)
-    ReverseBinShape.reverse()
+        bin_shape = (axesdata[0][2], axesdata[1][2])  # x,y,z
+    reverse_bin_shape = list(bin_shape)
+    reverse_bin_shape.reverse()
     try:
-        return np.reshape(np.array(dataraw), ReverseBinShape).transpose()
+        return np.reshape(np.array(dataraw), reverse_bin_shape).transpose()
     except:
-        return np.reshape(np.array(dataraw[:-1]), ReverseBinShape).transpose()
+        return np.reshape(np.array(dataraw[:-1]), reverse_bin_shape).transpose()
 
 
 class Plotter(object):
@@ -37,21 +37,21 @@ class Plotter(object):
         self.outputDir = output_dir
         self.format = format
 
-    def plotMatrix(self, mat, axesdata,
-                   out_filename=None,
-                   use_log=True,
-                   vmin_log=None,
-                   vmax_log=None,
-                   aspect_ratio_equal=True,
-                   geometry_data=None,
-                   vmin=None,
-                   vmax=None):
-        X = getAxesRange(axesdata[2])
-        Y = getAxesRange(axesdata[1])
+    def plot_matrix(self, mat, axesdata,
+                    out_filename=None,
+                    use_log=True,
+                    vmin_log=None,
+                    vmax_log=None,
+                    aspect_ratio_equal=True,
+                    geometry_data=None,
+                    vmin=None,
+                    vmax=None):
+        x = get_axes_range(axesdata[2])
+        y = get_axes_range(axesdata[1])
         if use_log:
-            plt.pcolor(X, Y, mat.astype(float), norm=LogNorm(vmin=vmin_log, vmax=vmax_log))
+            plt.pcolor(x, y, mat.astype(float), norm=LogNorm(vmin=vmin_log, vmax=vmax_log))
         else:
-            plt.pcolor(X, Y, mat[0], norm=Normalize(vmin=vmin, vmax=vmax))
+            plt.pcolor(x, y, mat[0], norm=Normalize(vmin=vmin, vmax=vmax))
         plt.xlim(axesdata[0][0], axesdata[0][1])
         plt.ylim(axesdata[1][0], axesdata[1][1])
         if aspect_ratio_equal:
@@ -63,8 +63,8 @@ class Plotter(object):
             plt.savefig(os.path.join(self.outputDir, out_filename), format=self.format)
         return plt
 
-    def plotMatrixShort(self, data, axesdata, selection, transpose=False, UseLog=True, vMinLog=None, vMaxLog=None,
-                        aspectRatioEqual=True, geometryData=None, savefilename=None, vMin=None, vMax=None):
+    def plot_matrix_short(self, data, axesdata, selection, transpose=False, use_log=True, vmin_log=None, vmax_log=None,
+                          aspect_ratio_equal=True, geometry_data=None, savefilename=None, vmin=None, vmax=None):
         selecteddata = data[selection]
         selectedaxesdata = [axesdata[i] for (i, selectionItem) in enumerate(selection) if selectionItem == Ellipsis]
         print selectedaxesdata
@@ -72,8 +72,8 @@ class Plotter(object):
             selecteddata = selecteddata.transpose()
         else:
             selectedaxesdata.reverse()
-        return self.plotMatrix(selecteddata, selectedaxesdata, UseLog, vMinLog, vMaxLog, aspectRatioEqual, geometryData,
-                               savefilename, vmin=vMin, vmax=vMax)
+        return self.plot_matrix(selecteddata, selectedaxesdata, use_log, vmin_log, vmax_log, aspect_ratio_equal,
+                                geometry_data, savefilename, vmin=vmin, vmax=vmax)
 
 
 class PlotConfig(object):

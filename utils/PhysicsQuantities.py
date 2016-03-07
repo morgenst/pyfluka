@@ -55,20 +55,21 @@ class AbsPhysicsQuantity:
     def __format__(self, spec):
         if "L" in spec:
             spec = spec.replace("L", "")
-            magnitudeStr = format(self.val, spec)
-            uncStr = format(self.unc)
-            ret = "$%s \\pm %s$" % (magnitudeStr, uncStr)
+            magnitude_str = format(self.val, spec)
+            unc_str = format(self.unc)
+            ret = "$%s \\pm %s$" % (magnitude_str, unc_str)
             return ret
-        magnitudeStr = format(self.val, spec)
-        uncStr = format(self.unc)
-        defaultStr = self.__class__.__name__ + ": %s +- %s" % (magnitudeStr, uncStr)
-        return defaultStr
+        magnitude_str = format(self.val, spec)
+        unc_str = format(self.unc)
+        default_str = self.__class__.__name__ + ": %s +- %s" % (magnitude_str, unc_str)
+        return default_str
 
     def __float__(self):
         return float(self.val.magnitude)
 
 
 class Isotope:
+    # noinspection PyPep8Naming,PyPep8Naming
     def __init__(self, A=-1, Z="", iso=0):
         if type(Z) == str and Z > 0:
             self.Z = _periodic_table.index(Z) + 1

@@ -2,8 +2,8 @@ import yaml
 from collections import OrderedDict
 
 
-def dump(data, stream=None, Dumper=yaml.SafeDumper, **kwds):
-    class OrderedDumper(Dumper):
+def dump(data, stream=None, dumper=yaml.SafeDumper, **kwds):
+    class OrderedDumper(dumper):
         pass
 
     def _dict_representer(dumper, data):
