@@ -4,7 +4,7 @@ __mail__ = ''
 from abc import ABCMeta, abstractmethod
 
 
-class BasePlugin():
+class BasePlugin:
     """
     Metaclass for guarantee of interface. Each plugin must provide initialisation taking optional configuration
     and invoke method taking data
