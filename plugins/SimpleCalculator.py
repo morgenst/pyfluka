@@ -13,7 +13,7 @@ class SimpleCalculator(BasePlugin):
         pass
 
     @staticmethod
-    def _checkConsistency(data, attr):
+    def _check_consistency(data, attr):
         if not set(data.keys()).issuperset(set(attr)):
             raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " +
                              ", ".join(data.keys()))
@@ -25,12 +25,12 @@ class AoverLECalculator(SimpleCalculator):
         self._LE = None
 
     def invoke(self, data):
-        self._LE = _dh._LE
+        self._LE = _dh._le
         for det in data.keys():
             self._calc(data[det])
 
     def _calc(self, data):
-        self._checkConsistency(data, ['Isotope', 'SpecificActivity'])
+        self._check_consistency(data, ['Isotope', 'SpecificActivity'])
         data['AoverLE'] = []
         for isotope, activity in zip(data['Isotope'], data['SpecificActivity']):
             try:
@@ -48,7 +48,7 @@ class SpecificActivityCalculator(SimpleCalculator):
             self._calc(data[det])
 
     def _calc(self, data):
-        self._checkConsistency(data, ['Activity'])
+        self._check_consistency(data, ['Activity'])
         mass = PQ.Mass(1.)
         if "Mass" in data:
             mass = data['Mass']
@@ -66,6 +66,6 @@ class TotalActivityCalculator(SimpleCalculator):
             self._calc(data[det])
 
     def _calc(self, data):
-        self._checkConsistency(data, ['Activity'])
+        self._check_consistency(data, ['Activity'])
         data["TotalActivity"] = sum(data["Activity"], PQ.Activity(0.))
 
