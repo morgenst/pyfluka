@@ -69,7 +69,7 @@ class AbsPhysicsQuantity:
 
 
 class Isotope:
-    def __init__(self, A = -1, Z = "", iso = 0):
+    def __init__(self, A=-1, Z="", iso=0):
         if type(Z) == str and Z > 0:
             self.Z = _periodic_table.index(Z) + 1
         elif type(Z) == int:
@@ -146,6 +146,7 @@ class Hp007(AbsPhysicsQuantity):
 
     def __str__(self):
         return "Hp007"
+
 
 class Mass(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.kg):
