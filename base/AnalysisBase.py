@@ -12,7 +12,7 @@ import plugins
 
 
 class AnalysisBase:
-    def __init__(self, dataFile, configFile, outputDir = '.'):
+    def __init__(self, dataFile, configFile, outputDir='.'):
         """
         Constructor
         :param dataFile (str): input file
@@ -98,7 +98,8 @@ class AnalysisBase:
         package = plugins
         self.plugins = dict()
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,
-                                                              prefix=package.__name__+'.',
+                                                              prefix=package.__name__ + '.',
                                                               onerror=lambda x: None):
             m = importlib.import_module(modname)
-            self.plugins.update(dict((i[0], i[1]) for i in inspect.getmembers(m, inspect.isclass) if i[1].__module__ == m.__name__))
+            self.plugins.update(dict((i[0], i[1])
+                                     for i in inspect.getmembers(m, inspect.isclass) if i[1].__module__ == m.__name__))

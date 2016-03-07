@@ -24,14 +24,15 @@ def parse(config):
 
 
 def _validate(cDict):
-    if not cDict.has_key('plugins'):
+    if 'plugins' not in cDict:
         raise IllegalArgumentError("No plugins defined.")
-    if not type(cDict['plugins']) is type(OrderedDict()):
-        raise IllegalArgumentError("Plugins are required to be dictionaries, but " + str(type(cDict['plugins'])) + " given.")
+    if not isinstance(cDict['plugins'], OrderedDict):
+        raise IllegalArgumentError("Plugins are required to be dictionaries, but " + str(type(cDict['plugins'])) +
+                                   " given.")
 
 
 def _transform(config):
-    if config.has_key("detectors"):
+    if "detectors" in config:
         _transformDetInfo(config["detectors"])
 
 

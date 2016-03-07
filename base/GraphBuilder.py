@@ -16,6 +16,7 @@ def build_graph(initList):
     graph.add_edge(previousNode, "Output")
     return graph
 
+
 def getPaths(graph):
     return nx.algorithms.all_simple_paths(graph, "Input", "Output")
 
