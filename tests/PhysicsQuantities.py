@@ -12,7 +12,7 @@ class TestPhysicsQuantities(unittest.TestCase):
         isotope = PQ.Isotope(3, "H")
         self.assertEqual([isotope.A, isotope.Z], [3, 1])
 
-    def testIsotopeCreationFromString(self):
+    def testIsotopeCreationFromInteger(self):
         isotope = PQ.Isotope(3, 1)
         self.assertEqual([isotope.A, isotope.Z], [3, 1])
 
