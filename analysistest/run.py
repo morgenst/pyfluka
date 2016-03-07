@@ -5,7 +5,7 @@ from base.AnalysisBase import AnalysisBase
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Example analysis')
-    parser.add_argument('--input', '-i', type = str, required=True, help='input file')
+    parser.add_argument('--input', '-i', type=str, required=True, help='input file')
     parser.add_argument('--output_dir', '-o', type=str, help='ouput directory')
     parser.add_argument('--config', '-c', type=str, required=True, help='configuration file')
 
