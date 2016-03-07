@@ -114,7 +114,7 @@ class TestPhysicsQuantities(unittest.TestCase):
         val2 = PQ.Activity(10., 3.)
         unc = sqrt(pow(2., 2) + pow(3., 2))
         res = PQ.Activity(30., unc)
-        self.assertEqual(val1+val2, res)
+        self.assertEqual(val1 + val2, res)
 
     @unittest.skip("Not implemented")
     def testSummationActivityDifferentUnitsEquals(self):
@@ -122,7 +122,7 @@ class TestPhysicsQuantities(unittest.TestCase):
         val2 = PQ.Activity(10., 3.)
         unc = sqrt(pow(2., 2) + pow(3., 2))
         res = PQ.Activity(30., unc)
-        self.assertEqual(val1+val2, res)
+        self.assertEqual(val1 + val2, res)
 
     @unittest.skip("Not implemented")
     def testDose(self):

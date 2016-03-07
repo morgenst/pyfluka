@@ -21,3 +21,4 @@ class testPlotConfig(unittest.TestCase):
         pc1 = PC("foo", {"type": "1D"})
         pc2 = PC("foo", {"type": "2D"})
         self.assertNotEqual(pc1, pc2)
+

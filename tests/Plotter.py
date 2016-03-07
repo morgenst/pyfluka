@@ -8,7 +8,7 @@ class TestPlotter(unittest.TestCase):
     def setUpTestData(self):
         self.rawdata = np.array([i for i in range(20) for j in range(30)])
         self.data = np.reshape(self.rawdata, [30, 20]).transpose()
-        self.binning = ([0, 10, 1], [0, 20, 20],  [0, 30, 30])
+        self.binning = ([0, 10, 1], [0, 20, 20], [0, 30, 30])
 
     def setUp(self):
         self.plotter = Plotter()

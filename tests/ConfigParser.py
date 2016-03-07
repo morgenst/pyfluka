@@ -2,7 +2,7 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import unittest
-import utils.PhysicsQuantities as PQ
+from utils.PhysicsQuantities import Mass
 from utils.OrderedYAMLExtension import dump
 from base import ConfigParser, IllegalArgumentError
 from collections import OrderedDict
@@ -30,7 +30,7 @@ class TestConfigParser(unittest.TestCase):
 
     def test_parseConfig(self):
         d = ConfigParser.parse("test.yaml")
-        res = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1": {"mass": PQ.Mass(100, ureg.kg)}}}
+        res = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1": {"mass": Mass(100, ureg.kg)}}}
         self.assertEqual(d, res)
 
     def test_falseParse(self):
@@ -61,9 +61,10 @@ class TestConfigParser(unittest.TestCase):
         pass
 
     def testDetectorPassing(self):
-        res = {"det1": {"mass": PQ.Mass(100., ureg.kg)}}
+        res = {"det1": {"mass": Mass(100., ureg.kg)}}
         config = ConfigParser.parse("test.yaml")
         self.assertEqual(config['detectors'], res)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,7 +3,7 @@ import os
 from utils import ShellUtils
 
 
-class testShellUtils(unittest.TestCase):
+class TestShellUtils(unittest.TestCase):
     def setUp(self):
         pass
 
