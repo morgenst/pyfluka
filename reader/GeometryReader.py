@@ -5,39 +5,39 @@ class GeometryReader(object):
     def __init__(self):
         pass
 
-    def loadGeometryFile(self, filename, firstIndex=2, lastIndex=4):
+    def load_geometry_file(self, filename, first_index=2, last_index=4):
         """ Reads in a geometry file from FLUKA
         x Axis -> Index 2
         y Axis -> Index 3
         z Axis -> Index 4
         Default: x and z Axis
         """
-        X = []
-        Y = []
-        Xs = []
-        Ys = []
+        x = []
+        y = []
+        xs = []
+        ys = []
         for line in file(filename):
             if line[0] == "#":
                 continue
             if line.strip() == "":
-                if X:
-                    Xs.append(copy.copy(X))
-                    Ys.append(copy.copy(Y))
+                if x:
+                    xs.append(copy.copy(x))
+                    ys.append(copy.copy(y))
 
-                    X = []
-                    Y = []
+                    x = []
+                    y = []
             else:
                 try:
                     splitted = map(float, line.split())
                     if len(splitted) == 5:
-                        X.append(splitted[firstIndex])
-                        Y.append(splitted[lastIndex])
+                        x.append(splitted[first_index])
+                        y.append(splitted[last_index])
                 except:
                     pass
-        if X:
-            Xs.append(copy.copy(X))
-            Ys.append(copy.copy(Y))
-            X = []
-            Y = []
+        if x:
+            xs.append(copy.copy(x))
+            ys.append(copy.copy(y))
+            x = []
+            y = []
 
-        return Xs, Ys
+        return xs, ys

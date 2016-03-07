@@ -7,56 +7,56 @@ class ResnucReader:
         pass
 
     def load(self, filename):
-        resnuclDataDict = {}
-        FirstLineOfDetector = False
-        DataSection = False
-        IsomereSection = False
-        currentDetectorName = None
+        resnucl_data_dict = {}
+        first_line_of_detector = False
+        data_section = False
+        isomere_section = False
+        current_detector_name = None
         data = {'Isotope': [], 'Activity': []}
 
         for (i, line) in enumerate(file(filename)):
             if line.find("Detector n:") > 0:
-                FirstLineOfDetector = True
-                DataSection = False
-                IsomereSection = False
+                first_line_of_detector = True
+                data_section = False
+                isomere_section = False
             elif line.find("A/Z Isotopes:") > 0:
-                FirstLineOfDetector = False
-                DataSection = True
-                IsomereSection = False
+                first_line_of_detector = False
+                data_section = True
+                isomere_section = False
             elif line.find("A/Z/m Isomers:") > 0:
-                FirstLineOfDetector = False
-                DataSection = False
-                IsomereSection = True
-            elif FirstLineOfDetector:
-                if currentDetectorName is not None:
-                    resnuclDataDict[currentDetectorName] = copy.copy(data)
-                    currentDetectorName = None
+                first_line_of_detector = False
+                data_section = False
+                isomere_section = True
+            elif first_line_of_detector:
+                if current_detector_name is not None:
+                    resnucl_data_dict[current_detector_name] = copy.copy(data)
+                    current_detector_name = None
                     data = {}
-                currentDetectorName = line.strip()
-                FirstLineOfDetector = False
-            elif DataSection:
-                splitLine = line.split()
-                A = splitLine[0]
-                Z = int(splitLine[1])
-                value = float(splitLine[2])
-                errorPercent = float(splitLine[3])
+                current_detector_name = line.strip()
+                first_line_of_detector = False
+            elif data_section:
+                split_line = line.split()
+                A = split_line[0]
+                Z = int(split_line[1])
+                value = float(split_line[2])
+                error_percent = float(split_line[3])
                 if value > 0.:
                     data['Isotope'].append(Isotope(A, Z, 0))
-                    data['Activity'].append(Activity(value, unc=value * errorPercent / 100.))
-            elif IsomereSection:
-                splitLine = line.split()
-                A = splitLine[0]
-                Z = int(splitLine[1])
-                iso = int(splitLine[2])
-                value = float(splitLine[3])
-                errorPercent = float(splitLine[4])
+                    data['Activity'].append(Activity(value, unc=value * error_percent / 100.))
+            elif isomere_section:
+                split_line = line.split()
+                A = split_line[0]
+                Z = int(split_line[1])
+                iso = int(split_line[2])
+                value = float(split_line[3])
+                error_percent = float(split_line[4])
                 if value > 0.:
                     data['Isotope'].append(Isotope(A, Z, iso))
-                    data['Activity'].append(Activity(value, unc=value * errorPercent / 100.))
+                    data['Activity'].append(Activity(value, unc=value * error_percent / 100.))
 
-        if currentDetectorName is not None:
-            resnuclDataDict[currentDetectorName] = copy.copy(data)
+        if current_detector_name is not None:
+            resnucl_data_dict[current_detector_name] = copy.copy(data)
 
-        return resnuclDataDict
+        return resnucl_data_dict
 
 

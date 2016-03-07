@@ -20,74 +20,74 @@ class UsrbinReader(object):
         Incorporate search for "this is" to detect line above the first line and "error" to detect end of value block
         """
 
-        def packData(dataraw, axesdata):
+        def pack_data(dataraw, axesdata):
             try:
-                BinShape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
+                bin_shape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
             except:
-                BinShape = (axesdata[0][2], axesdata[1][2])  # x,y,z
-            ReverseBinShape = list(BinShape)
-            ReverseBinShape.reverse()
+                bin_shape = (axesdata[0][2], axesdata[1][2])  # x,y,z
+            reverse_bin_shape = list(bin_shape)
+            reverse_bin_shape.reverse()
             dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
             try:
-                return np.reshape(np.array(dataraw), ReverseBinShape).transpose()
+                return np.reshape(np.array(dataraw), reverse_bin_shape).transpose()
             except:
-                return np.reshape(np.array(dataraw[:-1]), ReverseBinShape).transpose()
+                return np.reshape(np.array(dataraw[:-1]), reverse_bin_shape).transpose()
 
-        usrbinDataDict = {}
-        currentDetectorName = None
+        usrbin_data_dict = {}
+        current_detector_name = None
         data = []
         axesdata = []
 
-        primaries_weightInfo = None
-        dataReached = False
-        errorMode = False
+        primaries_weight_info = None
+        data_reached = False
+        error_mode = False
 
         for (i, line) in enumerate(file(filename)):
             if line.find("error") > 0:
-                errorMode = True
+                error_mode = True
             if line.find("Total number of particles followed") > 0:
                 linesplit = line.split()
-                primaries_weightInfo = (float(linesplit[5][:-1]), float(linesplit[11]))
+                primaries_weight_info = (float(linesplit[5][:-1]), float(linesplit[11]))
 
             if line.find("binning n.") > 0:
-                errorMode = False
-                if currentDetectorName is not None:
-                    usrbin_data = packData(data, axesdata)
-                    usrbinDataDict[currentDetectorName] = (usrbin_data, axesdata, primaries_weightInfo)
-                    currentDetectorName = None
+                error_mode = False
+                if current_detector_name is not None:
+                    usrbin_data = pack_data(data, axesdata)
+                    usrbin_data_dict[current_detector_name] = (usrbin_data, axesdata, primaries_weight_info)
+                    current_detector_name = None
                     data = []
                     axesdata = []
-                    dataReached = False
-                    errorMode = False
-                    primaries_weightInfo = None
-                currentDetectorName = line.split("\"")[1].strip()
+                    data_reached = False
+                    error_mode = False
+                    primaries_weight_info = None
+                current_detector_name = line.split("\"")[1].strip()
 
-            if dataReached and not errorMode:
-                dataLine = [x for x in map(float, line.split())]
-                if dataLine != []:
-                    data.append(dataLine)
+            if data_reached and not error_mode:
+                data_line = [x for x in map(float, line.split())]
+                if data_line != []:
+                    data.append(data_line)
             else:
                 if line.find("coordinate:") > 0:
                     splitted = line.split()
-                    AxisData = (splitted[3], splitted[5], splitted[7])
+                    axis_data = (splitted[3], splitted[5], splitted[7])
                     axesdata.append((float(splitted[3]), float(splitted[5]), int(splitted[7])))
                 if line.find("this is") > 0:
-                    dataReached = True
+                    data_reached = True
         data = list(chain.from_iterable(data))
-        usrbin_data = packData(data, axesdata)
+        usrbin_data = pack_data(data, axesdata)
 
-        usrbinDataDict[currentDetectorName] = {self.pq.__name__: usrbin_data,
-                                               "Binning": axesdata,
-                                               "Weight": primaries_weightInfo}
-        return usrbinDataDict
+        usrbin_data_dict[current_detector_name] = {self.pq.__name__: usrbin_data,
+                                                   "Binning": axesdata,
+                                                   "Weight": primaries_weight_info}
+        return usrbin_data_dict
 
-    def getAxisIndex(self, axisdata, value):
-        start, end, nBins = axisdata
-        step = (end - start) / nBins
+    def get_axis_index(self, axisdata, value):
+        start, end, nbins = axisdata
+        step = (end - start) / nbins
         if value < start:
             return -1
         if value > end:
-            return nBins
+            return nbins
         return int((value - start) / step)
 
     """

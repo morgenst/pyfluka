@@ -1,8 +1,8 @@
 import pickle
 
 
-def load(fName):
-    f = open(fName, "r")
+def load(filename):
+    f = open(filename, "r")
     obj = pickle.load(f)
     f.close()
     return obj
@@ -24,13 +24,13 @@ class DataHandle(object):
         pass
 
     @lazyprop
-    def _LE(self):
+    def _le(self):
         return load("../data/LEDB.p")
 
     @lazyprop
-    def _H10(self):
+    def _h10(self):
         return load("../data/Activity_H10_conversion.p")
 
     @lazyprop
-    def _Hp007(self):
+    def _hp007(self):
         return load("../data/Activity_Hp007_conversion.p")
