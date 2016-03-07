@@ -1,6 +1,5 @@
 import unittest
 import numpy as np
-from matplotlib import pyplot as plt
 from utils.Plotter import Plotter
 
 
@@ -15,7 +14,7 @@ class TestPlotter(unittest.TestCase):
         self.setUpTestData()
 
     def testPlotMatrix(self):
-        p = self.plotter.plotMatrix(self.data, self.binning)
+        p = self.plotter.plot_matrix(self.data, self.binning)
         self.assertNotEqual(p, None)
 
     @unittest.skip("Not implemented")

@@ -1,5 +1,4 @@
 import unittest
-import utils.PhysicsQuantities as PQ
 from plugins.SimpleCalculator import *
 from utils import ureg
 from math import sqrt

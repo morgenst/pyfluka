@@ -8,11 +8,11 @@ class TestBaseCycle(unittest.TestCase):
 
     def testConfigParse(self):
         bc = BC.AnalysisBase(None, "testconfig.yaml")
-        bc._loadConfig()
+        bc._load_config()
 
     def testConfigParseFail(self):
         bc = BC.AnalysisBase(None, "nonexisting.yaml")
-        self.assertRaises(IOError, bc._loadConfig)
+        self.assertRaises(IOError, bc._load_config)
 
     @unittest.skip("What was this test suppose to do?")
     def testConfigParse2(self):

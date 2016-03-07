@@ -27,15 +27,15 @@ def pack_data(dataraw, axesdata):
 
 
 class Plotter(object):
-    def __init__(self, output_dir=".", format="png"):
+    def __init__(self, output_dir=".", file_format="png"):
         """
         Constructor
         :param output_dir (Optional[str]): Output directory. Defaults to current directory.
-        :param format: (Optional[str]): File format plots are stored. Defaults to png.
+        :param file_format: (Optional[str]): File format plots are stored. Defaults to png.
         :return:
         """
         self.outputDir = output_dir
-        self.format = format
+        self.format = file_format
 
     def plot_matrix(self, mat, axesdata,
                     out_filename=None,

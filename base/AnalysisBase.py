@@ -1,6 +1,5 @@
 __author__ = 'morgenst'
 
-import importlib
 import ConfigParser as CP
 import GraphBuilder as GB
 from utils.ShellUtils import mkdir
@@ -95,6 +94,7 @@ class AnalysisBase:
         Parses plugin directory for all available plugins.
         :return:
         """
+
         package = plugins
         self.plugins = dict()
         for importer, modname, ispkg in pkgutil.walk_packages(path=package.__path__,

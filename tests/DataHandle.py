@@ -18,10 +18,10 @@ class DataHandle(unittest.TestCase):
         fHp007.close()
 
     def testLE(self):
-        self.assertEqual(_dh._LE, self.dLE)
+        self.assertEqual(_dh._le, self.dLE)
 
     def testH10(self):
-        self.assertEqual(_dh._H10, self.dH10)
+        self.assertEqual(_dh._h10, self.dH10)
 
     def testHp007(self):
-        self.assertEqual(_dh._Hp007, self.dHp007)
+        self.assertEqual(_dh._hp007, self.dHp007)

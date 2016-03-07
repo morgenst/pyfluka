@@ -2,7 +2,6 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import pickle
-import pint
 from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt

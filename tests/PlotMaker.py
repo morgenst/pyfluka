@@ -5,7 +5,6 @@ from utils import PhysicsQuantities as PQ
 from utils.Plotter import PlotConfig as PC
 from plugins.PlotMaker import PlotMaker as PM
 import matplotlib.pyplot as plt
-from matplotlib.testing.decorators import image_comparison
 
 
 class PlotMaker(unittest.TestCase):

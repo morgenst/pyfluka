@@ -39,5 +39,5 @@ class TestGraphBuilder(unittest.TestCase):
         d = OrderedDict([("A", None), ("B", None), ("C", None)])
         res = ["Input", "A", "B", "C", "Output"]
         graph = GB.build_graph(d)
-        path = GB.getPaths(graph)
+        path = GB.get_paths(graph)
         self.assertEqual(path.next(), res)

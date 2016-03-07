@@ -1,7 +1,7 @@
 import importlib
 import numpy as np
 from utils import ureg
-from itertools import izip, chain
+from itertools import chain
 
 
 class UsrbinReader(object):
@@ -60,7 +60,7 @@ class UsrbinReader(object):
 
             if data_reached and not error_mode:
                 data_line = [x for x in map(float, line.split())]
-                if data_line != []:
+                if data_line:
                     data.append(data_line)
             else:
                 if line.find("coordinate:") > 0:
