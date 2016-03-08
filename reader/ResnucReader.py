@@ -32,7 +32,7 @@ class ResnucReader:
                 if current_detector_name is not None:
                     resnucl_data_dict[current_detector_name] = copy.copy(data)
                     current_detector_name = None
-                    data = {}
+                    data = {'Isotope': [], 'Activity': []}
                 current_detector_name = line.strip()
                 first_line_of_detector = False
             elif data_section:
@@ -46,6 +46,8 @@ class ResnucReader:
                     data['Activity'].append(Activity(value, unc=value * error_percent / 100.))
             elif isomere_section:
                 split_line = line.split()
+                if not len(split_line):
+                    continue
                 A = split_line[0]
                 Z = int(split_line[1])
                 iso = int(split_line[2])
@@ -60,4 +62,6 @@ class ResnucReader:
 
         return resnucl_data_dict
 
+    def read_single_detector(self):
+        pass
 
