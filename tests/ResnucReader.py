@@ -80,3 +80,12 @@ class TestResnucReader(unittest.TestCase):
                                         PQ.Activity(-1, unc= -1),
                                         PQ.Activity(2.2300E+10, unc=0.001845 * 2.2300E+10)]}}
         self.assertEqual(data, res)
+
+    def test_tab_lis_read_custom(self):
+        reader = RR(quantity="DoseRate")
+        res = {"AlBa-1s": OrderedDict([(PQ.Isotope(75, 32, 0),
+                                        StoredData(PQ.DoseRate(2.0663E+05, unc=0.99 * 2.0663E+05))),
+                                       (PQ.Isotope(26, 13, 1),
+                                        StoredData(PQ.DoseRate(2.2300E+10, unc=0.001845 * 2.2300E+10)))])}
+        data = reader.load("ResnucInputTest_tab.lis")
+        self.assertEqual(data, res)
