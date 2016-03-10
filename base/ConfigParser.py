@@ -5,11 +5,19 @@ import yaml
 import yamlordereddictloader
 import utils.PhysicsQuantities as PQ
 from base import IllegalArgumentError, _global_data
-from utils import ureg
 from collections import OrderedDict
 
 
 def parse(config):
+    """
+    Parsing function
+    :param config (str): filename of config file
+    :return (dict): configuration as dict
+
+    Raises:
+        IOError: if config file does not exist
+        IllegalArgument: if validation fails; see _validate
+    """
     try:
         f = open(config)
     except IOError:
@@ -24,6 +32,15 @@ def parse(config):
 
 
 def _validate(config_dict):
+    """
+    Validates configuration w.r.t required information, i.e. plugins have to be defined, and checks for compliance
+    of data structure
+    :param config_dict (dict): parsed configuration dictionary
+    :return:
+
+    Raises:
+        IllegealArgumentError: if any validation check fails
+    """
     if 'plugins' not in config_dict:
         raise IllegalArgumentError("No plugins defined.")
     if not isinstance(config_dict['plugins'], OrderedDict):
@@ -32,11 +49,21 @@ def _validate(config_dict):
 
 
 def _transform(config):
+    """
+    Executes transformation steps
+    :param config (dict): parsed configuration dictionary
+    :return:
+    """
     if "detectors" in config:
         _transform_det_info(config.pop("detectors"))
 
 
 def _transform_det_info(config):
+    """
+    Transform parsed detector information
+    :param config (dict): parsed configuration dictionary
+    :return:
+    """
     for det in config.keys():
         for quantity, val in config[det].items():
             if quantity.lower() == 'mass':

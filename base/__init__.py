@@ -3,6 +3,7 @@ __mail__ = ''
 
 from StoredData import GlobalData
 
+
 class IllegalArgumentError(ValueError):
     pass
 
