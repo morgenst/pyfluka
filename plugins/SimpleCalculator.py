@@ -1,71 +1,145 @@
 __author__ = 'morgenst'
 
 from BasePlugin import BasePlugin
+from collections import OrderedDict
+from base.StoredData import StoredData
+from base import _global_data, IllegalArgumentError
 from utils import PhysicsQuantities as PQ
 from reader import _dh
 
 
 class SimpleCalculator(BasePlugin):
+    """
+    Base class for simple calculators defining common interface
+    """
+    # noinspection PyUnusedLocal
     def __init__(self, config=None):
+        """
+        Constructor
+        :param config (dict): configuration
+        :return:
+        """
         pass
 
     def invoke(self, data):
+        """
+        Method invoking calculation
+        :param data (dict): input data
+        :return:
+        """
         pass
 
     @staticmethod
     def _check_consistency(data, attr):
-        if not set(data.keys()).issuperset(set(attr)):
-            raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " +
-                             ", ".join(data.keys()))
+        """
+        Method performing check if all required quantities for calculation are available in data
+        :param data (dict): input data
+        :param attr (list): quantities required by calculation
+        :return:
+
+        Raises:
+            ValueError if any required quantity is missing
+        """
+
+        if isinstance(data, OrderedDict):
+            if not all(elem.has_quantity(attr) for elem in data.values()):
+                raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " +
+                                 ", ".join(data.values()[0].get_attributes()))
+        elif isinstance(data, StoredData):
+            if not data.has_quantity(attr):
+                raise ValueError("Invalid input. Data object needs " + ", ".join(attr) + " but has " +
+                                 ", ".join(data.get_attributes()))
 
 
 class AoverLECalculator(SimpleCalculator):
+    """
+    Specific activity over LE calculator
+    """
+    # noinspection PyUnusedLocal
     def __init__(self, config=None):
+        """
+        Constructor
+        :param config (dict): configuration
+        :return:
+        """
         self.quantity = PQ.AoverLE
         self._LE = None
 
     def invoke(self, data):
+        """
+        Entry point of calculation
+        :param data (dict): input data
+        :return:
+        """
         self._LE = _dh._le
         for det in data.keys():
             self._calc(data[det])
 
     def _calc(self, data):
-        self._check_consistency(data, ['Isotope', 'SpecificActivity'])
-        data['AoverLE'] = []
-        for isotope, activity in zip(data['Isotope'], data['SpecificActivity']):
+        """
+        Performs calculation of A/LE
+        :param data (dict): input data
+        :return:
+
+        Raises:
+            ValueError if either Isotope or SpecificActivity are not in the input data
+        """
+        self._check_consistency(data, ['SpecificActivity'])
+        try:
+            self._check_consistency(data, ['SpecificActivity'])
+        except Exception as e:
+            raise e
+        input_variables = zip(data.keys(), map(lambda x: x['SpecificActivity'], data.values()))
+        for isotope, activity in input_variables:
             try:
-                data['AoverLE'].append(PQ.AoverLE(activity / self._LE[isotope]))
+                data[isotope].append(PQ.AoverLE(activity / self._LE[isotope]))
             except KeyError:
-                data['AoverLE'].append(0.)
+                data[isotope].append(PQ.AoverLE(0.))
 
 
 class SpecificActivityCalculator(SimpleCalculator):
+    """
+    Specific activity calculator: A/m
+    """
+    # noinspection PyUnusedLocal
     def __init__(self, config=None):
+        """
+        Constructor
+        :param config (dict): configuration
+        :return:
+        """
         self.quantity = PQ.SpecificActivity
 
     def invoke(self, data):
+        """
+        Entry point for calculator
+        :param data:
+        :return:
+        """
         for det in data.keys():
-            self._calc(data[det])
+            try:
+                mass = _global_data[det]["Mass"]
+            except:
+                raise IllegalArgumentError("Requested mass for detector " + det + ", but not available.")
+            self._calc(data[det], mass)
 
-    def _calc(self, data):
+    def _calc(self, data, mass):
         self._check_consistency(data, ['Activity'])
-        mass = PQ.Mass(1.)
-        if "Mass" in data:
-            mass = data['Mass']
-        data['SpecificActivity'] = []
-        for activity in data['Activity']:
-            data['SpecificActivity'].append(PQ.SpecificActivity(activity / mass))
+
+        for isotope, storedData in data.items():
+            data[isotope].append(PQ.SpecificActivity(storedData["Activity"] / mass))
 
 
 class TotalActivityCalculator(SimpleCalculator):
+    # noinspection PyUnusedLocal
     def __init__(self, config=None):
         self.quantity = PQ.Activity
 
     def invoke(self, data):
         for det in data.keys():
-            self._calc(data[det])
+            total_activity = self._calc(data[det].values())
+            _global_data.add(det, "TotalActivity", total_activity)
 
     def _calc(self, data):
-        self._check_consistency(data, ['Activity'])
-        data["TotalActivity"] = sum(data["Activity"], PQ.Activity(0.))
+        return sum([elem["Activity"] for elem in data], PQ.Activity(0.))
 

@@ -20,7 +20,7 @@ class Column:
 class TableMaker(BasePlugin):
     def __init__(self, config):
         if 'cols' not in config or not len(config['cols']):
-            raise InvalidInputError("No colums defined for table. Nothing to do, so giving up.")
+            raise InvalidInputError("No columns defined for table. Nothing to do, so giving up.")
         self.cols = config['cols']
         self.tables = OrderedDict()
         self.outputDir = os.path.curdir
@@ -33,15 +33,14 @@ class TableMaker(BasePlugin):
             self.storeMultipleOutputFiles = True
 
     def invoke(self, data):
+        self.cols.pop(self.cols.index("Isotope"))
         for det, values in data.items():
-            tab = OrderedDict(sorted(filter(lambda c: c[0] in self.cols, values.iteritems()),
-                                     cmp=lambda x, y: self.cols.index(x) - self.cols.index(y),
-                                     key=itemgetter(0)))
             """
             work around to stringify
             """
-            if 'Isotope' in self.cols:
-                tab['Isotope'] = [i.__str__() for i in tab['Isotope']]
+            isotopes = ["{:L}".format(i)for i in values.keys()]
+            values = [elem[self.cols] for elem in values.values()]
+            tab = zip(isotopes, *values)
             table = tabulate(tab, tablefmt='latex', floatfmt=".2f")
             self.tables[det] = table
         self.store()

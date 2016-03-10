@@ -1,5 +1,5 @@
 detectors:
-  det1:
+  AlBa-1s:
     Mass: "10 kg"
   det2:
     Mass: "20 kg"

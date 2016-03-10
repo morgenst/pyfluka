@@ -12,6 +12,7 @@ class BasePlugin:
 
     __metaclass__ = ABCMeta
 
+    # noinspection PyUnusedLocal
     def __init__(self, config=None):
         """
         initialisation

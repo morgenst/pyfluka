@@ -4,6 +4,8 @@ import unittest
 import os.path
 import utils.PhysicsQuantities as PQ
 from base import InvalidInputError
+from base.StoredData import StoredData
+from collections import OrderedDict
 from plugins.TableMaker import TableMaker as TM
 from plugins.TableMaker import Column
 from utils.ShellUtils import mkdir
@@ -13,9 +15,9 @@ from shutil import rmtree
 class TableMakerTest(unittest.TestCase):
     def setUp(self):
         self.tabConfig = {"cols": ["Isotope", "Activity"]}
-        self.data = {"det1": {"Isotope": [PQ.Isotope(3, "H")], "Activity": [PQ.Activity(10.00101010101)]}}
-        self.dataMultiDet = {"det1": {"Isotope": [PQ.Isotope(3, "H")], "Activity": [PQ.Activity(10.00101010101)]},
-                             "det2": {"Isotope": [PQ.Isotope(3, "H")], "Activity": [PQ.Activity(100.00101010101)]}}
+        self.data = {"det1": OrderedDict([(PQ.Isotope(3, "H"), StoredData(PQ.Activity(10.00101010101)))])}
+        self.dataMultiDet = {"det1": OrderedDict([(PQ.Isotope(3, "H"), StoredData(PQ.Activity(10.00101010101)))]),
+                             "det2": OrderedDict([(PQ.Isotope(3, "H"), StoredData(PQ.Activity(100.00101010101)))])}
         self.tm = TM(self.tabConfig)
 
     @classmethod
@@ -34,6 +36,7 @@ class TableMakerTest(unittest.TestCase):
         self.tm.invoke(self.data)
 
     def testMultipleDetectors(self):
+        self.tm.cols = self.tabConfig["cols"]
         self.tm.invoke(self.dataMultiDet)
         self.assertEqual(self.dataMultiDet.keys(), self.tm.tables.keys())
 

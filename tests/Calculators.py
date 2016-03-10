@@ -1,51 +1,63 @@
 import unittest
+from collections import OrderedDict
 from plugins.SimpleCalculator import *
 from utils import ureg
 from math import sqrt
+from base.StoredData import StoredData
+from base import _global_data
 
 
 class TestCalculator(unittest.TestCase):
     def setUp(self):
-        self.dataIsotopeSpecificAct = {"det1": {'Isotope': [PQ.Isotope(3, 1)],
-                                                'SpecificActivity': [PQ.SpecificActivity(10.)]}}
-        self.dataIsotopeAct = {"det1": {'Mass': PQ.Mass(10., ureg.kg),
-                                        'Isotope': [PQ.Isotope(3, 1)],
-                                        'Activity': [PQ.Activity(10.)]}}
-        self.dataIsotopeMultiAct = {"det1": {'Mass': PQ.Mass(10., ureg.kg),
-                                             'Isotope': [PQ.Isotope(3, 1)],
-                                             'Activity': [PQ.Activity(10.), PQ.Activity(30.)]}}
+        _global_data.add("det1", "Mass", PQ.Mass(10, ureg.kg))
+        self.dataIsotopeSpecificAct = {"det1": OrderedDict([(PQ.Isotope(3, 1),
+                                                             StoredData(PQ.SpecificActivity(10.)))])}
+        self.dataIsotopeAct = {"det1": OrderedDict([(PQ.Isotope(3, 1),
+                                                     StoredData(PQ.Activity(10.)))])}
+        self.dataIsotopeMultiAct = {"det1": OrderedDict([(PQ.Isotope(3, 1),
+                                                          StoredData(PQ.Activity(10.))),
+                                                         (PQ.Isotope(2, 1),
+                                                          StoredData(PQ.Activity(30.)))])}
+
         self.AoverLECalculator = AoverLECalculator()
+
+    def test_consistency_check_pass(self):
+        self.AoverLECalculator._check_consistency(self.dataIsotopeSpecificAct["det1"][PQ.Isotope(3, 1)],
+                                                  ["SpecificActivity"])
 
     def testAoverLESimple(self):
         self.AoverLECalculator.invoke(self.dataIsotopeSpecificAct)
-        self.assertEqual(self.dataIsotopeSpecificAct["det1"]["AoverLE"], [PQ.AoverLE(10. / 2.00E+005)])
+        self.assertEqual(self.dataIsotopeSpecificAct["det1"][PQ.Isotope(3, 1)]["AoverLE"],
+                         PQ.AoverLE(10. / 2.00E+005))
 
     @unittest.skip("Not implemented")
     def testAoverLENonExistingLimit(self):
         pass
 
-    def testAoverLEWrongInput(self):
-        self.assertRaises(ValueError, self.AoverLECalculator.invoke, {"det1": {'Isotope': [], 'Activity': []}})
+    def test_AoverLE_wrong_input(self):
+        self.assertRaises(ValueError, self.AoverLECalculator.invoke,
+                          {"det1": OrderedDict([(PQ.Isotope(3, 1), StoredData(PQ.Activity(1.)))])})
 
     def testSpecificActivitySimple(self):
         calculator = SpecificActivityCalculator()
         calculator.invoke(self.dataIsotopeAct)
-        self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1.)])
+        self.assertEqual(self.dataIsotopeAct["det1"][PQ.Isotope(3, 1)]["SpecificActivity"],
+                         PQ.SpecificActivity(1.))
 
     def testSpecificActivitySimpleDiffMassUnit(self):
-        data = self.dataIsotopeAct
-        data["det1"]["Mass"] = PQ.Mass(10., ureg.g)
+        _global_data["det1"]["Mass"] = PQ.Mass(10., ureg.g)
         calculator = SpecificActivityCalculator()
-        calculator.invoke(data)
-        self.assertEqual(self.dataIsotopeAct["det1"]["SpecificActivity"], [PQ.SpecificActivity(1000.)])
+        calculator.invoke(self.dataIsotopeAct)
+        self.assertEqual(self.dataIsotopeAct["det1"][PQ.Isotope(3, 1)]["SpecificActivity"], PQ.SpecificActivity(1000.))
 
     def testTotalActivityCalculation(self):
         calculator = TotalActivityCalculator()
         calculator.invoke(self.dataIsotopeMultiAct)
-        self.assertEqual(self.dataIsotopeMultiAct["det1"]["TotalActivity"], PQ.Activity(40.))
+        self.assertEqual(_global_data["det1"]["TotalActivity"], PQ.Activity(40.))
 
     def testTotalActivityCalculationDiffUnits(self):
         calculator = TotalActivityCalculator()
-        data = {"det1": {'Activity': [PQ.Activity(10000., 10000., ureg.mBq), PQ.Activity(30., 10., ureg.Bq)]}}
+        data = {"det1": OrderedDict([(PQ.Isotope(3, 1), StoredData(PQ.Activity(10000., 10000., ureg.mBq))),
+                                     (PQ.Isotope(2, 1), StoredData(PQ.Activity(30., 10., ureg.Bq)))])}
         calculator.invoke(data)
-        self.assertEqual(data["det1"]["TotalActivity"], PQ.Activity(40., sqrt(200.)))
+        self.assertEqual(_global_data["det1"]["TotalActivity"], PQ.Activity(40., sqrt(200.)))

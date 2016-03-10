@@ -136,4 +136,7 @@ class TestPhysicsQuantities(unittest.TestCase):
         val = PQ.Activity(20., 2.)
         self.assertEqual('{!s}'.format(val), "Activity: 20.0 Bq +- 2.0 Bq")
 
-
+    def test_different_types_equals(self):
+        q1 = PQ.Mass(100, 2)
+        q2 = PQ.Mass(100., 2.)
+        self.assertEqual(q1, q2)

@@ -4,7 +4,7 @@ __mail__ = ''
 import yaml
 import yamlordereddictloader
 import utils.PhysicsQuantities as PQ
-from base import IllegalArgumentError
+from base import IllegalArgumentError, _global_data
 from utils import ureg
 from collections import OrderedDict
 
@@ -33,7 +33,7 @@ def _validate(config_dict):
 
 def _transform(config):
     if "detectors" in config:
-        _transform_det_info(config["detectors"])
+        _transform_det_info(config.pop("detectors"))
 
 
 def _transform_det_info(config):
@@ -41,4 +41,4 @@ def _transform_det_info(config):
         for quantity, val in config[det].items():
             if quantity.lower() == 'mass':
                 info = val.split(' ')
-                config[det][quantity] = PQ.Mass(float(info[0]), ureg(info[1]))
+                _global_data.add(det, quantity, PQ.Mass(float(info[0]), info[1]))

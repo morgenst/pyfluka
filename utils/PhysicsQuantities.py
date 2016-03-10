@@ -91,8 +91,16 @@ class Isotope:
             return False
         return True
 
+    def __format__(self, spec):
+        iso_str = "m" if self.iso > 0 else ""
+        if "L" in spec:
+            spec = spec.replace("L", "")
+            ret = "$^{%i%s}$%s" % (self.A, iso_str, _periodic_table[self.Z - 1])
+            return ret
+        return self.__class__.__name__ + "%i-%s-%s" % (self.A, iso_str, _periodic_table[self.Z])
+
     def __str__(self):
-        return "Isotope"
+        return format(self)
 
 
 class Activity(AbsPhysicsQuantity):
@@ -103,9 +111,6 @@ class Activity(AbsPhysicsQuantity):
 class SpecificActivity(AbsPhysicsQuantity):
     def __init__(self, val, unc=0., unit=ureg.Bq / ureg.kg):
         super(self.__class__, self).__init__(val, unc, unit)
-
-    def __str__(self):
-        return "A"
 
 
 class ExcemptionLimit(AbsPhysicsQuantity):
@@ -152,5 +157,5 @@ class Mass(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.kg):
         super(self.__class__, self).__init__(val, 0., unit)
 
-    def __str__(self):
-        return "m"
+    #def __str__(self):
+    #    return "m"

@@ -4,7 +4,7 @@ __mail__ = ''
 import unittest
 from utils.PhysicsQuantities import Mass
 from utils.OrderedYAMLExtension import dump
-from base import ConfigParser, IllegalArgumentError
+from base import ConfigParser, IllegalArgumentError, _global_data
 from collections import OrderedDict
 from utils import ureg
 
@@ -30,8 +30,11 @@ class TestConfigParser(unittest.TestCase):
 
     def test_parseConfig(self):
         d = ConfigParser.parse("test.yaml")
-        res = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1": {"mass": Mass(100, ureg.kg)}}}
+        res = {"plugins": {"a": [1, 2, 3]}}
+        mass_res = {"det1": {"mass": Mass(100, ureg.kg)}}
         self.assertEqual(d, res)
+        print _global_data
+        self.assertEqual(_global_data, mass_res)
 
     def test_falseParse(self):
         d = ConfigParser.parse("test.yaml")
@@ -60,10 +63,10 @@ class TestConfigParser(unittest.TestCase):
     def testNonExistingPlugin(self):
         pass
 
-    def testDetectorPassing(self):
+    def test_detector_parsing(self):
         res = {"det1": {"mass": Mass(100., ureg.kg)}}
         config = ConfigParser.parse("test.yaml")
-        self.assertEqual(config['detectors'], res)
+        self.assertEqual(_global_data, res)
 
 
 if __name__ == '__main__':
