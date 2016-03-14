@@ -94,3 +94,15 @@ class TestStoredData(unittest.TestCase):
         res = {"NoOfProtons": 10, "det1": {"TotalActivity": PQ.Activity(10., 2.)}}
         self.assertEqual(_global_data, res)
 
+    def test_named_store_constructor(self):
+        inp = StoredData(PQ.Activity(10., 2.),
+                         ScaledActivity=PQ.Activity(50., 2.))
+        self.assertEqual(inp["ScaledActivity"], PQ.Activity(50., 2.))
+
+    def test_named_store_add(self):
+        res = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0),
+                                     StoredData(PQ.Activity(10., 2.),
+                                                ScaledActivity=PQ.Activity(50., 2.)))])}
+        self.singleElementData["det1"][PQ.Isotope(3, 1, 0)].append(ScaledActivity=PQ.Activity(50., 2.))
+        self.assertEqual(self.singleElementData, res)
+

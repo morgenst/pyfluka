@@ -37,6 +37,8 @@ class StoredData:
         self.data = OrderedDict()
         for arg in args:
             self.data[arg.__class__.__name__] = arg
+        for k, v in kwargs.items():
+            self.data[k] = v
 
     def __eq__(self, other):
         return self.data == other.data
@@ -53,15 +55,17 @@ class StoredData:
             return self.data[item]
         return None
 
-    def append(self, *args):
-        if all(isinstance(arg, list) for arg in args):
+    def append(self, *args, **kwargs):
+        print kwargs
+        if all(isinstance(arg, list) for arg in args) and args:
             raise ValueError("List items are not supported to be added.")
         for arg in args:
             if arg.__class__.__name__ in self.data:
-                print "This should not happen"
                 self.data[arg.__class__.__name__] += arg
             else:
                 self.data[arg.__class__.__name__] = arg
+        for k, v in kwargs.items():
+            self.data[k] = v
 
     def has_quantity(self, quantaties):
         if isinstance(quantaties, list):
