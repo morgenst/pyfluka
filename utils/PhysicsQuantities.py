@@ -45,6 +45,16 @@ class AbsPhysicsQuantity:
     def __radd__(self, other):
         return other.__add__(self)
 
+    def __mul__(self, other):
+        if isinstance(other, float):
+            return self.__scalar_mul__(other)
+
+    def __scalar_mul__(self, other):
+        return self.__class__(self.val * other, self.unc)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
     def __div__(self, other):
         return self.val / other.val
 
@@ -97,7 +107,7 @@ class Isotope:
             spec = spec.replace("L", "")
             ret = "$^{%i%s}$%s" % (self.A, iso_str, _periodic_table[self.Z - 1])
             return ret
-        return self.__class__.__name__ + "%i-%s-%s" % (self.A, iso_str, _periodic_table[self.Z])
+        return self.__class__.__name__ + "%i-%s-%s" % (self.A, iso_str, _periodic_table[self.Z - 1])
 
     def __str__(self):
         return format(self)
