@@ -5,6 +5,7 @@ import pickle
 from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt
+from numbers import Number
 
 f = open("../data/periodic_table.p")
 _periodic_table = pickle.load(f)
@@ -46,7 +47,7 @@ class AbsPhysicsQuantity:
         return other.__add__(self)
 
     def __mul__(self, other):
-        if isinstance(other, float):
+        if isinstance(other, Number):
             return self.__scalar_mul__(other)
 
     def __scalar_mul__(self, other):
