@@ -34,3 +34,11 @@ class DataHandle(object):
     @lazyprop
     def _hp007(self):
         return load("../data/Activity_Hp007_conversion.p")
+
+    @lazyprop
+    def _einh(self):
+        return load("../data/inhalation.p")
+
+    @lazyprop
+    def _eing(self):
+        return load("../data/ingestion.p")

@@ -142,25 +142,21 @@ class TestPhysicsQuantities(unittest.TestCase):
         self.assertEqual(q1, q2)
 
     def test_multiplication_scalar_float_lhs(self):
-        val = PQ.Activity(20., 2.)
         product = 5. * PQ.Activity(20., 2.)
         res = PQ.Activity(100., 2.)
         self.assertEqual(product, res)
 
     def test_multiplication_scalar_float_rhs(self):
-        val = PQ.Activity(20., 2.)
         product = PQ.Activity(20., 2.) * 5.
         res = PQ.Activity(100., 2.)
         self.assertEqual(product, res)
 
     def test_multiplication_scalar_int_lhs(self):
-        val = PQ.Activity(20., 2.)
         product = 5 * PQ.Activity(20., 2.)
         res = PQ.Activity(100., 2.)
         self.assertEqual(product, res)
 
     def test_multiplication_scalar_int_rhs(self):
-        val = PQ.Activity(20., 2.)
         product = PQ.Activity(20., 2.) * 5
         res = PQ.Activity(100., 2.)
         self.assertEqual(product, res)

@@ -168,5 +168,12 @@ class Mass(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.kg):
         super(self.__class__, self).__init__(val, 0., unit)
 
-    #def __str__(self):
-    #    return "m"
+
+class EInh(AbsPhysicsQuantity):
+    def __init__(self, val, unit = ureg.Sv / ureg.Bq):
+        super(self.__class__, self).__init__(val, 0., unit)
+
+
+class EIng(AbsPhysicsQuantity):
+    def __init__(self, val, unit = ureg.Sv / ureg.Bq):
+        super(self.__class__, self).__init__(val, 0., unit)
