@@ -6,6 +6,7 @@ from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt
 from numbers import Number
+from copy import deepcopy
 
 f = open("../data/periodic_table.p")
 _periodic_table = pickle.load(f)
@@ -17,7 +18,10 @@ class AbsPhysicsQuantity:
 
     @abstractmethod
     def __init__(self, val, unc, unit):
-        if not isinstance(val, ureg.Quantity):
+        if issubclass(type(val), AbsPhysicsQuantity):
+            self.val = deepcopy(val.val)
+            self.unc = deepcopy(val.unc)
+        elif not isinstance(val, ureg.Quantity):
             self.val = val * ureg.Quantity(unit)
             self.unc = unc * ureg.Quantity(unit)
         else:
@@ -49,6 +53,13 @@ class AbsPhysicsQuantity:
     def __mul__(self, other):
         if isinstance(other, Number):
             return self.__scalar_mul__(other)
+        elif isinstance(other, self.__class__):
+            return self.__class__(self.val * other.val, self.unc * other.unc)
+        elif issubclass(type(other), AbsPhysicsQuantity):
+            tmp = deepcopy(self)
+            tmp.val = self.val * other.val
+            tmp.unc = ureg.Quantity(-1., self.val.units * other.val.units)
+            return tmp
 
     def __scalar_mul__(self, other):
         return self.__class__(self.val * other, self.unc)
@@ -177,3 +188,8 @@ class EInh(AbsPhysicsQuantity):
 class EIng(AbsPhysicsQuantity):
     def __init__(self, val, unit = ureg.Sv / ureg.Bq):
         super(self.__class__, self).__init__(val, 0., unit)
+
+
+class Dose(AbsPhysicsQuantity):
+    def __init__(self, val, unc=0., unit = ureg.Sv):
+        super(self.__class__, self).__init__(val, unc, unit)
