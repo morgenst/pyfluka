@@ -33,7 +33,6 @@ class TestConfigParser(unittest.TestCase):
         res = {"plugins": {"a": [1, 2, 3]}}
         mass_res = {"det1": {"mass": Mass(100, ureg.kg)}}
         self.assertEqual(d, res)
-        print _global_data
         self.assertEqual(_global_data, mass_res)
 
     def test_falseParse(self):

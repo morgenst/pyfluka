@@ -39,8 +39,6 @@ class TestResnucReader(unittest.TestCase):
                                        (PQ.Isotope(26, 13, 1),
                                         StoredData(PQ.Activity(2. * 2.2300E+10,
                                                                unc=0.001845 * sqrt(2.) * 2.2300E+10)))])}
-        print data["AlBa-1s"][PQ.Isotope(75, 32, 0)]["Activity"]
-        print res["AlBa-1s"][PQ.Isotope(75, 32, 0)]["Activity"]
         self.assertEqual(data, res)
 
     @unittest.skip("To be implemented")

@@ -20,8 +20,6 @@ class GlobalData:
     def __eq__(self, other):
         if not isinstance(other, dict):
             return False
-        print self.data
-        print other
         return self.data == other
 
     def __getitem__(self, item):
@@ -56,7 +54,6 @@ class StoredData:
         return None
 
     def append(self, *args, **kwargs):
-        print kwargs
         if all(isinstance(arg, list) for arg in args) and args:
             raise ValueError("List items are not supported to be added.")
         for arg in args:

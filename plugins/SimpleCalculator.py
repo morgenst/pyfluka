@@ -93,7 +93,7 @@ class AoverLECalculator(SimpleCalculator):
         for isotope, activity in input_variables:
             try:
                 data[isotope].append(PQ.AoverLE(activity / self._LE[isotope]))
-            except KeyError:
+            except (KeyError, ZeroDivisionError):
                 data[isotope].append(PQ.AoverLE(0.))
 
 
@@ -142,4 +142,3 @@ class TotalActivityCalculator(SimpleCalculator):
 
     def _calc(self, data):
         return sum([elem["Activity"] for elem in data], PQ.Activity(0.))
-

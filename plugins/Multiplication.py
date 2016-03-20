@@ -28,7 +28,7 @@ class MultiplicationOperator(BasePlugin):
             if hasattr(self, "scalar"):
                 self._scalar_multiplication(data[det])
             elif hasattr(self, "dict"):
-                print self._dict_multiplication(data[det])
+                self._dict_multiplication(data[det])
 
     def _scalar_multiplication(self, data):
         for k, v in data.iteritems():
