@@ -9,6 +9,9 @@ from utils import ureg
 class TestMultiplicationOperator(unittest.TestCase):
     def setUp(self):
         self.dataActivity = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.Activity(10., 2.)))])}
+        self.dataActivityEinh = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0),
+                                                       StoredData(PQ.Activity(10., 2.),
+                                                                  inhalationcoeff=PQ.EInh(10.)))])}
         self.config_scalar_const = d = {"type": "scalar",
                                         "multiplier": "Activity",
                                         "multiplicand": "const:5",
@@ -38,10 +41,21 @@ class TestMultiplicationOperator(unittest.TestCase):
         res = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.Activity(10., 2.),
                                                                      InhalationDose=PQ.Dose(10. * 4.10E-011,
                                                                                             -1., ureg.Sv)))])}
-        print res["det1"][PQ.Isotope(3, 1, 0)]["InhalationDose"]
-        print self.dataActivity["det1"][PQ.Isotope(3, 1, 0)]["InhalationDose"]
         self.assertEqual(self.dataActivity, res)
 
     @unittest.skip("Not implemented")
     def test_dict_multiplication_default_type(self):
         pass
+
+    def test_dict_multiplication_stored_quantity(self):
+        d = {"type": "dict",
+             "multiplier": "Activity",
+             "multiplicand": "inhalationcoeff",
+             "product": "InhalationDose:Dose"}
+        mul_op = MultiplicationOperator(**d)
+        mul_op.invoke(self.dataActivityEinh)
+        res = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.Activity(10., 2.),
+                                                                     inhalationcoeff=PQ.EInh(10.),
+                                                                     InhalationDose=PQ.Dose(100.,
+                                                                                            -1., ureg.Sv)))])}
+        self.assertEqual(self.dataActivityEinh, res)

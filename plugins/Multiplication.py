@@ -15,6 +15,8 @@ class MultiplicationOperator(BasePlugin):
                 self.multiplicand = float(tmp_multiplicand.replace("const:", ""))
             elif tmp_multiplicand.count("builtin"):
                 self.multiplicand = self.find_builtin(tmp_multiplicand.replace("builtin:", ""))
+            else:
+                self.multiplicand = tmp_multiplicand
             self.product = kwargs['product'].split(":")[0]
             m = importlib.import_module("utils.PhysicsQuantities")
             self.quantity = getattr(m, kwargs['product'].split(":")[-1])
@@ -35,7 +37,10 @@ class MultiplicationOperator(BasePlugin):
     def _dict_multiplication(self, data):
         default = 0.
         for k, v in data.iteritems():
-            v.append(**{self.product: self.quantity(v[self.multiplier] * self.multiplicand.get(k, default))})
+            if isinstance(self.multiplicand, str):
+                v.append(**{self.product: self.quantity(v[self.multiplier] * v[self.multiplicand])})
+            else:
+                v.append(**{self.product: self.quantity(v[self.multiplier] * self.multiplicand.get(k, default))})
 
     def find_builtin(self, builtin):
         from reader import _dh
