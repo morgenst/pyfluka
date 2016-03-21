@@ -1,10 +1,13 @@
+import pickle
 from plugins.BasePlugin import BasePlugin
 from utils import PhysicsQuantities as PQ
+
 
 class TimeEvolution(BasePlugin):
     def __init__(self, config):
         self.config =config
-        self.data_raw = {PQ.Isotope(3, 1, 0): 0.86020262228297506}
+        f_ad = open("../data/timeevolution_ad.p", "r")
+        self.data_raw = pickle.load(f_ad)
 
     def invoke(self, data):
         for det in data.keys():
