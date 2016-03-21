@@ -181,15 +181,20 @@ class Mass(AbsPhysicsQuantity):
 
 
 class EInh(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.Sv / ureg.Bq):
+    def __init__(self, val, unit=ureg.Sv / ureg.Bq):
         super(self.__class__, self).__init__(val, 0., unit)
 
 
 class EIng(AbsPhysicsQuantity):
-    def __init__(self, val, unit = ureg.Sv / ureg.Bq):
+    def __init__(self, val, unit=ureg.Sv / ureg.Bq):
         super(self.__class__, self).__init__(val, 0., unit)
 
 
 class Dose(AbsPhysicsQuantity):
-    def __init__(self, val, unc=0., unit = ureg.Sv):
+    def __init__(self, val, unc=0., unit=ureg.Sv):
+        super(self.__class__, self).__init__(val, unc, unit)
+
+
+class ProductionYield(AbsPhysicsQuantity):
+    def __init__(self, val, unc, unit=1. / ureg.second):
         super(self.__class__, self).__init__(val, unc, unit)

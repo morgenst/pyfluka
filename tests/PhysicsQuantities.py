@@ -170,3 +170,8 @@ class TestPhysicsQuantities(unittest.TestCase):
         product = PQ.Dose(PQ.Activity(10., 0.) * PQ.EInh(10.))
         res = PQ.Dose(100., -1.)
         self.assertEqual(product, res)
+
+    def test_production_yield_create(self):
+        prod_yield = PQ.ProductionYield(10., 2.)
+        res = ureg.Quantity(10., 1./ureg.second)
+        self.assertEqual(prod_yield.val, res)
