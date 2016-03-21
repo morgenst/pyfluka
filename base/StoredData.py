@@ -53,6 +53,15 @@ class StoredData:
             return self.data[item]
         return None
 
+    def __setitem__(self, key, value):
+        """
+        Overwritten setter operator
+        :param key (str): key for value to be set
+        :param value: value to be assigned for key
+        :return:
+        """
+        self.data[key] = value
+
     def append(self, *args, **kwargs):
         if all(isinstance(arg, list) for arg in args) and args:
             raise ValueError("List items are not supported to be added.")

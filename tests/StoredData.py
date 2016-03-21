@@ -106,3 +106,8 @@ class TestStoredData(unittest.TestCase):
         self.singleElementData["det1"][PQ.Isotope(3, 1, 0)].append(ScaledActivity=PQ.Activity(50., 2.))
         self.assertEqual(self.singleElementData, res)
 
+    def test_set_item(self):
+        data = StoredData(PQ.Activity(10., 2.))
+        data["Activity"] = PQ.Activity(20., 2.)
+        res = PQ.Activity(20., 2.)
+        self.assertEqual(data["Activity"], res)
