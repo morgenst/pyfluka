@@ -64,11 +64,14 @@ class TableMaker(BasePlugin):
 
     @staticmethod
     def _patch_latex_escapes():
-        del(tabulate.LATEX_ESCAPE_RULES[u'$'])
-        del(tabulate.LATEX_ESCAPE_RULES[u'^'])
-        del(tabulate.LATEX_ESCAPE_RULES[u'{'])
-        del(tabulate.LATEX_ESCAPE_RULES[u'}'])
-        del(tabulate.LATEX_ESCAPE_RULES[u'\\'])
+        try:
+            del(tabulate.LATEX_ESCAPE_RULES[u'$'])
+            del(tabulate.LATEX_ESCAPE_RULES[u'^'])
+            del(tabulate.LATEX_ESCAPE_RULES[u'{'])
+            del(tabulate.LATEX_ESCAPE_RULES[u'}'])
+            del(tabulate.LATEX_ESCAPE_RULES[u'\\'])
+        except KeyError:
+            pass
 
     @staticmethod
     def _transpose(l):
