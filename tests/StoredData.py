@@ -9,6 +9,7 @@ from collections import OrderedDict
 from utils import PhysicsQuantities as PQ
 from utils import ureg
 
+
 class TestStoredData(unittest.TestCase):
     def setUp(self):
         self.singleElementData = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.Activity(10., 2.)))])}

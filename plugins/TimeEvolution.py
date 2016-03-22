@@ -15,4 +15,4 @@ class TimeEvolution(BasePlugin):
 
     def _apply_coefficient(self, data):
         for k, val in data.iteritems():
-           val["ProductionYield"] *= self.data_raw[k]
+            val["ProductionYield"] *= self.data_raw.get(k, 0.)
