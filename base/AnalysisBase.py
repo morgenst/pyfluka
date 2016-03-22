@@ -59,7 +59,7 @@ class AnalysisBase:
         if self.data_file.lower().count('usrbin'):
             reader = UsrbinReader.UsrbinReader(self.config['storedQuantity'])
         elif self.data_file.lower().count('resnuc'):
-            reader = ResnucReader.ResnucReader()
+            reader = ResnucReader.ResnucReader(self.config['storedQuantity'])
         self.data = reader.load(self.data_file)
 
     def run(self):

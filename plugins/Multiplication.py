@@ -1,7 +1,5 @@
 import importlib
-import pkgutil
-from ast import literal_eval
-from base import InvalidInputError
+from base import InvalidInputError, _global_data
 from BasePlugin import BasePlugin
 
 
@@ -15,6 +13,9 @@ class MultiplicationOperator(BasePlugin):
                 self.multiplicand = float(tmp_multiplicand.replace("const:", ""))
             elif tmp_multiplicand.count("builtin"):
                 self.multiplicand = self.find_builtin(tmp_multiplicand.replace("builtin:", ""))
+            elif tmp_multiplicand.count("global:"):
+                self.multiplicand = _global_data[tmp_multiplicand.replace("global:", "")]
+                self.scalar = True
             else:
                 self.multiplicand = tmp_multiplicand
             self.product = kwargs['product'].split(":")[0]
