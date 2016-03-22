@@ -1,32 +1,41 @@
 import copy
-from operator import add
-from utils.PhysicsQuantities import Isotope, Activity
+import importlib
+import utils.PhysicsQuantities as PQ
 from base import IllegalArgumentError
 from base.StoredData import StoredData
 from collections import OrderedDict
+from utils import ureg
+
 
 class ResnucReader:
-    def __init__(self):
-        pass
+    def __init__(self, quantity="Activity", dim=None):
+        """
+        Constructor for reader of RESNUClei scored data
+        :param quantity (str): physics quantity scored; defaults to Activity
+        :param dim (str): dimension of scored quantity
+        :return:
+        """
+        m = importlib.import_module("utils.PhysicsQuantities")
+        if dim is not None:
+            self.dim = ureg(dim)
+        self.pq = getattr(m, quantity)
 
-    @staticmethod
-    def load(files):
+    def load(self, files):
         if isinstance(files, list):
             merged_data = None
             for file_name in files:
-                data = ResnucReader._load(file_name)
+                data = self._load(file_name)
                 if merged_data:
                     ResnucReader._merge(merged_data, data)
                 else:
                     merged_data = data
             return merged_data
         elif isinstance(files, str):
-            return ResnucReader._load(files)
+            return self._load(files)
         else:
             raise IllegalArgumentError("Received unsupported type for input files: " + str(type(files)))
 
-    @staticmethod
-    def _load(filename):
+    def _load(self, filename):
         resnucl_data_dict = {}
         first_line_of_detector = False
         data_section = False
@@ -62,9 +71,9 @@ class ResnucReader:
                 error_percent = float(split_line[3])
                 if value > 0.:
                     try:
-                        data[Isotope(A, Z, 0)].append(Activity(value, unc=value * error_percent / 100.))
+                        data[PQ.Isotope(A, Z, 0)].append(self.pq(value, unc=value * error_percent / 100.))
                     except KeyError:
-                        data[Isotope(A, Z, 0)] = StoredData(Activity(value, unc=value * error_percent / 100.))
+                        data[PQ.Isotope(A, Z, 0)] = StoredData(self.pq(value, unc=value * error_percent / 100.))
             elif isomere_section:
                 split_line = line.split()
                 if not len(split_line):
@@ -76,9 +85,9 @@ class ResnucReader:
                 error_percent = float(split_line[4])
                 if value > 0.:
                     try:
-                        data[Isotope(A, Z, iso)].append(Activity(value, unc=value * error_percent / 100.))
+                        data[PQ.Isotope(A, Z, iso)].append(self.pq(value, unc=value * error_percent / 100.))
                     except KeyError:
-                        data[Isotope(A, Z, iso)] = StoredData(Activity(value, unc=value * error_percent / 100.))
+                        data[PQ.Isotope(A, Z, iso)] = StoredData(self.pq(value, unc=value * error_percent / 100.))
 
         if current_detector_name is not None:
             resnucl_data_dict[current_detector_name] = copy.copy(data)
