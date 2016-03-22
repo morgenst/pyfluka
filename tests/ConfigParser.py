@@ -13,7 +13,9 @@ class TestConfigParser(unittest.TestCase):
     def setUp(self):
         self.f = open("test.yaml", "w")
         self.f2 = open("test2.yaml", "w")
-        self.data = {"plugins": {"a": [1, 2, 3]}, "detectors": {"det1": {"mass": "100 kg"}}}
+        self.data = {"global": {"NoOfPrimaries": 10},
+                     "plugins": {"a": [1, 2, 3]},
+                     "detectors": {"det1": {"mass": "100 kg"}}}
         self.data2 = {"plugin": {"a": [1, 2, 3, 4]}}
         self.data3 = {"plugins": OrderedDict([(1, 0), (3, 1), (2, 4)])}
         dump(self.data, self.f)
@@ -67,6 +69,10 @@ class TestConfigParser(unittest.TestCase):
         config = ConfigParser.parse("test.yaml")
         self.assertEqual(_global_data, res)
 
+    def test_global_config_parsing(self):
+        ConfigParser.parse("test.yaml")
+        print _global_data["NoOfPrimaries"]
+        self.assertEqual(_global_data["NoOfPrimaries"], 10.)
 
 if __name__ == '__main__':
     unittest.main()

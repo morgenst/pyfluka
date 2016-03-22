@@ -56,6 +56,8 @@ def _transform(config):
     """
     if "detectors" in config:
         _transform_det_info(config.pop("detectors"))
+    if "global" in config:
+        _set_global_data(config.pop("global"))
 
 
 def _transform_det_info(config):
@@ -69,3 +71,9 @@ def _transform_det_info(config):
             if quantity.lower() == 'mass':
                 info = val.split(' ')
                 _global_data.add(det, quantity, PQ.Mass(float(info[0]), info[1]))
+
+
+def _set_global_data(config):
+    for k, v in config.iteritems():
+        _global_data.add(k, v)
+
