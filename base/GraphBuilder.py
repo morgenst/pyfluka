@@ -15,6 +15,8 @@ def build_graph(init_list):
     graph.add_node("Output")
     previous_node = "Input"
     for key, attr in init_list.items():
+        if isinstance(attr, list):
+            attr = {"list_config": attr}
         graph.add_node(key, attr if isinstance(attr, dict) else {})
         graph.add_edge(previous_node, key)
         previous_node = key

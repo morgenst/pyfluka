@@ -1,6 +1,7 @@
 from BasePlugin import BasePlugin
 from reader import _dh
 
+
 class Decorator(BasePlugin):
     def __init__(self, config):
         self.config = config
@@ -13,4 +14,4 @@ class Decorator(BasePlugin):
     def _add_quantities(self, data):
         for k, v in data.iteritems():
             for quantity in self.quantities:
-                v.append(quantity[k])
+                v.append(quantity.get(k, quantity.values()[0].__class__(0.)))

@@ -41,3 +41,10 @@ class TestGraphBuilder(unittest.TestCase):
         graph = GB.build_graph(d)
         path = GB.get_paths(graph)
         self.assertEqual(path.next(), res)
+
+    def test_config_decorate_list(self):
+        d = {"A": ["foo", "bar"], "B": [], "C": []}
+        res = {"list_config": ["foo", "bar"]}
+        graph = GB.build_graph(d)
+        self.assertEqual(graph.node["A"], res)
+

@@ -86,6 +86,8 @@ class AnalysisBase:
             if pluginName not in self.plugins.keys():
                 raise ValueError("Invalid plugin request " + pluginName)
             plugin_config = self.graph.node[pluginName]
+            if plugin_config.keys() == ["list_config"]:
+                plugin_config = plugin_config["list_config"]
             plugin = self.plugins[pluginName](plugin_config)
             plugin.invoke(self.data)
 
