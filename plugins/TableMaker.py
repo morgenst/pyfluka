@@ -45,7 +45,6 @@ class TableMaker(BasePlugin):
             values = self.__class__._transpose(values)
             tab = zip(isotopes, *values)
             table = tabulate.tabulate(tab, tablefmt='latex', floatfmt=".2f")
-            table = table.replace('\$', '$')
             self.tables[det] = table
 
         self.store()
