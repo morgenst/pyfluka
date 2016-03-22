@@ -33,7 +33,7 @@ class TestConfigParser(unittest.TestCase):
     def test_parseConfig(self):
         d = ConfigParser.parse("test.yaml")
         res = {"plugins": {"a": [1, 2, 3]}}
-        mass_res = {"det1": {"mass": Mass(100, ureg.kg)}}
+        mass_res = {"det1": {"mass": Mass(100, ureg.kg)}, "NoOfPrimaries": 10}
         self.assertEqual(d, res)
         self.assertEqual(_global_data, mass_res)
 
@@ -65,7 +65,7 @@ class TestConfigParser(unittest.TestCase):
         pass
 
     def test_detector_parsing(self):
-        res = {"det1": {"mass": Mass(100., ureg.kg)}}
+        res = {"det1": {"mass": Mass(100., ureg.kg)}, "NoOfPrimaries": 10}
         config = ConfigParser.parse("test.yaml")
         self.assertEqual(_global_data, res)
 
