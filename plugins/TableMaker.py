@@ -2,9 +2,10 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import os
+import numpy as np
 from base import InvalidInputError, IllegalArgumentError
 from collections import OrderedDict
-from tabulate import tabulate
+import tabulate
 from BasePlugin import BasePlugin
 from operator import itemgetter
 
@@ -31,6 +32,7 @@ class TableMaker(BasePlugin):
                 raise IllegalArgumentError("Output directory " + self.outputDir + " does not exist.")
         if 'multipleOutputFiles' in config:
             self.storeMultipleOutputFiles = True
+        self.__class__._patch_latex_escapes()
 
     def invoke(self, data):
         self.cols.pop(self.cols.index("Isotope"))
@@ -39,10 +41,13 @@ class TableMaker(BasePlugin):
             work around to stringify
             """
             isotopes = ["{:L}".format(i)for i in values.keys()]
-            values = [elem[self.cols] for elem in values.values()]
+            values = [map(lambda i: "{:L}".format(i), elem[self.cols]) for elem in values.values()]
+            values = self.__class__._transpose(values)
             tab = zip(isotopes, *values)
-            table = tabulate(tab, tablefmt='latex', floatfmt=".2f")
+            table = tabulate.tabulate(tab, tablefmt='latex', floatfmt=".2f")
+            table = table.replace('\$', '$')
             self.tables[det] = table
+
         self.store()
 
     def store(self):
@@ -58,4 +63,15 @@ class TableMaker(BasePlugin):
         if not self.storeMultipleOutputFiles:
             f.close()
 
+    @staticmethod
+    def _patch_latex_escapes():
+        del(tabulate.LATEX_ESCAPE_RULES[u'$'])
+        del(tabulate.LATEX_ESCAPE_RULES[u'^'])
+        del(tabulate.LATEX_ESCAPE_RULES[u'{'])
+        del(tabulate.LATEX_ESCAPE_RULES[u'}'])
+        del(tabulate.LATEX_ESCAPE_RULES[u'\\'])
 
+    @staticmethod
+    def _transpose(l):
+        arr = np.array(l)
+        return arr.transpose().tolist()
