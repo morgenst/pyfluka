@@ -14,18 +14,24 @@ class MultiplicationOperator(BasePlugin):
             elif tmp_multiplicand.count("builtin"):
                 self.multiplicand = self.find_builtin(tmp_multiplicand.replace("builtin:", ""))
             elif tmp_multiplicand.count("global:"):
-                self.multiplicand = _global_data[tmp_multiplicand.replace("global:", "")]
-                self.scalar = True
+                if tmp_multiplicand.count("mass"):
+                    self.multiplicand = "mass"
+                    self.dict = True
+                else:
+                    self.multiplicand = _global_data[tmp_multiplicand.replace("global:", "")]
+                    self.scalar = True
             else:
                 self.multiplicand = tmp_multiplicand
             self.product = kwargs['product'].split(":")[0]
             m = importlib.import_module("utils.PhysicsQuantities")
             self.quantity = getattr(m, kwargs['product'].split(":")[-1])
+            self.current_detector = None
         except KeyError:
             raise InvalidInputError("Unable to initialise multiplication operator")
 
     def invoke(self, data):
         for det in data.keys():
+            self.current_detector = det
             if hasattr(self, "scalar"):
                 self._scalar_multiplication(data[det])
             elif hasattr(self, "dict"):
@@ -39,7 +45,12 @@ class MultiplicationOperator(BasePlugin):
         default = 0.
         for k, v in data.iteritems():
             if isinstance(self.multiplicand, str):
-                v.append(**{self.product: self.quantity(v[self.multiplier] * v[self.multiplicand])})
+                #TODO: this is a division!!!!
+                if self.multiplicand == "mass":
+                    v.append(**{self.product: self.quantity(v[self.multiplier] /
+                                                            _global_data[self.current_detector]["mass"])})
+                else:
+                    v.append(**{self.product: self.quantity(v[self.multiplier] * v[self.multiplicand])})
             else:
                 v.append(**{self.product: self.quantity(v[self.multiplier] * self.multiplicand.get(k, default))})
 

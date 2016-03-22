@@ -74,5 +74,6 @@ class TestConfigParser(unittest.TestCase):
         print _global_data["NoOfPrimaries"]
         self.assertEqual(_global_data["NoOfPrimaries"], 10.)
 
+
 if __name__ == '__main__':
     unittest.main()

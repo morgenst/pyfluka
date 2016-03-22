@@ -62,7 +62,7 @@ class TestMultiplicationOperator(unittest.TestCase):
         self.assertEqual(self.dataActivityEinh, res)
 
     def test_dict_multiplication_global_data(self):
-        d = {"type": "dict",
+        d = {"type": "scalar",
              "multiplier": "ProductionYield",
              "multiplicand": "global:NoOfPrimaries",
              "product": "Activity"}
@@ -73,3 +73,19 @@ class TestMultiplicationOperator(unittest.TestCase):
         res = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.ProductionYield(10., 0.),
                                                                      PQ.Activity(100., 0.)))])}
         self.assertEqual(data, res)
+
+    def test_dict_multiplication_det(self):
+        d = {"type": "dict",
+             "multiplier": "Activity",
+             "multiplicand": "global:mass",
+             "product": "SpecificActivity"}
+        _global_data.add("det1", "mass", PQ.Mass(10., "kg"))
+        mul_op = MultiplicationOperator(**d)
+        data = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.Activity(100., 0.)))])}
+        mul_op.invoke(data)
+        res = PQ.SpecificActivity(10.)
+        self.assertEqual(data["det1"][PQ.Isotope(3, 1, 0)]["SpecificActivity"], res)
+
+    @unittest.skip("Not implement. Supposed to check against exception")
+    def test_dict_multiplication_det_non_existing(self):
+        pass

@@ -8,6 +8,7 @@ import inspect
 import importlib
 import pkgutil
 import plugins
+import re
 
 
 class AnalysisBase:
@@ -82,13 +83,17 @@ class AnalysisBase:
         :param path (list): list of plugins to be invoked
         :return:
         """
-        for pluginName in path[1:-1]:
-            if pluginName not in self.plugins.keys():
-                raise ValueError("Invalid plugin request " + pluginName)
-            plugin_config = self.graph.node[pluginName]
+        for plugin_name in path[1:-1]:
+            plugin_base_name = re.sub("_\d+", "", plugin_name)
+            if plugin_base_name not in self.plugins.keys():
+                raise ValueError("Invalid plugin request " + plugin_name)
+            plugin_config = self.graph.node[plugin_name]
             if plugin_config.keys() == ["list_config"]:
                 plugin_config = plugin_config["list_config"]
-            plugin = self.plugins[pluginName](plugin_config)
+            if plugin_base_name == "MultiplicationOperator":
+                plugin = self.plugins[plugin_base_name](**plugin_config)
+            else:
+                plugin = self.plugins[plugin_base_name](plugin_config)
             plugin.invoke(self.data)
 
     def _load_plugins(self):
