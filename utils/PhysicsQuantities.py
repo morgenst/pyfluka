@@ -93,12 +93,12 @@ class AbsPhysicsQuantity:
             spec = spec.replace("nu", "")
             no_unit = True
         magnitude_str = format(self.val, spec)
-
-        unc_str = format(self.unc)
+        unc_str = format(self.unc, spec)
         if no_uncertainty:
             ret = "$%s$" % magnitude_str
         else:
             ret = "$%s \\pm %s$" % (magnitude_str, unc_str)
+
         if no_unit:
             unit_str = str(self.val.units)
             ret = ret.replace(unit_str, "")

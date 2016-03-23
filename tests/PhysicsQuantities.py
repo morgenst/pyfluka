@@ -148,6 +148,10 @@ class TestPhysicsQuantities(unittest.TestCase):
         val = PQ.Activity(20., 2.)
         self.assertEqual('{:Lnune}'.format(val), "$20.0 $")
 
+    def test_latex_float_precision(self):
+        val = PQ.Activity(20.12345678, 2.123456)
+        self.assertEqual("{:.2fL}".format(val), "$20.12 Bq \pm 2.12 Bq$")
+
     def test_different_types_equals(self):
         q1 = PQ.Mass(100, 2)
         q2 = PQ.Mass(100., 2.)
