@@ -144,6 +144,10 @@ class TestPhysicsQuantities(unittest.TestCase):
         val = PQ.Activity(20., 2.)
         self.assertEqual('{:Lne}'.format(val), "$20.0 Bq$")
 
+    def test_latex_no_units_no_unc(self):
+        val = PQ.Activity(20., 2.)
+        self.assertEqual('{:Lnune}'.format(val), "$20.0 $")
+
     def test_different_types_equals(self):
         q1 = PQ.Mass(100, 2)
         q2 = PQ.Mass(100., 2.)
