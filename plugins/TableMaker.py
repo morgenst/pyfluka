@@ -41,7 +41,7 @@ class TableMaker(BasePlugin):
             work around to stringify
             """
             isotopes = ["{:L}".format(i)for i in values.keys()]
-            values = [map(lambda i: "{:Lnune}".format(i), elem[self.cols]) for elem in values.values()]
+            values = [map(lambda i: "{:.2eLnune}".format(i), elem[self.cols]) for elem in values.values()]
             values = self.__class__._transpose(values)
             tab = zip(isotopes, *values)
             table = tabulate.tabulate(tab, tablefmt='latex', floatfmt=".2f")
