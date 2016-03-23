@@ -1,13 +1,20 @@
 import pickle
+from base import IllegalArgumentError
 from plugins.BasePlugin import BasePlugin
 from utils import PhysicsQuantities as PQ
+from reader import _dh
+from math import exp, log
 
 
 class TimeEvolution(BasePlugin):
-    def __init__(self, config):
-        self.config =config
-        f_ad = open("../data/timeevolution_ad.p", "r")
-        self.data_raw = pickle.load(f_ad)
+    """
+    Plugin for time evolution of production yields
+    """
+    def __init__(self, **kwargs):
+        if "irr_time" not in kwargs or "cool_time" not in kwargs:
+            raise IllegalArgumentError("Unable to instantiate TimeEvolution. Either irr_time or cool_time missing.")
+        self.cool_time = self._parse_config(kwargs.pop('cool_time'))
+        self.irr_time = self._parse_config(kwargs.pop('irr_time'))
 
     def invoke(self, data):
         for det in data.keys():
@@ -15,4 +22,13 @@ class TimeEvolution(BasePlugin):
 
     def _apply_coefficient(self, data):
         for k, val in data.iteritems():
-            val["ProductionYield"] *= self.data_raw.get(k, 0.)
+            val["ProductionYield"] *= self._calculate_evolution_coeff(k)
+
+    def _calculate_evolution_coeff(self, isotope):
+        half_life = _dh._hl[isotope]
+        return (1. - exp(-log(2.) * self.irr_time / half_life)) * exp(-log(2.) * self.cool_time / half_life)
+
+    @staticmethod
+    def _parse_config(time):
+        ts = time.split(" ")
+        return PQ.Time(float(ts[0]), 0., PQ.Time._get_conversion_dict()[ts[1]])

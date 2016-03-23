@@ -1,18 +1,37 @@
 import unittest
 from collections import OrderedDict
+from math import exp, log
 from utils import PhysicsQuantities as PQ
+from utils import ureg
 from base.StoredData import StoredData
+from base import IllegalArgumentError
 from plugins.TimeEvolution import TimeEvolution
-
+from reader import _dh
 
 class TestTimeEvolution(unittest.TestCase):
     def setUp(self):
-        pass
+        self.config = {"irr_time": "1 y", "cool_time": "1 y"}
 
-    def test_timeevolution_single_isotope(self):
-        data = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.ProductionYield(10., 2.)))])}
-        time_evo = TimeEvolution(None)
+    def test_config_parsing(self):
+        time_evo = TimeEvolution(**self.config)
+        self.assertEqual(time_evo.irr_time, PQ.Time(1., 0., ureg.year))
+        self.assertEqual(time_evo.cool_time, PQ.Time(1., 0., ureg.year))
+
+    def test_config_missing_irr_time(self):
+        config = {"irr_time": "1 y"}
+        self.assertRaises(IllegalArgumentError, TimeEvolution, **config)
+
+    def test_config_missing_cool_time(self):
+        config = {"cool_time": "1 y"}
+        self.assertRaises(IllegalArgumentError, TimeEvolution, **config)
+
+    def test_time_evolution_simple(self):
+        isotope = PQ.Isotope(3, 1, 0)
+        data = {"det1": OrderedDict([(isotope, StoredData(PQ.ProductionYield(10., 2.)))])}
+        time_evo = TimeEvolution(**self.config)
         time_evo.invoke(data)
-        res = {"det1": OrderedDict([(PQ.Isotope(3, 1, 0), StoredData(PQ.ProductionYield(10. * 0.86020262228297506,
-                                                                                        2.)))])}
-        self.assertEqual(data, res)
+        res = (1 - exp(-log(2) * PQ.Time(1, unit=ureg.year) / _dh._hl[isotope])) \
+              * exp(-log(2) * PQ.Time(1, unit=ureg.year)/ _dh._hl[isotope]) * PQ.ProductionYield(10., 2.)
+        self.assertEqual(data["det1"][PQ.Isotope(3, 1, 0)]["ProductionYield"], res)
+
+
