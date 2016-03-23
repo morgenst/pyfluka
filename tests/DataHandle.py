@@ -1,6 +1,8 @@
 import unittest
 import pickle
 from reader import _dh
+from utils import PhysicsQuantities as PQ
+from utils import ureg
 
 
 class TestDataHandle(unittest.TestCase):
@@ -25,10 +27,16 @@ class TestDataHandle(unittest.TestCase):
         self.d_eing = pickle.load(f_eing)
         f_eing.close()
 
-    def testLE(self):
+        f_hl = open("../data/half_lifes.p", "r")
+        self.d_hl = pickle.load(f_hl)
+        f_hl.close()
+
+        self.test_isotopes = [PQ.Isotope(3, 1), PQ.Isotope(60, "Co"), PQ.Isotope(40, "K"), PQ.Isotope(137, "Cs")]
+
+    def test_le(self):
         self.assertEqual(_dh._le, self.dLE)
 
-    def testH10(self):
+    def test_h10(self):
         self.assertEqual(_dh._h10, self.dH10)
 
     def testHp007(self):
@@ -39,3 +47,14 @@ class TestDataHandle(unittest.TestCase):
 
     def test_eing(self):
         self.assertEqual(_dh._eing, self.d_eing)
+
+    def test_hl(self):
+        self.assertEqual(_dh._hl, self.d_hl)
+
+    def test_hl_isotopes(self):
+        res = [PQ.Time(12.33, 0., ureg.year),
+               PQ.Time(5.271, 0., ureg.year),
+               PQ.Time(1.265e+09, 0., ureg.year),
+               PQ.Time(30.04, 0., ureg.year)]
+        values = [_dh._hl[isotope] for isotope in self.test_isotopes]
+        self.assertEqual(values, res)

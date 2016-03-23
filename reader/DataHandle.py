@@ -42,3 +42,7 @@ class DataHandle(object):
     @lazyprop
     def _eing(self):
         return load("../data/ingestion.p")
+
+    @lazyprop
+    def _hl(self):
+        return load("../data/half_lifes.p")
