@@ -2,7 +2,7 @@ import unittest
 import base.AnalysisBase as BC
 
 
-class TestBaseCycle(unittest.TestCase):
+class TestAnalysisBase(unittest.TestCase):
     def setUp(self):
         pass
 
@@ -21,4 +21,8 @@ class TestBaseCycle(unittest.TestCase):
 
     @unittest.skip("Not implemented")
     def testNonExistingInputFileException(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_exception_plugin_creation(self):
         pass

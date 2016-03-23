@@ -2,6 +2,7 @@ __author__ = 'morgenst'
 
 import ConfigParser as CP
 import GraphBuilder as GB
+from base import IllegalArgumentError, InvalidInputError
 from utils.ShellUtils import mkdir
 from reader import UsrbinReader, ResnucReader
 import inspect
@@ -90,10 +91,14 @@ class AnalysisBase:
             plugin_config = self.graph.node[plugin_name]
             if plugin_config.keys() == ["list_config"]:
                 plugin_config = plugin_config["list_config"]
-            if plugin_base_name == "MultiplicationOperator":
-                plugin = self.plugins[plugin_base_name](**plugin_config)
-            else:
+            try:
                 plugin = self.plugins[plugin_base_name](plugin_config)
+            except (TypeError, IllegalArgumentError, InvalidInputError):
+                try:
+                    plugin = self.plugins[plugin_base_name](**plugin_config)
+                except (TypeError, IllegalArgumentError):
+                    raise TypeError("Unable to instantiate plugin %s with %s" % (plugin_base_name, plugin_config))
+
             plugin.invoke(self.data)
 
     def _load_plugins(self):
