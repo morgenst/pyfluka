@@ -132,9 +132,17 @@ class TestPhysicsQuantities(unittest.TestCase):
         val = PQ.Activity(20., 2.)
         self.assertEqual('{:L}'.format(val), "$20.0 Bq \pm 2.0 Bq$")
 
-    def testString(self):
+    def test_string(self):
         val = PQ.Activity(20., 2.)
         self.assertEqual('{!s}'.format(val), "Activity: 20.0 Bq +- 2.0 Bq")
+
+    def test_latex_no_units(self):
+        val = PQ.Activity(20., 2.)
+        self.assertEqual('{:Lnu}'.format(val), "$20.0 \pm 2.0 $")
+
+    def test_latex_no_unc(self):
+        val = PQ.Activity(20., 2.)
+        self.assertEqual('{:Lne}'.format(val), "$20.0 Bq$")
 
     def test_different_types_equals(self):
         q1 = PQ.Mass(100, 2)

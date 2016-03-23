@@ -2,6 +2,7 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import pickle
+import re
 from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt
@@ -76,14 +77,33 @@ class AbsPhysicsQuantity:
     def __format__(self, spec):
         if "L" in spec:
             spec = spec.replace("L", "")
-            magnitude_str = format(self.val, spec)
-            unc_str = format(self.unc)
-            ret = "$%s \\pm %s$" % (magnitude_str, unc_str)
-            return ret
+            return self._latex_format(spec)
         magnitude_str = format(self.val, spec)
         unc_str = format(self.unc)
         default_str = self.__class__.__name__ + ": %s +- %s" % (magnitude_str, unc_str)
         return default_str
+
+    def _latex_format(self, spec):
+        no_uncertainty = False
+        no_unit = False
+        if "ne" in spec:
+            spec = spec.replace("ne", "")
+            no_uncertainty = True
+        if "nu" in spec:
+            spec = spec.replace("nu", "")
+            no_unit = True
+        magnitude_str = format(self.val, spec)
+
+        unc_str = format(self.unc)
+        if no_uncertainty:
+            ret = "$%s$" % magnitude_str
+        else:
+            ret = "$%s \\pm %s$" % (magnitude_str, unc_str)
+        if no_unit:
+            unit_str = str(self.val.units)
+            ret = ret.replace(unit_str, "")
+        ret = re.sub("\s+", " ", ret)
+        return ret
 
     def __float__(self):
         return float(self.val.magnitude)
