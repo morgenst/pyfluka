@@ -194,31 +194,29 @@ class TestPhysicsQuantities(unittest.TestCase):
 
     def test_division_scalar_float_lhs(self):
         activity = PQ.Activity(10., 2.)
-        5. / activity
-        print activity
-        self.assertEqual(activity, PQ.Activity(0.5, 2., 1. / ureg.Bq))
+        result = 5. / activity
+        self.assertEqual(result, PQ.create_generic("InvertedActivity", 0.5, 0., 1. / ureg.Bq))
 
-    @unittest.skip("Not implemented")
     def test_division_scalar_float_rhs(self):
         activity = PQ.Activity(10., 2.)
         activity /= 5.
         self.assertEqual(activity, PQ.Activity(2., 2.))
 
-    @unittest.skip("Not implemented")
     def test_division_scalar_int_lhs(self):
-        pass
+        activity = PQ.Activity(10., 2.)
+        result = 5 / activity
+        self.assertEqual(result, PQ.create_generic("InvertedActivity", 0.5, 0., 1. / ureg.Bq))
 
-    @unittest.skip("Not implemented")
     def test_division_scalar_int_rhs(self):
-        pass
+        activity = PQ.Activity(10., 2.)
+        activity /= 5
+        self.assertEqual(activity, PQ.Activity(2., 2.))
 
-    @unittest.skip("Not implemented")
-    def test_division_pq_lhs(self):
-        pass
-
-    @unittest.skip("Not implemented")
-    def test_division_pq_rhs(self):
-        pass
+    def test_division_pq(self):
+        activity = PQ.Activity(10., 2.)
+        mass = PQ.Mass(5.)
+        specific_activity = activity / mass
+        self.assertEqual(specific_activity, PQ.SpecificActivity(2., 0.))
 
     def test_generic_pq(self):
         generic_quantity = PQ.create_generic("foo", 10., 2., ureg.Bq)
@@ -230,4 +228,9 @@ class TestPhysicsQuantities(unittest.TestCase):
         generic_quantity = PQ.create_generic("foo", 10., 2., ureg.Bq)
         new_value = generic_quantity * 5.
         self.assertTrue(new_value.val, ureg.Quantity(50., ureg.Bq))
+
+    def test_generic_comparison(self):
+        generic = PQ.create_generic("foo", 10., 2., ureg.Bq)
+        activity = PQ.Activity(10., 2., ureg.Bq)
+        self.assertEqual(generic, activity)
 

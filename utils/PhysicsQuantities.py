@@ -63,8 +63,6 @@ class AbsPhysicsQuantity(object):
             return tmp
 
     def __scalar_mul__(self, other):
-        print self.__class__.__name__
-        print self.__dict__
         return self.__class__(self.val * other, self.unc)
 
     def __rmul__(self, other):
@@ -74,11 +72,12 @@ class AbsPhysicsQuantity(object):
         if isinstance(other, Number):
             return self.__class__(self.val / other, self.unc)
         else:
-            return self.val / other.val
+            return create_generic(self.__class__.__name__ + "Over" + other.__class__.__name__,
+                                  self.val / other.val)
 
     def __rdiv__(self, other):
         if isinstance(other, Number):
-            other / self.val
+            return create_generic("Inverse" + self.__class__.__name__, other / self.val)
 
     def __str__(self):
         return format(self)
