@@ -14,7 +14,7 @@ _periodic_table = pickle.load(f)
 f.close()
 
 
-class AbsPhysicsQuantity:
+class AbsPhysicsQuantity(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -63,13 +63,22 @@ class AbsPhysicsQuantity:
             return tmp
 
     def __scalar_mul__(self, other):
+        print self.__class__.__name__
+        print self.__dict__
         return self.__class__(self.val * other, self.unc)
 
     def __rmul__(self, other):
         return self.__mul__(other)
 
     def __div__(self, other):
-        return self.val / other.val
+        if isinstance(other, Number):
+            return self.__class__(self.val / other, self.unc)
+        else:
+            return self.val / other.val
+
+    def __rdiv__(self, other):
+        if isinstance(other, Number):
+            other / self.val
 
     def __str__(self):
         return format(self)
@@ -155,7 +164,7 @@ class SpecificActivity(AbsPhysicsQuantity):
         super(self.__class__, self).__init__(val, unc, unit)
 
 
-class ExcemptionLimit(AbsPhysicsQuantity):
+class ExemptionLimit(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.Bq / ureg.kg):
         super(self.__class__, self).__init__(val, 0., unit)
 
@@ -231,3 +240,11 @@ class Time(AbsPhysicsQuantity):
                 "h": ureg.hour,
                 "w": ureg.week,
                 "y": ureg.year}
+
+
+def create_generic(name, val, unc=0, unit=ureg.dimensionless):
+    def __init__(self, val, unc, unit=ureg.dimensionless):
+        super(self.__class__, self).__init__(val, unc, unit)
+    c = type(name, (AbsPhysicsQuantity,), {"__init__": __init__})
+    return c(val, unc, unit)
+

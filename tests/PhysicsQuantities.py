@@ -191,3 +191,43 @@ class TestPhysicsQuantities(unittest.TestCase):
         prod_yield = PQ.ProductionYield(10., 2.)
         res = ureg.Quantity(10., 1./ureg.second)
         self.assertEqual(prod_yield.val, res)
+
+    def test_division_scalar_float_lhs(self):
+        activity = PQ.Activity(10., 2.)
+        5. / activity
+        print activity
+        self.assertEqual(activity, PQ.Activity(0.5, 2., 1. / ureg.Bq))
+
+    @unittest.skip("Not implemented")
+    def test_division_scalar_float_rhs(self):
+        activity = PQ.Activity(10., 2.)
+        activity /= 5.
+        self.assertEqual(activity, PQ.Activity(2., 2.))
+
+    @unittest.skip("Not implemented")
+    def test_division_scalar_int_lhs(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_division_scalar_int_rhs(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_division_pq_lhs(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_division_pq_rhs(self):
+        pass
+
+    def test_generic_pq(self):
+        generic_quantity = PQ.create_generic("foo", 10., 2., ureg.Bq)
+        self.assertEqual(generic_quantity.__class__.__name__, "foo")
+        self.assertEqual(generic_quantity.val, ureg.Quantity(10., ureg.Bq))
+        self.assertEqual(generic_quantity.unc, ureg.Quantity(2., ureg.Bq))
+
+    def test_generic_multiplication(self):
+        generic_quantity = PQ.create_generic("foo", 10., 2., ureg.Bq)
+        new_value = generic_quantity * 5.
+        self.assertTrue(new_value.val, ureg.Quantity(50., ureg.Bq))
+
