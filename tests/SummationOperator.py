@@ -2,7 +2,7 @@ import unittest
 from plugins.Summation import SummationOperator
 from utils import PhysicsQuantities as PQ
 from base.StoredData import StoredData
-from base import _global_data
+from base import _global_data, IllegalArgumentError
 
 
 class TestSummationOperator(unittest.TestCase):
@@ -30,10 +30,6 @@ class TestSummationOperator(unittest.TestCase):
         sum_op.invoke(self.single_det_data)
         self.assertEqual(_global_data["det1"]["TotalActivity"], PQ.Activity(25.))
 
-    @unittest.skip("Not implemented")
     def test_exception_request_non_existing_quantity(self):
-        pass
-
-    @unittest.skip("Not implemented")
-    def test_exception_sum_different_quantities(self):
-        pass
+        sum_op = SummationOperator("Dose")
+        self.assertRaises(IllegalArgumentError, sum_op.invoke, self.single_det_data)
