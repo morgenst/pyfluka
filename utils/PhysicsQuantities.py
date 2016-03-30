@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 from numpy import sqrt
 from numbers import Number
 from copy import deepcopy
-
+from base import IllegalArgumentError
 f = open("../data/periodic_table.p")
 _periodic_table = pickle.load(f)
 f.close()
@@ -43,8 +43,13 @@ class AbsPhysicsQuantity(object):
         return not self.__eq__(other)
 
     def __add__(self, other):
-        if isinstance(other, Number) and other == 0.:
-            return deepcopy(self)
+        if isinstance(other, Number):
+            if other == 0.:
+                return deepcopy(self)
+            else:
+                raise IllegalArgumentError("Invalid request for addition of " + str(self) + " and " + str(other))
+        if not type(self) == type(other):
+            raise IllegalArgumentError("Invalid request for addition of " + str(self) + " and " + str(other))
         val = self.val + other.val
         unc = sqrt(pow(self.unc, 2) + pow(other.unc, 2))
         assert(val.units == unc.units)

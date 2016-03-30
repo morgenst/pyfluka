@@ -2,6 +2,7 @@ import unittest
 import utils.PhysicsQuantities as PQ
 from utils import ureg
 from math import sqrt
+from base import IllegalArgumentError
 
 
 class TestPhysicsQuantities(unittest.TestCase):
@@ -244,3 +245,12 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_radd_null(self):
         result = 0. + PQ.Activity(10.)
         self.assertEqual(result, PQ.Activity(10.))
+
+    def test_add_different_types_number(self):
+        self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) + 1.)
+
+    def test_radd_different_types_number(self):
+        self.assertRaises(IllegalArgumentError, lambda: 1. + PQ.Activity(10.))
+
+    def test_add_different_types_pq(self):
+        self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) + PQ.Dose(10.))
