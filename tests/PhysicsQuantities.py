@@ -234,3 +234,13 @@ class TestPhysicsQuantities(unittest.TestCase):
         activity = PQ.Activity(10., 2., ureg.Bq)
         self.assertEqual(generic, activity)
 
+    def test_add_null(self):
+        """
+        required special case for 0 as required by sum
+        """
+        result = PQ.Activity(10.) + 0.
+        self.assertEqual(result, PQ.Activity(10.))
+
+    def test_radd_null(self):
+        result = 0. + PQ.Activity(10.)
+        self.assertEqual(result, PQ.Activity(10.))

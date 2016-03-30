@@ -43,13 +43,15 @@ class AbsPhysicsQuantity(object):
         return not self.__eq__(other)
 
     def __add__(self, other):
+        if isinstance(other, Number) and other == 0.:
+            return deepcopy(self)
         val = self.val + other.val
         unc = sqrt(pow(self.unc, 2) + pow(other.unc, 2))
         assert(val.units == unc.units)
         return self.__class__(val, unc)
 
     def __radd__(self, other):
-        return other.__add__(self)
+        return self.__add__(other)
 
     def __mul__(self, other):
         if isinstance(other, Number):
