@@ -2,7 +2,7 @@ import unittest
 from collections import OrderedDict
 from base.StoredData import StoredData
 from reader.ResnucReader import ResnucReader as RR
-from math import sqrt
+from numpy import sqrt
 import utils.PhysicsQuantities as PQ
 
 
@@ -50,14 +50,21 @@ class TestResnucReader(unittest.TestCase):
                                         PQ.Activity(2.2300E+10, unc=0.001845 * 2.2300E+10)]}}
         self.assertFalse(True, "To be implemented")
 
-    @unittest.skip("To be implemented")
-    def testMultiFileReadWeighted(self):
-        data = self.reader.load(["ResnucInputTest_tab.lis", "ResnucInputTest2_tab.lis"])
-        res = {"AlBa-1s": {"Isotope": [PQ.Isotope(75, 32, 0),
-                                       PQ.Isotope(26, 13, 1)],
-                           "Activity": [PQ.Activity(2.0663E+05, unc=0.99 * 2.0663E+05),
-                                        PQ.Activity(2.2300E+10, unc=0.001845 * 2.2300E+10)]}}
-        self.assertFalse(True, )
+    def test_multi_file_read_weighted(self):
+        sf = 1.5
+        self.reader.weights = [0.8, 0.7]
+        data = self.reader.load(["ResnucInputTest_tab.lis", "ResnucInputTest_tab.lis"])
+        res = {"AlBa-1s": OrderedDict([(PQ.Isotope(75, 32, 0),
+                                        StoredData(PQ.Activity(sf * 2.0663E+05, unc= sqrt(pow(0.8, 2) + pow(0.7, 2)) *
+                                                                                          0.99 * 2.0663E+05))),
+                                       (PQ.Isotope(26, 13, 1),
+                                        StoredData(PQ.Activity(sf * 2.2300E+10,
+                                                               unc=sqrt(pow(0.8, 2) + pow(0.7, 2)) *
+                                                                   0.001845 * 2.2300E+10)))])}
+        self.assertAlmostEqual(data["AlBa-1s"][PQ.Isotope(26, 13, 1)]["Activity"],
+                               res["AlBa-1s"][PQ.Isotope(26, 13, 1)]["Activity"])
+        self.assertAlmostEqual(data["AlBa-1s"][PQ.Isotope(75, 32, 0)]["Activity"],
+                               res["AlBa-1s"][PQ.Isotope(75, 32, 0)]["Activity"])
 
     @unittest.skip("To be implemented")
     def testMultiFileReadMultiDetWeighted(self):

@@ -85,9 +85,19 @@ class TestPhysicsQuantities(unittest.TestCase):
         val2 = PQ.Activity(10.)
         self.assertEqual(val1, val2)
 
-    def testActivityEqualsDiffUnit(self):
+    def test_activity_equals_diff_unit(self):
         val1 = PQ.Activity(10.)
         val2 = PQ.Activity(0.01, unit=ureg.kBq)
+        self.assertEqual(val1, val2)
+
+    def test_activity_equals_diff_unit_2(self):
+        val1 = PQ.SpecificActivity(10.)
+        val2 = PQ.SpecificActivity(0.01, unit=ureg.kBq/ureg.kg)
+        self.assertEqual(val1, val2)
+
+    def test_activity_equals_diff_unit_3(self):
+        val1 = PQ.SpecificActivity(10., unit=ureg.Bq /ureg.g)
+        val2 = PQ.SpecificActivity(10., unit=ureg.kBq / ureg.kg)
         self.assertEqual(val1, val2)
 
     def testActivityUnEqualsSameUnit(self):
@@ -235,6 +245,20 @@ class TestPhysicsQuantities(unittest.TestCase):
         activity = PQ.Activity(10., 2., ureg.Bq)
         self.assertEqual(generic, activity)
 
+    def test_generic_comparison_2(self):
+        generic = PQ.create_generic("foo", 10000., 2000., ureg.Bq / ureg.kg)
+        res = PQ.SpecificActivity(10., 2., ureg.Bq / ureg.g)
+        self.assertEqual(generic, res)
+
+    def test_copy_ctor_generic(self):
+        generic = PQ.create_generic("foo", 10000., 2000., ureg.Bq / ureg.kg)
+        res = PQ.SpecificActivity(10., 2., ureg.Bq / ureg.g)
+        val = PQ.SpecificActivity(generic)
+        self.assertEqual(val, res)
+
+    def test_add(self):
+        self.assertEqual(PQ.Activity(25.), PQ.Activity(10.) + PQ.Activity(15.))
+
     def test_add_null(self):
         """
         required special case for 0 as required by sum
@@ -254,3 +278,29 @@ class TestPhysicsQuantities(unittest.TestCase):
 
     def test_add_different_types_pq(self):
         self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) + PQ.Dose(10.))
+
+    def test_sub_pos(self):
+        self.assertEqual(PQ.Activity(5.), PQ.Activity(15.) - PQ.Activity(10.))
+
+    def test_sub_neg(self):
+        self.assertEqual(PQ.Activity(-5.), PQ.Activity(10.) - PQ.Activity(15.))
+
+    def test_sub_null(self):
+        """
+        required special case for 0 as required by sum
+        """
+        result = PQ.Activity(10.) - 0.
+        self.assertEqual(result, PQ.Activity(10.))
+
+    def test_rsub_null(self):
+        result = 0. - PQ.Activity(10.)
+        self.assertEqual(result, PQ.Activity(10.))
+
+    def test_sub_different_types_number(self):
+        self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) - 1.)
+
+    def test_rsub_different_types_number(self):
+        self.assertRaises(IllegalArgumentError, lambda: 1. - PQ.Activity(10.))
+
+    def test_sub_different_types_pq(self):
+        self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) - PQ.Dose(10.))

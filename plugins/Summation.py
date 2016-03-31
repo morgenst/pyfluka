@@ -12,6 +12,6 @@ class SummationOperator(BasePlugin):
 
     def invoke(self, data):
         for det, values in data.items():
-            if self.quantity not in values.values()[0]:
+            if not values.values()[0].has_quantity(self.quantity):
                 raise IllegalArgumentError("Request to sum " + self.quantity + " which is not stored.")
             _global_data.add(det, self.stored_quantity, sum(list(map(lambda e: e[self.quantity], values.values()))))

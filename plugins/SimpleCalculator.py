@@ -125,7 +125,6 @@ class SpecificActivityCalculator(SimpleCalculator):
 
     def _calc(self, data, mass):
         self._check_consistency(data, ['Activity'])
-
         for isotope, storedData in data.items():
             data[isotope].append(PQ.SpecificActivity(storedData["Activity"] / mass))
 

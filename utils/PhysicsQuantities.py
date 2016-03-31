@@ -7,7 +7,7 @@ from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt
 from numbers import Number
-from copy import deepcopy
+from copy import deepcopy, copy
 from base import IllegalArgumentError
 f = open("../data/periodic_table.p")
 _periodic_table = pickle.load(f)
@@ -20,8 +20,9 @@ class AbsPhysicsQuantity(object):
     @abstractmethod
     def __init__(self, val, unc, unit):
         if issubclass(type(val), AbsPhysicsQuantity):
-            self.val = deepcopy(val.val)
-            self.unc = deepcopy(val.unc)
+            self.val = copy(val.val)
+            self.unc = copy(val.unc)
+
         elif not isinstance(val, ureg.Quantity):
             self.val = val * ureg.Quantity(unit)
             self.unc = unc * ureg.Quantity(unit)
@@ -57,6 +58,22 @@ class AbsPhysicsQuantity(object):
 
     def __radd__(self, other):
         return self.__add__(other)
+
+    def __sub__(self, other):
+        if isinstance(other, Number):
+            if other == 0.:
+                return deepcopy(self)
+            else:
+                raise IllegalArgumentError("Invalid request for subtraction of " + str(self) + " and " + str(other))
+        if not type(self) == type(other):
+            raise IllegalArgumentError("Invalid request for subtraction of " + str(self) + " and " + str(other))
+        val = self.val - other.val
+        unc = 0. * val #sqrt(pow(self.unc, 2) + pow(other.unc, 2))
+        assert (val.units == unc.units)
+        return self.__class__(val, unc)
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
 
     def __mul__(self, other):
         if isinstance(other, Number):

@@ -8,7 +8,7 @@ from utils import ureg
 
 
 class ResnucReader:
-    def __init__(self, quantity="Activity", dim=None):
+    def __init__(self, quantity="Activity", dim=None, weights=None):
         """
         Constructor for reader of RESNUClei scored data
         :param quantity (str): physics quantity scored; defaults to Activity
@@ -19,23 +19,30 @@ class ResnucReader:
         if dim is not None:
             self.dim = ureg(dim)
         self.pq = getattr(m, quantity)
+        self.weights = weights
 
     def load(self, files):
         if isinstance(files, list):
             merged_data = None
             for file_name in files:
-                data = self._load(file_name)
+                weight = 1.
+                if self.weights:
+                    weight = self.weights.pop(0)
+                data = self._load(file_name, weight)
                 if merged_data:
                     ResnucReader._merge(merged_data, data)
                 else:
                     merged_data = data
             return merged_data
         elif isinstance(files, str):
-            return self._load(files)
+            weight = 1.
+            if self.weights:
+                weight = self.weights.pop(0)
+            return self._load(files, weight)
         else:
             raise IllegalArgumentError("Received unsupported type for input files: " + str(type(files)))
 
-    def _load(self, filename):
+    def _load(self, filename, weight):
         resnucl_data_dict = {}
         first_line_of_detector = False
         data_section = False
@@ -67,7 +74,7 @@ class ResnucReader:
                 split_line = line.split()
                 A = split_line[0]
                 Z = int(split_line[1])
-                value = float(split_line[2])
+                value = weight * float(split_line[2])
                 error_percent = float(split_line[3])
                 if value > 0.:
                     try:
@@ -81,7 +88,7 @@ class ResnucReader:
                 A = split_line[0]
                 Z = int(split_line[1])
                 iso = int(split_line[2])
-                value = float(split_line[3])
+                value = weight * float(split_line[3])
                 error_percent = float(split_line[4])
                 if value > 0.:
                     try:
