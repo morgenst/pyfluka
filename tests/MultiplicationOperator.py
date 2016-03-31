@@ -1,7 +1,7 @@
 import unittest
 from collections import OrderedDict
 from base.StoredData import StoredData
-from base import _global_data
+from base import _global_data, IllegalArgumentError, InvalidInputError
 from plugins.Multiplication import MultiplicationOperator
 from utils import PhysicsQuantities as PQ
 from utils import ureg
@@ -89,3 +89,31 @@ class TestMultiplicationOperator(unittest.TestCase):
     @unittest.skip("Not implement. Supposed to check against exception")
     def test_dict_multiplication_det_non_existing(self):
         pass
+
+    def test_find_builtin_fail(self):
+        mul_op = MultiplicationOperator(**self.config_scalar_const)
+        self.assertRaises(IllegalArgumentError, mul_op.find_builtin, "foo")
+
+    def test_ctor_missing_multiplicand(self):
+        config = {"type": "scalar",
+                  "multiplier": "Activity",
+                  "product": "ScaledActivity:Activity"}
+        self.assertRaises(InvalidInputError, MultiplicationOperator, **config)
+
+    def test_ctor_missing_multiplier(self):
+        config = {"type": "scalar",
+                  "multiplicand": "Activity",
+                  "product": "ScaledActivity:Activity"}
+        self.assertRaises(InvalidInputError, MultiplicationOperator, **config)
+
+    def test_ctor_missing_product(self):
+        config = {"type": "scalar",
+                  "multiplier": "Activity",
+                  "multiplicand": "Activity"}
+        self.assertRaises(InvalidInputError, MultiplicationOperator, **config)
+
+    def test_ctor_missing_type(self):
+        config = {"multiplier": "Activity",
+                  "multiplicand": "Activity",
+                  "product": "ScaledActivity:Activity"}
+        self.assertRaises(InvalidInputError, MultiplicationOperator, **config)

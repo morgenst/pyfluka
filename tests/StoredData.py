@@ -87,6 +87,9 @@ class TestStoredData(unittest.TestCase):
     def test_global_data_invalid_request(self):
         self.assertRaises(KeyError, _global_data.__getitem__, "InvalidArgument")
 
+    def test_global_data_eq_non_dict(self):
+        self.assertFalse(_global_data == [])
+
     def test_global_data_equal_op(self):
         from collections import defaultdict
         _global_data.data = defaultdict(dict)
@@ -112,3 +115,7 @@ class TestStoredData(unittest.TestCase):
         data["Activity"] = PQ.Activity(20., 2.)
         res = PQ.Activity(20., 2.)
         self.assertEqual(data["Activity"], res)
+
+    def test_access_none(self):
+        data = StoredData(PQ.Activity(10., 2.))
+        self.assertEqual(data["foo"], None)
