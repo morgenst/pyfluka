@@ -2,6 +2,7 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import unittest
+import os
 from utils.PhysicsQuantities import Mass
 from utils.OrderedYAMLExtension import dump
 from base import ConfigParser, IllegalArgumentError, _global_data
@@ -23,7 +24,6 @@ class TestConfigParser(unittest.TestCase):
 
     def tearDown(self):
         self.f.close()
-        import os
         os.remove("test.yaml")
         os.remove("test2.yaml")
 
@@ -60,9 +60,27 @@ class TestConfigParser(unittest.TestCase):
         config = {"plugins": [{"PlotMaker": None}]}
         self.assertRaises(IllegalArgumentError, ConfigParser._validate, config)
 
-    @unittest.skip("Not implemented")
-    def testNonExistingPlugin(self):
-        pass
+    def test_non_existing_plugin_validate(self):
+        config = {"det1": {"mass": Mass(100., ureg.kg)}, "NoOfPrimaries": 10}
+        self.assertRaises(IllegalArgumentError, ConfigParser._validate, config)
+
+    def test_non_existing_plugin_key_parse(self):
+        config = {"det1": {"mass": "100 kg"}, "NoOfPrimaries": 10}
+        f_config_name = "config_no_plugin.yaml"
+        f_config = open(f_config_name, "w")
+        dump(config, f_config)
+        f_config.close()
+        self.assertRaises(IllegalArgumentError, ConfigParser.parse, f_config_name)
+        os.remove(f_config_name)
+
+    def test_non_existing_plugin_parse(self):
+        config = {"plugins": ["foo", "bar"]}
+        f_config_name = "config_plugin_dict.yaml"
+        f_config = open(f_config_name, "w")
+        dump(config, f_config)
+        f_config.close()
+        self.assertRaises(IllegalArgumentError, ConfigParser.parse, f_config_name)
+        os.remove(f_config_name)
 
     def test_detector_parsing(self):
         res = {"det1": {"mass": Mass(100., ureg.kg)}, "NoOfPrimaries": 10}

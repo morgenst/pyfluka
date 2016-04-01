@@ -1,46 +1,15 @@
 import copy
-import importlib
 import utils.PhysicsQuantities as PQ
-from base import IllegalArgumentError
+from BaseReader import BaseReader
 from base.StoredData import StoredData
 from collections import OrderedDict
-from utils import ureg
 
 
-class ResnucReader:
+class ResnucReader(BaseReader):
     def __init__(self, quantity="Activity", dim=None, weights=None):
-        """
-        Constructor for reader of RESNUClei scored data
-        :param quantity (str): physics quantity scored; defaults to Activity
-        :param dim (str): dimension of scored quantity
-        :return:
-        """
-        m = importlib.import_module("utils.PhysicsQuantities")
-        if dim is not None:
-            self.dim = ureg(dim)
-        self.pq = getattr(m, quantity)
-        self.weights = weights
-
-    def load(self, files):
-        if isinstance(files, list):
-            merged_data = None
-            for file_name in files:
-                weight = 1.
-                if self.weights:
-                    weight = self.weights.pop(0)
-                data = self._load(file_name, weight)
-                if merged_data:
-                    ResnucReader._merge(merged_data, data)
-                else:
-                    merged_data = data
-            return merged_data
-        elif isinstance(files, str):
-            weight = 1.
-            if self.weights:
-                weight = self.weights.pop(0)
-            return self._load(files, weight)
-        else:
-            raise IllegalArgumentError("Received unsupported type for input files: " + str(type(files)))
+        print self.__class__
+        print self.__class__.__name__
+        super(self.__class__, self).__init__(quantity, dim, weights)
 
     def _load(self, filename, weight):
         resnucl_data_dict = {}

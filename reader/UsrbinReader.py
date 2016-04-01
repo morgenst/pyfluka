@@ -1,17 +1,14 @@
-import importlib
 import numpy as np
-from utils import ureg
+from base import InvalidInputError
+from BaseReader import BaseReader
 from itertools import chain
 
 
-class UsrbinReader(object):
-    def __init__(self, quantity, dim=None):
-        m = importlib.import_module("utils.PhysicsQuantities")
-        if dim is not None:
-            self.dim = ureg(dim)
-        self.pq = getattr(m, quantity)
+class UsrbinReader(BaseReader):
+    def __init__(self, quantity="Activity", dim=None):
+        super(self.__class__, self).__init__(quantity, dim)
 
-    def load(self, filename):
+    def _load(self, filename, weight):
         """
         Incorporate search for "this is" to detect line above the first line and "error" to detect end of value block
         """
@@ -67,7 +64,7 @@ class UsrbinReader(object):
                     splitted = line.split()
                     axis_data = (splitted[3], splitted[5], splitted[7])
                     axesdata.append((float(splitted[3]), float(splitted[5]), int(splitted[7])))
-                if line.find("this is") > 0:
+                if line.find("this is") > 0 or line.find("accurate deposition") > 0:
                     data_reached = True
         data = list(chain.from_iterable(data))
         usrbin_data = pack_data(data, axesdata)
@@ -87,3 +84,27 @@ class UsrbinReader(object):
             return nbins
         return int((value - start) / step)
 
+    @staticmethod
+    def _merge(merged_data, data):
+        import operator
+
+        def _validate_merge(merged_data, data):
+            if not merged_data["Binning"] == data["Binning"]:
+                raise InvalidInputError("Requested merging with inconsistent binning: " +
+                                        str(merged_data["Binning"]) + " and " + str(data["Binning"]))
+
+        for det in data.keys():
+            print data[det]["Weight"]
+            keys = data[det].keys()
+            keys.remove("Binning")
+            try:
+                _validate_merge(merged_data[det], data[det])
+            except Exception as e:
+                raise e
+            for key in keys:
+                if isinstance(data[det][key], tuple):
+                    merged_data[det][key] = tuple(map(operator.add, merged_data[det][key], data[det][key]))
+                elif isinstance(data[det][key], np.ndarray):
+                    merged_data[det][key] += data[det][key]
+                else:
+                    raise InvalidInputError("Request merge for unsupported type " + type(data[det][key]))
