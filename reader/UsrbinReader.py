@@ -1,12 +1,14 @@
+import operator
 import numpy as np
 from base import InvalidInputError
 from BaseReader import BaseReader
 from itertools import chain
+from functools import partial
 
 
 class UsrbinReader(BaseReader):
-    def __init__(self, quantity="Activity", dim=None):
-        super(self.__class__, self).__init__(quantity, dim)
+    def __init__(self, quantity="Activity", dim=None, weights=None):
+        super(self.__class__, self).__init__(quantity, dim, weights)
 
     def _load(self, filename, weight):
         """
@@ -68,7 +70,8 @@ class UsrbinReader(BaseReader):
                     data_reached = True
         data = list(chain.from_iterable(data))
         usrbin_data = pack_data(data, axesdata)
-
+        usrbin_data *= weight
+        primaries_weight_info = tuple(map(partial(operator.mul, weight), primaries_weight_info))
         usrbin_data_dict[current_detector_name] = {self.pq.__name__: usrbin_data,
                                                    "Binning": axesdata,
                                                    "Weight": primaries_weight_info}
@@ -86,7 +89,6 @@ class UsrbinReader(BaseReader):
 
     @staticmethod
     def _merge(merged_data, data):
-        import operator
 
         def _validate_merge(merged_data, data):
             if not merged_data["Binning"] == data["Binning"]:
@@ -94,7 +96,6 @@ class UsrbinReader(BaseReader):
                                         str(merged_data["Binning"]) + " and " + str(data["Binning"]))
 
         for det in data.keys():
-            print data[det]["Weight"]
             keys = data[det].keys()
             keys.remove("Binning")
             try:

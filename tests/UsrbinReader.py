@@ -47,3 +47,12 @@ class TestUsrbinReader(unittest.TestCase):
         data_fail = copy.deepcopy(self.data_tutorial)
         data_fail["EneDep2"]["Binning"] = [(-45., 45., 3), (-54., 54., 5), (-33., 36., 2)]
         self.assertRaises(InvalidInputError, UR._merge, self.data_tutorial, data_fail)
+
+    def test_read_multiple_weighted(self):
+        reader = UR("Activity", weights=[0.8, 0.7])
+        d = reader.load(["UsrbinInputTest.ascii", "UsrbinInputTest.ascii"])
+        self.data_tutorial["EneDep2"]["Activity"] *= 1.5
+        self.data_tutorial["EneDep2"]["Weight"] = (150, 150)
+        self.assertEqual(d["EneDep2"]["Weight"], self.data_tutorial["EneDep2"]["Weight"])
+        self.assertEqual(d["EneDep2"]["Binning"], self.data_tutorial["EneDep2"]["Binning"])
+        self.assertEqual(d["EneDep2"]["Activity"].all(), self.data_tutorial["EneDep2"]["Activity"].all())
