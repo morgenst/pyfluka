@@ -103,6 +103,9 @@ class AbsPhysicsQuantity(object):
         if isinstance(other, Number):
             return create_generic("Inverse" + self.__class__.__name__, other / self.val)
 
+    def __abs__(self):
+        return self.__class__(abs(self.val), abs(self.unc))
+
     def __str__(self):
         return format(self)
 

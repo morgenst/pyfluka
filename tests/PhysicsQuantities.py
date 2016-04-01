@@ -304,3 +304,12 @@ class TestPhysicsQuantities(unittest.TestCase):
 
     def test_sub_different_types_pq(self):
         self.assertRaises(IllegalArgumentError, lambda: PQ.Activity(10.) - PQ.Dose(10.))
+
+    def test_abs_pos(self):
+        q = PQ.Activity(10.)
+        qa = abs(q)
+        self.assertEqual(q, qa)
+
+    def test_abs_neg(self):
+        qa = abs(PQ.Activity(-10.))
+        self.assertEqual(qa, PQ.Activity(10.))
