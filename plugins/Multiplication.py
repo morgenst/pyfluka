@@ -1,5 +1,5 @@
 import importlib
-from base import InvalidInputError, _global_data
+from base import InvalidInputError, _global_data, IllegalArgumentError
 from BasePlugin import BasePlugin
 
 
@@ -56,6 +56,7 @@ class MultiplicationOperator(BasePlugin):
 
     def find_builtin(self, builtin):
         from reader import _dh
+        func = None
         try:
             func = getattr(_dh, builtin)
         except AttributeError:
@@ -64,4 +65,6 @@ class MultiplicationOperator(BasePlugin):
             func = getattr(_dh, "_" + builtin)
         except AttributeError:
             pass
+        if not func:
+            raise IllegalArgumentError("Requested builtin " + builtin + " could not be found.")
         return func
