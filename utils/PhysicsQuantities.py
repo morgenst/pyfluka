@@ -3,13 +3,15 @@ __mail__ = ''
 
 import pickle
 import re
+import os
 from utils import ureg
 from abc import ABCMeta, abstractmethod
 from numpy import sqrt
 from numbers import Number
 from copy import deepcopy, copy
 from base import IllegalArgumentError
-f = open("../data/periodic_table.p")
+
+f = open(os.path.join(os.path.dirname(__file__), "../data/periodic_table.p"))
 _periodic_table = pickle.load(f)
 f.close()
 
