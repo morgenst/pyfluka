@@ -1,8 +1,11 @@
 import pickle
+import os
+
+_basedir = os.path.dirname(__file__)
 
 
 def load(filename):
-    f = open(filename, "r")
+    f = open(os.path.join(_basedir, filename), "r")
     obj = pickle.load(f)
     f.close()
     return obj
