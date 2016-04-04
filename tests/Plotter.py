@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 from utils.Plotter import Plotter
+from reader.GeometryReader import GeometryReader as GR
 
 
 class TestPlotter(unittest.TestCase):
@@ -15,6 +16,11 @@ class TestPlotter(unittest.TestCase):
 
     def testPlotMatrix(self):
         p = self.plotter.plot_matrix(self.data, self.binning)
+        self.assertNotEqual(p, None)
+
+    def test_plot_matrix_and_geometry(self):
+        geometry = GR().load("testGeometry.ascii")
+        p = self.plotter.plot_matrix(self.data, self.binning, geometry_data=geometry, out_filename="foo.png")
         self.assertNotEqual(p, None)
 
     @unittest.skip("Not implemented")
