@@ -1,9 +1,13 @@
+import os
+from os.path import join
 import unittest
 from collections import OrderedDict
 from base.StoredData import StoredData
 from reader.ResnucReader import ResnucReader as RR
 from numpy import sqrt
 import utils.PhysicsQuantities as PQ
+
+_basedir = os.path.dirname(__file__)
 
 
 class TestResnucReader(unittest.TestCase):
@@ -16,7 +20,7 @@ class TestResnucReader(unittest.TestCase):
                                         StoredData(PQ.Activity(2.0663E+05, unc=0.99 * 2.0663E+05))),
                                        (PQ.Isotope(26, 13, 1),
                                         StoredData(PQ.Activity(2.2300E+10, unc=0.001845 * 2.2300E+10)))])}
-        data = self.reader.load("test_data/ResnucInputTest_tab.lis")
+        data = self.reader.load(join(_basedir, "test_data/ResnucInputTest_tab.lis"))
         self.assertEqual(data, res)
 
     def test_tablis_read_multi_det(self):
@@ -29,11 +33,12 @@ class TestResnucReader(unittest.TestCase):
                                        (PQ.Isotope(26, 13, 1),
                                         StoredData(PQ.Activity(2.2300E+10, unc=0.001845 * 2.2300E+10)))])}
 
-        data = self.reader.load("test_data/ResnucInputTestMultiDet_tab.lis")
+        data = self.reader.load(join(_basedir, "test_data/ResnucInputTestMultiDet_tab.lis"))
         self.assertEqual(data, res)
 
     def testMultiFileReadSingleDet(self):
-        data = self.reader.load(["test_data/ResnucInputTest_tab.lis", "test_data/ResnucInputTest_tab.lis"])
+        data = self.reader.load([join(_basedir, "test_data/ResnucInputTest_tab.lis"),
+                                 join(_basedir, "test_data/ResnucInputTest_tab.lis")])
         res = {"AlBa-1s": OrderedDict([(PQ.Isotope(75, 32, 0),
                                         StoredData(PQ.Activity(2. * 2.0663E+05, unc=0.99 * sqrt(2.) * 2.0663E+05))),
                                        (PQ.Isotope(26, 13, 1),
@@ -53,7 +58,8 @@ class TestResnucReader(unittest.TestCase):
     def test_multi_file_read_weighted(self):
         sf = 1.5
         self.reader.weights = [0.8, 0.7]
-        data = self.reader.load(["test_data/ResnucInputTest_tab.lis", "test_data/ResnucInputTest_tab.lis"])
+        data = self.reader.load([join(_basedir, "test_data/ResnucInputTest_tab.lis"),
+                                 join(_basedir, "test_data/ResnucInputTest_tab.lis")])
         res = {"AlBa-1s": OrderedDict([(PQ.Isotope(75, 32, 0),
                                         StoredData(PQ.Activity(sf * 2.0663E+05, unc= sqrt(pow(0.8, 2) + pow(0.7, 2)) *
                                                                                           0.99 * 2.0663E+05))),
@@ -92,5 +98,5 @@ class TestResnucReader(unittest.TestCase):
                                         StoredData(PQ.DoseRate(2.0663E+05, unc=0.99 * 2.0663E+05))),
                                        (PQ.Isotope(26, 13, 1),
                                         StoredData(PQ.DoseRate(2.2300E+10, unc=0.001845 * 2.2300E+10)))])}
-        data = reader.load("test_data/ResnucInputTest_tab.lis")
+        data = reader.load(join(_basedir, join(_basedir, "test_data/ResnucInputTest_tab.lis")))
         self.assertEqual(data, res)

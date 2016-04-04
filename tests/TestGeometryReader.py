@@ -2,12 +2,16 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import unittest
+import os
+from os.path import join
 from reader.GeometryReader import GeometryReader
+
+_basedir = os.path.dirname(__file__)
 
 
 class TestGeometryReader(unittest.TestCase):
     def setUp(self):
-        self.geo_file = "test_data/testGeometry.ascii"
+        self.geo_file = join(_basedir, "test_data/testGeometry.ascii")
         self.reader = GeometryReader()
 
     def test_load(self):

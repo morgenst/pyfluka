@@ -1,7 +1,11 @@
 import unittest
+import os
+from os.path import join
 import numpy as np
 from utils.Plotter import Plotter
 from reader.GeometryReader import GeometryReader as GR
+
+_basedir = os.path.dirname(__file__)
 
 
 class TestPlotter(unittest.TestCase):
@@ -19,7 +23,7 @@ class TestPlotter(unittest.TestCase):
         self.assertNotEqual(p, None)
 
     def test_plot_matrix_and_geometry(self):
-        geometry = GR().load("test_data/testGeometry.ascii")
+        geometry = GR().load(join(_basedir, "test_data/testGeometry.ascii"))
         p = self.plotter.plot_matrix(self.data, self.binning, geometry_data=geometry, out_filename="foo.png")
         self.assertNotEqual(p, None)
 

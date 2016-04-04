@@ -1,10 +1,14 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
+import os
+from os.path import join
 import base.GraphBuilder as GB
 import unittest
 import base.ConfigParser as CP
 from collections import OrderedDict
+
+_basedir = os.path.dirname(__file__)
 
 
 class TestGraphBuilder(unittest.TestCase):
@@ -18,7 +22,7 @@ class TestGraphBuilder(unittest.TestCase):
         self.assertItemsEqual(graph.nodes(), res)
 
     def testBuildGraphNodesFromYAML(self):
-        od = CP.parse("test_data/testconfig.yaml")
+        od = CP.parse(join(_basedir, "test_data/testconfig.yaml"))
         graph = GB.build_graph(od['plugins'])
         graphRef = ["Input", "AoverLECalculator", "TableMaker", "Output"]
         self.assertItemsEqual(graph.nodes(), graphRef)

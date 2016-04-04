@@ -1,6 +1,8 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
+import os
+from os.path import join
 import copy
 import unittest
 import numpy as np
@@ -8,6 +10,8 @@ from base import InvalidInputError
 from reader.UsrbinReader import UsrbinReader as UR
 from utils import PhysicsQuantities as PQ
 from operator import mul
+
+_basedir = os.path.dirname(__file__)
 
 
 class TestUsrbinReader(unittest.TestCase):
@@ -23,20 +27,21 @@ class TestUsrbinReader(unittest.TestCase):
                                           "Activity": np.reshape(np.array(dataraw), binning_reverse).transpose()}}
 
     def test_read_keys(self):
-        d = self.reader.load("test_data/UsrbinInputTest.ascii")
+        d = self.reader.load(join(_basedir, "test_data/UsrbinInputTest.ascii"))
         self.assertTrue("EneDep2" in d)
         self.assertTrue("Activity" in d["EneDep2"])
         self.assertTrue("Binning" in d["EneDep2"])
         self.assertTrue("Weight" in d["EneDep2"])
 
     def test_read_simple(self):
-        d = self.reader.load("test_data/UsrbinInputTest.ascii")
+        d = self.reader.load(join(_basedir, "test_data/UsrbinInputTest.ascii"))
         self.assertEqual(d["EneDep2"]["Weight"], self.data_tutorial["EneDep2"]["Weight"])
         self.assertEqual(d["EneDep2"]["Binning"], self.data_tutorial["EneDep2"]["Binning"])
         self.assertEqual(d["EneDep2"]["Activity"].all(), self.data_tutorial["EneDep2"]["Activity"].all())
 
     def test_read_multiple(self):
-        d = self.reader.load(["test_data/UsrbinInputTest.ascii", "test_data/UsrbinInputTest.ascii"])
+        d = self.reader.load([join(_basedir, "test_data/UsrbinInputTest.ascii"),
+                              join(_basedir, "test_data/UsrbinInputTest.ascii")])
         self.data_tutorial["EneDep2"]["Activity"] *= 2
         self.data_tutorial["EneDep2"]["Weight"] = (200, 200)
         self.assertEqual(d["EneDep2"]["Weight"], self.data_tutorial["EneDep2"]["Weight"])
@@ -50,7 +55,8 @@ class TestUsrbinReader(unittest.TestCase):
 
     def test_read_multiple_weighted(self):
         reader = UR("Activity", weights=[0.8, 0.7])
-        d = reader.load(["test_data/UsrbinInputTest.ascii", "test_data/UsrbinInputTest.ascii"])
+        d = reader.load([join(_basedir, "test_data/UsrbinInputTest.ascii"),
+                         join(_basedir, "test_data/UsrbinInputTest.ascii")])
         self.data_tutorial["EneDep2"]["Activity"] *= 1.5
         self.data_tutorial["EneDep2"]["Weight"] = (150, 150)
         self.assertEqual(d["EneDep2"]["Weight"], self.data_tutorial["EneDep2"]["Weight"])

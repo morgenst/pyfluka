@@ -1,33 +1,37 @@
 import unittest
 import pickle
+import os
+from os.path import join
 from reader import _dh
 from utils import PhysicsQuantities as PQ
 from utils import ureg
 
+_basedir = os.path.dirname(__file__)
+
 
 class TestDataHandle(unittest.TestCase):
     def setUp(self):
-        fLE = open("../data/LEDB.p", "r")
+        fLE = open(join(_basedir, "../data/LEDB.p"), "r")
         self.dLE = pickle.load(fLE)
         fLE.close()
 
-        fH10 = open("../data/Activity_H10_conversion.p", "r")
+        fH10 = open(join(_basedir, "../data/Activity_H10_conversion.p"), "r")
         self.dH10 = pickle.load(fH10)
         fH10.close()
 
-        fHp007 = open("../data/Activity_Hp007_conversion.p", "r")
+        fHp007 = open(join(_basedir, "../data/Activity_Hp007_conversion.p"), "r")
         self.dHp007 = pickle.load(fHp007)
         fHp007.close()
 
-        f_einh = open("../data/inhalation.p", "r")
+        f_einh = open(join(_basedir, "../data/inhalation.p"), "r")
         self.d_einh = pickle.load(f_einh)
         f_einh.close()
 
-        f_eing = open("../data/ingestion.p", "r")
+        f_eing = open(join(_basedir, "../data/ingestion.p"), "r")
         self.d_eing = pickle.load(f_eing)
         f_eing.close()
 
-        f_hl = open("../data/half_lifes.p", "r")
+        f_hl = open(join(_basedir, "../data/half_lifes.p"), "r")
         self.d_hl = pickle.load(f_hl)
         f_hl.close()
 
