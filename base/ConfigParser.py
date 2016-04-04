@@ -72,7 +72,6 @@ def _transform_det_info(config):
                 info = val.split(' ')
                 _global_data.add(det, quantity, PQ.Mass(float(info[0]), info[1]))
 
-
 def _set_global_data(config):
     for k, v in config.iteritems():
         _global_data.add(k, v)

@@ -18,7 +18,7 @@ class TestGraphBuilder(unittest.TestCase):
         self.assertItemsEqual(graph.nodes(), res)
 
     def testBuildGraphNodesFromYAML(self):
-        od = CP.parse("testconfig.yaml")
+        od = CP.parse("test_data/testconfig.yaml")
         graph = GB.build_graph(od['plugins'])
         graphRef = ["Input", "AoverLECalculator", "TableMaker", "Output"]
         self.assertItemsEqual(graph.nodes(), graphRef)

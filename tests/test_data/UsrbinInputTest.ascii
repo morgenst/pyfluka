@@ -1,0 +1,16 @@
+
+ *****  n_TOF lead target                                                                 *****
+
+           DATE:  3/31/16,  TIME: 21:41:13
+
+          Total number of particles followed            100, for a total weight of  1.0000E+02
+
+1
+   Cartesian binning n.   2  "EneDep2   " , generalized particle n.  208
+      X coordinate: from -4.5000E+01 to  4.5000E+01 cm,     1 bins ( 9.0000E+01 cm wide)
+      Y coordinate: from -5.4000E+01 to  5.4000E+01 cm,     5 bins ( 2.1600E+01 cm wide)
+      Z coordinate: from -3.3000E+01 to  3.6000E+01 cm,     2 bins ( 3.4500E+01 cm wide)
+      Data follow in a matrix A(ix,iy,iz), format (1(5x,1p,10(1x,e11.4)))
+
+      accurate deposition along the tracks requested
+       4.3201E-07  1.5970E-06  4.6090E-05  1.5935E-06  5.0045E-07  8.6618E-07  4.1063E-06  9.8403E-05  3.5158E-06  7.2260E-07

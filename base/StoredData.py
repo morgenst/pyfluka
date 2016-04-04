@@ -17,6 +17,9 @@ class GlobalData:
         else:
             self._add_impl(data[args[0]], args[1:], val)
 
+    def _reset(self):
+        self.data = defaultdict(dict)
+
     def __eq__(self, other):
         if not isinstance(other, dict):
             return False
