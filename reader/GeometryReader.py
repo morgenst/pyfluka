@@ -1,11 +1,12 @@
 import copy
 from base import InvalidInputError
 
+
 class GeometryReader(object):
     def __init__(self):
         self.axis_indices = {"x": 2, "y": 3, "z": 4}
 
-    def load(self, filename, first_index="x", last_index="z"):
+    def load(self, filename, first_index="x", last_index="y"):
         """
         Reads in a geometry file from FLUKA
         :param filename (str): input filename
@@ -35,9 +36,12 @@ class GeometryReader(object):
             else:
                 try:
                     splitted = map(float, line.split())
-                    if len(splitted) == 5:
-                        x.append(splitted[first_index])
-                        y.append(splitted[last_index])
+                    #if len(splitted) == 5:
+                    #    x.append(splitted[first_index])
+                    #    y.append(splitted[last_index])
+                    if len(splitted) == 2:
+                        x.append(splitted[0])
+                        y.append(splitted[1])
                 except Exception as e:
                     pass
         if x:
@@ -45,4 +49,5 @@ class GeometryReader(object):
             ys.append(copy.copy(y))
             x = []
             y = []
+        print xs, ys
         return xs, ys
