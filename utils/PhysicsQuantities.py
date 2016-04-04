@@ -10,8 +10,9 @@ from numpy import sqrt
 from numbers import Number
 from copy import deepcopy, copy
 from base import IllegalArgumentError
+from pkg_resources import resource_stream
 
-f = open(os.path.join(os.path.dirname(__file__), "../data/periodic_table.p"))
+f = resource_stream(__name__, "../data/periodic_table.p")
 _periodic_table = pickle.load(f)
 f.close()
 
