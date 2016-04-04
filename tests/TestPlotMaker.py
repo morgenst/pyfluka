@@ -18,9 +18,9 @@ class PlotMaker(unittest.TestCase):
         self.data = np.reshape(rawDataArr, [20, 50, 1]).transpose()
         #self.refPlot = plt.pcolor(self.data[0].astype(float))
 
-    @classmethod
-    def tearDownClass(cls):
-        os.remove("fooDet1")
+    #@classmethod
+    #def tearDownClass(cls):
+        #os.remove("fooDet1")
 
     # @image_comparison(baseline_images=['self.refPlot'])
     @unittest.skip("not fully implemented yet")
