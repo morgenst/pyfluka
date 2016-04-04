@@ -13,7 +13,7 @@ setup(
                       'networkx>=1.11',
                       'PyYAML>=3.11',
                       'tabulate>=0.7.5',
-                      'pint>=0.6',
+                      'pint==0.6',
                       'yamlordereddictloader>=0.1.0'],
     package_data={
         '': ['*.p'],
