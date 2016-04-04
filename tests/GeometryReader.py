@@ -4,6 +4,7 @@ __mail__ = ''
 import unittest
 from reader.GeometryReader import GeometryReader
 
+
 class TestGeometryReader(unittest.TestCase):
     def setUp(self):
         self.geo_file = "testGeometry.ascii"
