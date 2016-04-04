@@ -11,6 +11,7 @@ class Decorator(BasePlugin):
         for det in data.keys():
             self._add_quantities(data[det])
 
+    #TODO: check for default constructor call in case of default initialisation
     def _add_quantities(self, data):
         for k, v in data.iteritems():
             for quantity in self.quantities:
