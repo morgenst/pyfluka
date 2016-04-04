@@ -1,11 +1,10 @@
 import pickle
 import os
-
-_basedir = os.path.dirname(__file__)
+from pkg_resources import resource_stream
 
 
 def load(filename):
-    f = open(os.path.join(_basedir, filename), "r")
+    f = resource_stream(__name__, filename)
     obj = pickle.load(f)
     f.close()
     return obj
