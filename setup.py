@@ -16,7 +16,7 @@ setup(
                       'pint==0.6',
                       'yamlordereddictloader>=0.1.0'],
     package_data={
-        '': ['*.p'],
+        '': ['*.p', 'test_data/*'],
     },
 
     # metadata for upload to PyPI
