@@ -8,6 +8,7 @@ from base import IllegalArgumentError
 from plugins.TimeEvolution import TimeEvolution
 from reader import _dh
 
+
 class TestTimeEvolution(unittest.TestCase):
     def setUp(self):
         self.config = {"irr_time": "1 y", "cool_time": "1 y"}
