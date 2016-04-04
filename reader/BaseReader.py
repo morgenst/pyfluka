@@ -4,7 +4,7 @@ from utils import ureg
 
 
 class BaseReader(object):
-    def __init__(self, quantity, dim=None, weights=None):
+    def __init__(self, quantity, dim, weights):
         """
         Constructor for reader of RESNUClei scored data
         :param quantity (str): physics quantity scored; defaults to Activity
