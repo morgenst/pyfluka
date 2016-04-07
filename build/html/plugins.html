@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>plugins package &mdash; pyfluka 0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyfluka 0.0 documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyfluka 0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="plugins-package">
+<h1>plugins package<a class="headerlink" href="#plugins-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-plugins.Addition">
+<span id="plugins-addition-module"></span><h2>plugins.Addition module<a class="headerlink" href="#module-plugins.Addition" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.Addition.AdditionOperator">
+<em class="property">class </em><code class="descclassname">plugins.Addition.</code><code class="descname">AdditionOperator</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Addition.html#AdditionOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Addition.AdditionOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.BasePlugin">
+<span id="plugins-baseplugin-module"></span><h2>plugins.BasePlugin module<a class="headerlink" href="#module-plugins.BasePlugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.BasePlugin.BasePlugin">
+<em class="property">class </em><code class="descclassname">plugins.BasePlugin.</code><code class="descname">BasePlugin</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/BasePlugin.html#BasePlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.BasePlugin.BasePlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Metaclass for guarantee of interface. Each plugin must provide initialisation taking optional configuration
+and invoke method taking data</p>
+<dl class="method">
+<dt id="plugins.BasePlugin.BasePlugin.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/BasePlugin.html#BasePlugin.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.BasePlugin.BasePlugin.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry for plugin execution
+:param data (dict): input data
+:return: void</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.Decorator">
+<span id="plugins-decorator-module"></span><h2>plugins.Decorator module<a class="headerlink" href="#module-plugins.Decorator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.Decorator.Decorator">
+<em class="property">class </em><code class="descclassname">plugins.Decorator.</code><code class="descname">Decorator</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Decorator.html#Decorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Decorator.Decorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<dl class="method">
+<dt id="plugins.Decorator.Decorator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Decorator.html#Decorator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Decorator.Decorator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.Multiplication">
+<span id="plugins-multiplication-module"></span><h2>plugins.Multiplication module<a class="headerlink" href="#module-plugins.Multiplication" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.Multiplication.MultiplicationOperator">
+<em class="property">class </em><code class="descclassname">plugins.Multiplication.</code><code class="descname">MultiplicationOperator</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Multiplication.html#MultiplicationOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Multiplication.MultiplicationOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<dl class="method">
+<dt id="plugins.Multiplication.MultiplicationOperator.find_builtin">
+<code class="descname">find_builtin</code><span class="sig-paren">(</span><em>builtin</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Multiplication.html#MultiplicationOperator.find_builtin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Multiplication.MultiplicationOperator.find_builtin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="plugins.Multiplication.MultiplicationOperator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Multiplication.html#MultiplicationOperator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Multiplication.MultiplicationOperator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.PlotMaker">
+<span id="plugins-plotmaker-module"></span><h2>plugins.PlotMaker module<a class="headerlink" href="#module-plugins.PlotMaker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.PlotMaker.PlotMaker">
+<em class="property">class </em><code class="descclassname">plugins.PlotMaker.</code><code class="descname">PlotMaker</code><span class="sig-paren">(</span><em>config=None</em>, <em>config_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/PlotMaker.html#PlotMaker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.PlotMaker.PlotMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<dl class="method">
+<dt id="plugins.PlotMaker.PlotMaker.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/PlotMaker.html#PlotMaker.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.PlotMaker.PlotMaker.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.SimpleCalculator">
+<span id="plugins-simplecalculator-module"></span><h2>plugins.SimpleCalculator module<a class="headerlink" href="#module-plugins.SimpleCalculator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.SimpleCalculator.AoverLECalculator">
+<em class="property">class </em><code class="descclassname">plugins.SimpleCalculator.</code><code class="descname">AoverLECalculator</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#AoverLECalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.AoverLECalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.SimpleCalculator.SimpleCalculator" title="plugins.SimpleCalculator.SimpleCalculator"><code class="xref py py-class docutils literal"><span class="pre">plugins.SimpleCalculator.SimpleCalculator</span></code></a></p>
+<p>Specific activity over LE calculator</p>
+<dl class="method">
+<dt id="plugins.SimpleCalculator.AoverLECalculator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#AoverLECalculator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.AoverLECalculator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point of calculation
+:param data (dict): input data
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.SimpleCalculator.SimpleCalculator">
+<em class="property">class </em><code class="descclassname">plugins.SimpleCalculator.</code><code class="descname">SimpleCalculator</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#SimpleCalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.SimpleCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<p>Base class for simple calculators defining common interface</p>
+<dl class="method">
+<dt id="plugins.SimpleCalculator.SimpleCalculator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#SimpleCalculator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.SimpleCalculator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method invoking calculation
+:param data (dict): input data
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.SimpleCalculator.SpecificActivityCalculator">
+<em class="property">class </em><code class="descclassname">plugins.SimpleCalculator.</code><code class="descname">SpecificActivityCalculator</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#SpecificActivityCalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.SpecificActivityCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.SimpleCalculator.SimpleCalculator" title="plugins.SimpleCalculator.SimpleCalculator"><code class="xref py py-class docutils literal"><span class="pre">plugins.SimpleCalculator.SimpleCalculator</span></code></a></p>
+<p>Specific activity calculator: A/m</p>
+<dl class="method">
+<dt id="plugins.SimpleCalculator.SpecificActivityCalculator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#SpecificActivityCalculator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.SpecificActivityCalculator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entry point for calculator
+:param data:
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plugins.SimpleCalculator.TotalActivityCalculator">
+<em class="property">class </em><code class="descclassname">plugins.SimpleCalculator.</code><code class="descname">TotalActivityCalculator</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/SimpleCalculator.html#TotalActivityCalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.SimpleCalculator.TotalActivityCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.SimpleCalculator.SimpleCalculator" title="plugins.SimpleCalculator.SimpleCalculator"><code class="xref py py-class docutils literal"><span class="pre">plugins.SimpleCalculator.SimpleCalculator</span></code></a></p>
+<dl class="method">
+<dt id="plugins.SimpleCalculator.TotalActivityCalculator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#plugins.SimpleCalculator.TotalActivityCalculator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.Summation">
+<span id="plugins-summation-module"></span><h2>plugins.Summation module<a class="headerlink" href="#module-plugins.Summation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.Summation.SummationOperator">
+<em class="property">class </em><code class="descclassname">plugins.Summation.</code><code class="descname">SummationOperator</code><span class="sig-paren">(</span><em>quantity</em>, <em>stored_quantity=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Summation.html#SummationOperator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Summation.SummationOperator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<dl class="method">
+<dt id="plugins.Summation.SummationOperator.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/Summation.html#SummationOperator.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.Summation.SummationOperator.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.TableMaker">
+<span id="plugins-tablemaker-module"></span><h2>plugins.TableMaker module<a class="headerlink" href="#module-plugins.TableMaker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.TableMaker.Column">
+<em class="property">class </em><code class="descclassname">plugins.TableMaker.</code><code class="descname">Column</code><span class="sig-paren">(</span><em>quantity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TableMaker.html#Column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TableMaker.Column" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="plugins.TableMaker.TableMaker">
+<em class="property">class </em><code class="descclassname">plugins.TableMaker.</code><code class="descname">TableMaker</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TableMaker.html#TableMaker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TableMaker.TableMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<dl class="method">
+<dt id="plugins.TableMaker.TableMaker.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TableMaker.html#TableMaker.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TableMaker.TableMaker.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="plugins.TableMaker.TableMaker.store">
+<code class="descname">store</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TableMaker.html#TableMaker.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TableMaker.TableMaker.store" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins.TimeEvolution">
+<span id="plugins-timeevolution-module"></span><h2>plugins.TimeEvolution module<a class="headerlink" href="#module-plugins.TimeEvolution" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="plugins.TimeEvolution.TimeEvolution">
+<em class="property">class </em><code class="descclassname">plugins.TimeEvolution.</code><code class="descname">TimeEvolution</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TimeEvolution.html#TimeEvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TimeEvolution.TimeEvolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#plugins.BasePlugin.BasePlugin" title="plugins.BasePlugin.BasePlugin"><code class="xref py py-class docutils literal"><span class="pre">plugins.BasePlugin.BasePlugin</span></code></a></p>
+<p>Plugin for time evolution of production yields</p>
+<dl class="method">
+<dt id="plugins.TimeEvolution.TimeEvolution.invoke">
+<code class="descname">invoke</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugins/TimeEvolution.html#TimeEvolution.invoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugins.TimeEvolution.TimeEvolution.invoke" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plugins">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-plugins" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">plugins package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-plugins.Addition">plugins.Addition module</a></li>
+<li><a class="reference internal" href="#module-plugins.BasePlugin">plugins.BasePlugin module</a></li>
+<li><a class="reference internal" href="#module-plugins.Decorator">plugins.Decorator module</a></li>
+<li><a class="reference internal" href="#module-plugins.Multiplication">plugins.Multiplication module</a></li>
+<li><a class="reference internal" href="#module-plugins.PlotMaker">plugins.PlotMaker module</a></li>
+<li><a class="reference internal" href="#module-plugins.SimpleCalculator">plugins.SimpleCalculator module</a></li>
+<li><a class="reference internal" href="#module-plugins.Summation">plugins.Summation module</a></li>
+<li><a class="reference internal" href="#module-plugins.TableMaker">plugins.TableMaker module</a></li>
+<li><a class="reference internal" href="#module-plugins.TimeEvolution">plugins.TimeEvolution module</a></li>
+<li><a class="reference internal" href="#module-plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plugins.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyfluka 0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Marcus Matthias Morgenstern.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.
+    </div>
+  </body>
+</html>

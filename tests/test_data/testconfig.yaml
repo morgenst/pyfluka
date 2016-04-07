@@ -1,7 +1,0 @@
-plugins:
-  AoverLECalculator:
-  TableMaker:
-     cols:
-      - Isotope
-      - Activity
-      - AoverLE

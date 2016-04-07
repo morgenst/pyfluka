@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>base.ConfigParser &mdash; pyfluka 0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pyfluka 0.0 documentation" href="../../index.html" />
+    <link rel="up" title="base" href="../base.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyfluka 0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../base.html" accesskey="U">base</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for base.ConfigParser</h1><div class="highlight"><pre>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;marcusmorgenstern&#39;</span>
+<span class="n">__mail__</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">yamlordereddictloader</span>
+<span class="kn">import</span> <span class="nn">utils.PhysicsQuantities</span> <span class="kn">as</span> <span class="nn">PQ</span>
+<span class="kn">from</span> <span class="nn">base</span> <span class="kn">import</span> <span class="n">IllegalArgumentError</span><span class="p">,</span> <span class="n">_global_data</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+
+<div class="viewcode-block" id="parse"><a class="viewcode-back" href="../../base.html#base.ConfigParser.parse">[docs]</a><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parsing function</span>
+<span class="sd">    :param config (str): filename of config file</span>
+<span class="sd">    :return (dict): configuration as dict</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        IOError: if config file does not exist</span>
+<span class="sd">        IllegalArgument: if validation fails; see _validate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Config file </span><span class="si">%s</span><span class="s"> does not exist.&#39;</span> <span class="o">%</span> <span class="n">config</span><span class="p">)</span>
+    <span class="n">config_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yamlordereddictloader</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_validate</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">e</span>
+    <span class="n">_transform</span><span class="p">(</span><span class="n">config_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config_dict</span></div>
+
+
+<span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="n">config_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates configuration w.r.t required information, i.e. plugins have to be defined, and checks for compliance</span>
+<span class="sd">    of data structure</span>
+<span class="sd">    :param config_dict (dict): parsed configuration dictionary</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        IllegealArgumentError: if any validation check fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s">&#39;plugins&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">IllegalArgumentError</span><span class="p">(</span><span class="s">&quot;No plugins defined.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_dict</span><span class="p">[</span><span class="s">&#39;plugins&#39;</span><span class="p">],</span> <span class="n">OrderedDict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">IllegalArgumentError</span><span class="p">(</span><span class="s">&quot;Plugins are required to be dictionaries, but &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">config_dict</span><span class="p">[</span><span class="s">&#39;plugins&#39;</span><span class="p">]))</span> <span class="o">+</span>
+                                   <span class="s">&quot; given.&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Executes transformation steps</span>
+<span class="sd">    :param config (dict): parsed configuration dictionary</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s">&quot;detectors&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">_transform_det_info</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;detectors&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s">&quot;global&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">_set_global_data</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;global&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_transform_det_info</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform parsed detector information</span>
+<span class="sd">    :param config (dict): parsed configuration dictionary</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="n">det</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">quantity</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;mass&#39;</span><span class="p">:</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+                <span class="n">_global_data</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">det</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">PQ</span><span class="o">.</span><span class="n">Mass</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">_set_global_data</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">_global_data</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">pyfluka 0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../base.html" >base</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Marcus Matthias Morgenstern.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4a0+.
+    </div>
+  </body>
+</html>
