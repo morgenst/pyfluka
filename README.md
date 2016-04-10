@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/morgenst/pyfluka.svg?branch=master](https://travis-ci.org/morgenst/pyfluka/travis)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 # pyfluka
 
 A tool aiming for comprehensive analysis of FLUKA simulations in a generic way.
