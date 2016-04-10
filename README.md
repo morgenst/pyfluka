@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/morgenst/pyfluka.svg?branch=master](https://travis-ci.org/morgenst/pyfluka/travis)
+[![Build Status](https://travis-ci.org/morgenst/pyfluka.svg?branch=master](https://travis-ci.org/morgenst/pyfluka)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 # pyfluka
 
