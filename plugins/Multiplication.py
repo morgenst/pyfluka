@@ -1,6 +1,8 @@
 import importlib
 from base import InvalidInputError, _global_data, IllegalArgumentError
 from BasePlugin import BasePlugin
+from utils import PhysicsQuantities as PQ
+from functools import partial
 
 
 class MultiplicationOperator(BasePlugin):
@@ -10,7 +12,11 @@ class MultiplicationOperator(BasePlugin):
             self.multiplier = kwargs['multiplier']
             tmp_multiplicand = kwargs['multiplicand']
             if tmp_multiplicand.count("const"):
-                self.multiplicand = float(tmp_multiplicand.replace("const:", ""))
+                tmp_multiplicand = tmp_multiplicand.replace("const:", "")
+                try:
+                    self.multiplicand = float(tmp_multiplicand)
+                except ValueError:
+                    self.multiplicand = PQ.create_generic("multiplicand", tmp_multiplicand)
             elif tmp_multiplicand.count("builtin"):
                 self.multiplicand = self.find_builtin(tmp_multiplicand.replace("builtin:", ""))
             elif tmp_multiplicand.count("global:"):
@@ -24,7 +30,10 @@ class MultiplicationOperator(BasePlugin):
                 self.multiplicand = tmp_multiplicand
             self.product = kwargs['product'].split(":")[0]
             m = importlib.import_module("utils.PhysicsQuantities")
-            self.quantity = getattr(m, kwargs['product'].split(":")[-1])
+            try:
+                self.quantity = getattr(m, kwargs['product'].split(":")[-1])
+            except AttributeError:
+                self.quantity = partial(getattr(m, 'create_generic'), kwargs['product'].split(":")[-1])
             self.current_detector = None
         except KeyError:
             raise InvalidInputError("Unable to initialise multiplication operator")

@@ -125,3 +125,11 @@ class TestMultiplicationOperator(unittest.TestCase):
                   "product": "Dose"}
         mul_op = MultiplicationOperator(**config)
         self.assertEqual(mul_op.multiplicand, PQ.Time(100, unit=ureg.hour))
+
+    def test_custom_product_type(self):
+        config = {"type": "scalar",
+                  "multiplier": "DoseRate",
+                  "multiplicand": "const:100 hour",
+                  "product": "MyCustomDose"}
+        mul_op = MultiplicationOperator(**config)
+        self.assertEqual(mul_op.quantity(100, unit=ureg.Sv), PQ.Dose(100))
