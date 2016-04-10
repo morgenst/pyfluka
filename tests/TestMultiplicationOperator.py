@@ -117,3 +117,11 @@ class TestMultiplicationOperator(unittest.TestCase):
                   "multiplicand": "Activity",
                   "product": "ScaledActivity:Activity"}
         self.assertRaises(InvalidInputError, MultiplicationOperator, **config)
+
+    def test_parsing_const_val_with_unit_simple(self):
+        config = {"type": "scalar",
+                  "multiplier": "DoseRate",
+                  "multiplicand": "const:100 hour",
+                  "product": "Dose"}
+        mul_op = MultiplicationOperator(**config)
+        self.assertEqual(mul_op.multiplicand, PQ.Time(100, unit=ureg.hour))
