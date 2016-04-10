@@ -25,7 +25,9 @@ class AbsPhysicsQuantity(object):
         if issubclass(type(val), AbsPhysicsQuantity):
             self.val = copy(val.val)
             self.unc = copy(val.unc)
-
+        elif isinstance(val, str) and unc == 0:
+            self.val = ureg.Quantity(val)
+            self.unc = ureg.Quantity(0., self.val.units)
         elif not isinstance(val, ureg.Quantity):
             self.val = val * ureg.Quantity(unit)
             self.unc = unc * ureg.Quantity(unit)
