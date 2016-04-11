@@ -313,3 +313,7 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_abs_neg(self):
         qa = abs(PQ.Activity(-10.))
         self.assertEqual(qa, PQ.Activity(10.))
+
+    def test_generic_formatting_latex(self):
+        q = PQ.create_generic("generic", 100., 0., ureg.Bq)
+        self.assertEqual("$100.0 Bq \pm 0.0 Bq$", '{:L}'.format(q))
