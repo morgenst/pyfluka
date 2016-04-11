@@ -35,6 +35,12 @@ class GlobalData:
 
 class StoredData:
     def __init__(self, *args, **kwargs):
+        """
+        Constructor
+
+        :param args: unnamed arguments
+        :param kwargs: keyword arguments
+        """
         self.data = OrderedDict()
         for arg in args:
             self.data[arg.__class__.__name__] = arg
@@ -42,6 +48,13 @@ class StoredData:
             self.data[k] = v
 
     def __eq__(self, other):
+        """
+        Overwritten equals operator. Compares data dictionaries
+
+        :param StoredData other: left side data element
+        :return: True if equal, False else.
+        :rtype: bool
+        """
         return self.data == other.data
 
     def __getitem__(self, item):
@@ -66,6 +79,13 @@ class StoredData:
         self.data[key] = value
 
     def append(self, *args, **kwargs):
+        """
+        Adds value(s) to stored data
+
+        :param args: unnamed arguments
+        :param kwargs: keyword arguments
+        :return:
+        """
         if all(isinstance(arg, list) for arg in args) and args:
             raise ValueError("List items are not supported to be added.")
         for arg in args:
@@ -76,15 +96,34 @@ class StoredData:
         for k, v in kwargs.items():
             self.data[k] = v
 
-    def has_quantity(self, quantaties):
-        if isinstance(quantaties, list):
-            return set(self.data.keys()).issuperset(set(quantaties))
-        return quantaties in self.data.keys()
+    def has_quantity(self, quantities):
+        """
+        Check if stores quantity has quantity stoed
+        :param string quantities: requested quantity
+        :return: True if quantity in data, False if not
+        :rtype: bool
+        """
+        if isinstance(quantities, list):
+            return set(self.data.keys()).issuperset(set(quantities))
+        return quantities in self.data.keys()
 
     def get_attributes(self):
+        """
+        Get list of keys
+
+        :return: Keys
+        :rtype: list
+        """
         return self.data.keys()
 
     def __add__(self, other):
+        """
+        Overwritten add operator.
+
+        :param StoredData other: right-hand side of addition
+        :return: self
+        :rtype: StoredData
+        """
         for k in self.data.keys():
             self.data[k] += other.data[k]
         return self
