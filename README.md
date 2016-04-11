@@ -9,6 +9,7 @@ A tool aiming for comprehensive analysis of FLUKA simulations in a generic way.
 
 The following additional libraries are required:
 
+- coveralls (https://pypi.python.org/pypi/coveralls)
 - numpy, scipy (http://docs.scipy.org/doc/numpy/index.html)
 - matplotlib (http://matplotlib.org/)
 - networkx (https://networkx.github.io/)
@@ -16,3 +17,14 @@ The following additional libraries are required:
 - PyYAML (https://pypi.python.org/pypi/PyYAML)
 - tabulate (https://pypi.python.org/pypi/tabulate)
 - yamlordereddictloader (https://pypi.python.org/pypi/yamlordereddictloader/0.1.0)
+- setuptools (https://pypi.python.org/pypi/setuptools)
+
+By default they are installed automatically as long as setuptools is available
+
+## Installation
+
+Installation is quite easy. Just run:
+
+```bash
+python setup.py install --prefix=/path/where/to/install
+```
