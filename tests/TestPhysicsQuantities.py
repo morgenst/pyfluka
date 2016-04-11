@@ -317,3 +317,7 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_generic_formatting_latex(self):
         q = PQ.create_generic("generic", 100., 0., ureg.Bq)
         self.assertEqual("$100.0 Bq \pm 0.0 Bq$", '{:L}'.format(q))
+
+    def test_generic_formatting_latex_nounit(self):
+        q = PQ.create_generic("generic", 100., 0., ureg.Bq)
+        self.assertEqual("$100.0 \pm 0.0 $", '{:Lnu}'.format(q))
