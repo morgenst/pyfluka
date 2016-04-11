@@ -14,7 +14,8 @@ setup(
                       'PyYAML>=3.11',
                       'tabulate>=0.7.5',
                       'pint==0.6',
-                      'yamlordereddictloader>=0.1.0'],
+                      'yamlordereddictloader>=0.1.0',
+                      'coveralls>=1.1'],
     package_data={
         '': ['*.p', 'test_data/*'],
     },
