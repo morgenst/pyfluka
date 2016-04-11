@@ -1,0 +1,2 @@
+[run]
+omit = *sphinx*, *numpy*, *networkx*, *matplotlib*, *tabulate*, *yaml*, *lib2to3*, *ctypes*, *distutils*, *encodings*, *xml*, *dateutil*, *pint*
