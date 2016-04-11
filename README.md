@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/morgenst/pyfluka.svg?branch=master)](https://travis-ci.org/morgenst/pyfluka)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Coverage Status](https://coveralls.io/repos/github/morgenst/pyfluka/badge.svg?branch=master)](https://coveralls.io/github/morgenst/pyfluka?branch=master)
 # pyfluka
 
 A tool aiming for comprehensive analysis of FLUKA simulations in a generic way.
