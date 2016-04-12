@@ -7,7 +7,7 @@ from base import InvalidInputError, IllegalArgumentError
 from collections import OrderedDict
 import tabulate
 from BasePlugin import BasePlugin
-from operator import itemgetter
+from utils import PhysicsQuantities as PQ
 
 
 class Column:
@@ -41,10 +41,12 @@ class TableMaker(BasePlugin):
             work around to stringify
             """
             isotopes = ["{:L}".format(i)for i in values.keys()]
-            values = [map(lambda i: "{:.2eLnune}".format(i), elem[self.cols]) for elem in values.values()]
-            values = self.__class__._transpose(values)
-            tab = zip(isotopes, *values)
-            table = tabulate.tabulate(tab, tablefmt='latex', floatfmt=".2f")
+            values_selected = [map(lambda i: i, elem[self.cols]) for elem in values.values()]
+            values_stringified = [map(lambda i: "{:.2eLnune}".format(i), elem[self.cols]) for elem in values.values()]
+            values_stringified = self.__class__._transpose(values_stringified)
+            headers = self._get_headers(values_selected)
+            tab = zip(isotopes, *values_stringified)
+            table = tabulate.tabulate(tab, tablefmt='latex', floatfmt=".2f", headers=headers)
             self.tables[det] = table
 
         self.store()
@@ -61,6 +63,13 @@ class TableMaker(BasePlugin):
                 f.close()
         if not self.storeMultipleOutputFiles:
             f.close()
+
+    def _get_headers(self, values):
+        headers = ["Isotope"]
+        for col in values[0]:
+            header = "{:Lsu}".format(col)
+            headers.append(header)
+        return headers
 
     @staticmethod
     def _patch_latex_escapes():
