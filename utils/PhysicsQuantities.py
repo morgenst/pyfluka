@@ -174,7 +174,7 @@ class AbsPhysicsQuantity(object):
         :rtype: string
         """
         if "u" in spec:
-            return "%s [$%s$]" % (self._symbol, '{:~L}'.format(self.val.units))
+            return "%s [$%s$]" % (self._symbol if self._symbol else "", '{:~L}'.format(self.val.units))
 
     def __float__(self):
         return float(self.val.magnitude)
@@ -218,14 +218,12 @@ class Isotope:
 
 class Activity(AbsPhysicsQuantity):
     def __init__(self, val, unc=0., unit=ureg.Bq):
-        super(self.__class__, self).__init__(val, unc, unit)
-        self._symbol = "A"
+        super(self.__class__, self).__init__(val, unc, unit, "A")
 
 
 class SpecificActivity(AbsPhysicsQuantity):
     def __init__(self, val, unc=0., unit=ureg.Bq / ureg.kg):
         super(self.__class__, self).__init__(val, unc, unit, "A")
-        self.symbol = "A"
 
 
 class ExemptionLimit(AbsPhysicsQuantity):
