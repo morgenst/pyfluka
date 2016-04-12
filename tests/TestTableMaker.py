@@ -27,45 +27,49 @@ class TableMakerTest(unittest.TestCase):
         os.remove("table_det2.tex")
         rmtree("test_table_maker")
 
-    def testConfig(self):
+    def test_config(self):
         tm = TM(self.tabConfig)
         res = [Column(col) for col in self.tabConfig['cols']]
         self.assertEqual(tm.cols, self.tabConfig['cols'])
 
-    def testInvoke(self):
+    def test_invoke(self):
         self.tm.invoke(self.data)
 
-    def testMultipleDetectors(self):
+    def test_multiple_detectors(self):
         self.tm.cols = self.tabConfig["cols"]
         self.tm.invoke(self.dataMultiDet)
         self.assertEqual(self.dataMultiDet.keys(), self.tm.tables.keys())
 
-    def testDumpSingleFile(self):
+    def test_dump_single_file(self):
         self.tm.invoke(self.data)
         self.assertTrue(os.path.exists("tables.tex"))
 
-    def testDumpMultipleFiles(self):
-        tabConfig = {"cols": ["Isotope", "Activity"], "multipleOutputFiles": True}
-        tm = TM(tabConfig)
+    def test_dump_multiple_files(self):
+        tab_config = {"cols": ["Isotope", "Activity"], "multipleOutputFiles": True}
+        tm = TM(tab_config)
         tm.invoke(self.dataMultiDet)
         self.assertTrue(os.path.exists("table_det1.tex"))
         self.assertTrue(os.path.exists("table_det2.tex"))
 
-    def testDumpCustomOutPathSingleFile(self):
+    def test_dump_custom_out_path_single_file(self):
         mkdir("test_table_maker")
-        tabConfig = {"cols": ["Isotope", "Activity"], "outputdir": "test_table_maker"}
-        tm = TM(tabConfig)
+        tab_config = {"cols": ["Isotope", "Activity"], "outputdir": "test_table_maker"}
+        tm = TM(tab_config)
         tm.invoke(self.data)
         self.assertTrue(os.path.exists("test_table_maker/tables.tex"))
 
-    @unittest.skip("Not implemented")
-    def testHeader(self):
-        pass
+    def test_header_auto(self):
+        tab_config = {"cols": ["Isotope", "Activity"]}
+        tm = TM(tab_config)
+        tm.invoke(self.data)
+        table = tm.tables["det1"]
+        header = "Isotope   & A [$Bq$]    \\"
+        self.assertEqual(table.count(header), 1)
 
-    def testNoColDefinitionException(self):
+    def test_no_column_definition_exception(self):
         self.assertRaises(InvalidInputError, TM, {})
 
-    def testNonExistingOutDirException(self):
-        tabConfig = {"cols": ["Isotope", "Activity"], "outputdir": "non_existing_dir"}
-        self.assertRaises(ValueError, TM, tabConfig)
+    def test_non_existing_out_dir_exception(self):
+        tab_config = {"cols": ["Isotope", "Activity"], "outputdir": "non_existing_dir"}
+        self.assertRaises(ValueError, TM, tab_config)
 
