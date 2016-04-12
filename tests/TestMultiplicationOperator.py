@@ -133,3 +133,12 @@ class TestMultiplicationOperator(unittest.TestCase):
                   "product": "MyCustomDose"}
         mul_op = MultiplicationOperator(**config)
         self.assertEqual(mul_op.quantity(100, unit=ureg.Sv), PQ.Dose(100))
+
+    def test_type_consistency_scalar_symbol(self):
+        config = {"type": "scalar",
+                  "multiplier": "Activity",
+                  "multiplicand": "const:5 s/s",
+                  "product": "Activity"}
+        mul_op = MultiplicationOperator(**config)
+        mul_op.invoke(self.dataActivity)
+        self.assertEqual(self.dataActivity["det1"].values()[0]["Activity"]._symbol, "A")

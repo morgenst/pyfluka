@@ -21,7 +21,7 @@ class AbsPhysicsQuantity(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def __init__(self, val, unc, unit):
+    def __init__(self, val, unc, unit, symbol = None):
         if issubclass(type(val), AbsPhysicsQuantity):
             self.val = copy(val.val)
             self.unc = copy(val.unc)
@@ -37,10 +37,16 @@ class AbsPhysicsQuantity(object):
                 self.unc = unc
             else:
                 self.unc = ureg.Quantity(unc, self.val.units)
+        self._symbol = symbol
 
     def __setstate__(self, state):
         self.val = ureg.Quantity(state['val'].magnitude, state['val'].units)
         self.unc = ureg.Quantity(state['unc'].magnitude, state['unc'].units)
+
+    def __deepcopy__(self, memo):
+        obj = type(self)(self.val, self.unc)
+        obj.__dict__.update(self.__dict__)
+        return obj
 
     def __eq__(self, other):
         return self.val == other.val and self.unc == other.unc
@@ -218,8 +224,9 @@ class Activity(AbsPhysicsQuantity):
 
 class SpecificActivity(AbsPhysicsQuantity):
     def __init__(self, val, unc=0., unit=ureg.Bq / ureg.kg):
-        super(self.__class__, self).__init__(val, unc, unit)
-        self._symbol = "A"
+        super(self.__class__, self).__init__(val, unc, unit, "A")
+        self.symbol = "A"
+
 
 class ExemptionLimit(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.Bq / ureg.kg):
@@ -303,5 +310,6 @@ def create_generic(name, val, unc=0, unit=ureg.dimensionless):
     def __init__(self, val, unc, unit=ureg.dimensionless):
         super(self.__class__, self).__init__(val, unc, unit)
     c = type(name, (AbsPhysicsQuantity,), {"__init__": __init__})
+    c._symbol = ""
     return c(val, unc, unit)
 

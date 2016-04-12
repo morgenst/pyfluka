@@ -326,6 +326,15 @@ class TestPhysicsQuantities(unittest.TestCase):
         q = PQ.Activity(1.)
         self.assertEqual('{:Lsu}'.format(q), "A [Bq]")
 
-    def test_get_header_activity(self):
+    def test_get_header_specific_activity(self):
         q = PQ.SpecificActivity(1.)
         self.assertEqual('{:Lsu}'.format(q), "A [$\\frac{Bq}{kilogram}$]")
+
+    def test_get_header_generic(self):
+        q = PQ.create_generic("gen", 100., unit=ureg.Bq)
+        self.assertEqual('{:Lsu}'.format(q), " [$Bq$]")
+
+    def test_symbol_after_scalar_multiplication(self):
+        q = PQ.SpecificActivity(100., 0., ureg.Bq)
+        q *= 5
+        self.assertEqual(q._symbol, "A")
