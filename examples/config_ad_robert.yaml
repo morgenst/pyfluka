@@ -1,0 +1,52 @@
+storedQuantity: ProductionYield
+global:
+  NoOfPrimaries: 10E8
+detectors:
+  Cab1:
+    mass: "1 kg"
+  Cab2:
+    mass: "1 kg"
+  Ins1:
+    mass: "1 kg"
+  Ins2:
+    mass: "1 kg"
+
+plugins:
+  TimeEvolution:
+    cool_time: "15 m"
+    irr_time: "35 y"
+  MultiplicationOperator_0:
+    type: dict
+    multiplier: ProductionYield
+    multiplicand: global:NoOfPrimaries
+    product: SpecificActivity
+  MultiplicationOperator_1:
+    type: dict
+    multiplier: ProductionYield
+    multiplicand: global:mass
+    product: SpecificActivity
+  SummationOperator:
+    quantity: SpecificActivity
+  MultiplicationOperator_2:
+    type: scalar
+    multiplier: SpecificActivity
+    multiplicand: const:4.000000e-04 s*m^-3
+    product: SpecificActivity
+  MultiplicationOperator_3:
+    type: scalar
+    multiplier: SpecificActivity
+    multiplicand: const:1.2m^3/hour
+    product: SpecificActivity
+  MultiplicationOperator_4:
+    type: dict
+    multiplier: SpecificActivity
+    multiplicand: builtin:einh
+    product: InhalatedActivity
+  Decorator:
+    - EInh
+  TableMaker:
+    cols:
+      - Isotope
+      - SpecificActivity
+      - InhalatedActivity
+      - EInh
