@@ -325,3 +325,7 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_get_header_activity(self):
         q = PQ.Activity(1.)
         self.assertEqual('{:Lsu}'.format(q), "A [Bq]")
+
+    def test_get_header_activity(self):
+        q = PQ.SpecificActivity(1.)
+        self.assertEqual('{:Lsu}'.format(q), "A [$\\frac{Bq}{kilogram}$]")
