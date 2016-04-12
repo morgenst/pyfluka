@@ -124,6 +124,18 @@ class AbsPhysicsQuantity(object):
         return default_str
 
     def _latex_format(self, spec):
+        """
+        Latex formatting options.
+        formatting options:
+            - nu: no units
+            - ne: no uncertainty
+            - s: symbol character
+            - su: symbol character and unit
+
+        :param spec: formatting option
+        :return: formatted string
+        :rtype: string
+        """
         no_uncertainty = False
         no_unit = False
         if "ne" in spec:
@@ -132,6 +144,8 @@ class AbsPhysicsQuantity(object):
         if "nu" in spec:
             spec = spec.replace("nu", "")
             no_unit = True
+        if "s" in spec:
+            return self._latex_format_symbol(spec.replace("s", ""))
         magnitude_str = format(self.val, spec)
         unc_str = format(self.unc, spec)
         if no_uncertainty:
@@ -144,6 +158,17 @@ class AbsPhysicsQuantity(object):
             ret = ret.replace(unit_str, "")
         ret = re.sub("\s+", " ", ret)
         return ret
+
+    def _latex_format_symbol(self, spec):
+        """
+        Latex formatting symbol representation
+
+        :param spec: formatting option
+        :return: formatted string
+        :rtype: string
+        """
+        if "u" in spec:
+            return "%s [%s]" % (self._symbol, '{:L}'.format(self.val.units))
 
     def __float__(self):
         return float(self.val.magnitude)
@@ -188,6 +213,7 @@ class Isotope:
 class Activity(AbsPhysicsQuantity):
     def __init__(self, val, unc=0., unit=ureg.Bq):
         super(self.__class__, self).__init__(val, unc, unit)
+        self._symbol = "A"
 
 
 class SpecificActivity(AbsPhysicsQuantity):
