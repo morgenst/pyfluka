@@ -4,7 +4,7 @@ setup(
     name="pyfluka",
     version="prototype",
     packages=find_packages(),
-    scripts=["examples/run.py"],
+    scripts=["pyfluka/pyfluka.py"],
 
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine

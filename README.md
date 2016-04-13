@@ -28,3 +28,19 @@ Installation is quite easy. Just run:
 ```bash
 python setup.py install --prefix=/path/where/to/install
 ```
+
+## Run
+
+Executing pyfluka simply works via
+
+```bash
+pyfluka -i input_file_list -o output_directory -c config_file
+```
+
+## Help
+ 
+For help run:
+ 
+```bash
+pyfluka -h
+```
