@@ -1,10 +1,12 @@
 import unittest
 from collections import OrderedDict
-from base.StoredData import StoredData
-from base import _global_data, IllegalArgumentError, InvalidInputError
-from plugins.Multiplication import MultiplicationOperator
-from utils import PhysicsQuantities as PQ
-from utils import ureg
+
+from pyfluka.base import _global_data, IllegalArgumentError, InvalidInputError
+from pyfluka.utils import ureg
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.plugins.Multiplication import MultiplicationOperator
+from pyfluka.utils import PhysicsQuantities as PQ
 
 
 class TestMultiplicationOperator(unittest.TestCase):

@@ -1,15 +1,16 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
-import os
-from os.path import join
 import copy
+import os
 import unittest
+from os.path import join
+
 import numpy as np
-from base import InvalidInputError
-from reader.UsrbinReader import UsrbinReader as UR
-from utils import PhysicsQuantities as PQ
-from operator import mul
+
+from pyfluka.base import InvalidInputError
+from pyfluka.reader.UsrbinReader import UsrbinReader as UR
+from pyfluka.utils import PhysicsQuantities as PQ
 
 _basedir = os.path.dirname(__file__)
 

@@ -1,12 +1,14 @@
 import unittest
 from collections import OrderedDict
 from math import exp, log
-from utils import PhysicsQuantities as PQ
-from utils import ureg
-from base.StoredData import StoredData
-from base import IllegalArgumentError
-from plugins.TimeEvolution import TimeEvolution
-from reader import _dh
+
+from pyfluka.base import IllegalArgumentError
+from pyfluka.utils import ureg
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.plugins.TimeEvolution import TimeEvolution
+from pyfluka.reader import _dh
+from pyfluka.utils import PhysicsQuantities as PQ
 
 
 class TestTimeEvolution(unittest.TestCase):

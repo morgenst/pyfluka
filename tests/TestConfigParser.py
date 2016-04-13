@@ -1,14 +1,17 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
-import unittest
 import os
+import unittest
+from collections import OrderedDict
 from os.path import join
-from utils.PhysicsQuantities import Mass
-from utils.OrderedYAMLExtension import dump
-from base import ConfigParser, IllegalArgumentError, _global_data
-from collections import OrderedDict, defaultdict
-from utils import ureg
+
+from pyfluka.base import IllegalArgumentError, _global_data
+from pyfluka.utils import ureg
+from pyfluka.utils.PhysicsQuantities import Mass
+
+from pyfluka.base import ConfigParser
+from pyfluka.utils.OrderedYAMLExtension import dump
 
 _basedir = os.path.dirname(__file__)
 

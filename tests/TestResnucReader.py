@@ -1,11 +1,13 @@
 import os
-from os.path import join
 import unittest
 from collections import OrderedDict
-from base.StoredData import StoredData
-from reader.ResnucReader import ResnucReader as RR
+from os.path import join
+
 from numpy import sqrt
-import utils.PhysicsQuantities as PQ
+
+import pyfluka.utils.PhysicsQuantities as PQ
+from pyfluka.base.StoredData import StoredData
+from pyfluka.reader.ResnucReader import ResnucReader as RR
 
 _basedir = os.path.dirname(__file__)
 

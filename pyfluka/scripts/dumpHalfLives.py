@@ -3,8 +3,9 @@ __mail__ = ''
 
 import pickle
 import re
-from utils import PhysicsQuantities as PQ
-from utils import ureg
+
+from pyfluka.utils import ureg
+from pyfluka.utils import PhysicsQuantities as PQ
 
 f_raw = open("../data/halfLifes.txt", "r")
 half_life_vals = {}

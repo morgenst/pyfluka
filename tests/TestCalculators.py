@@ -1,10 +1,10 @@
 import unittest
-from collections import OrderedDict
-from plugins.SimpleCalculator import *
-from utils import ureg
 from math import sqrt
-from base.StoredData import StoredData
-from base import _global_data
+
+from pyfluka.base import _global_data
+from pyfluka.plugins.SimpleCalculator import *
+from pyfluka.base.StoredData import StoredData
+from pyfluka.utils import ureg
 
 
 class TestCalculator(unittest.TestCase):

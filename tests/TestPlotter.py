@@ -1,9 +1,11 @@
-import unittest
 import os
+import unittest
 from os.path import join
+
 import numpy as np
-from utils.Plotter import Plotter
-from reader.GeometryReader import GeometryReader as GR
+
+from pyfluka.reader import GeometryReader as GR
+from pyfluka.utils.Plotter import Plotter
 
 _basedir = os.path.dirname(__file__)
 

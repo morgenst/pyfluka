@@ -1,6 +1,7 @@
 import unittest
 from collections import OrderedDict
-from utils.OrderedYAMLExtension import dump
+
+from pyfluka.utils.OrderedYAMLExtension import dump
 
 
 class TestYAMLExtension(unittest.TestCase):

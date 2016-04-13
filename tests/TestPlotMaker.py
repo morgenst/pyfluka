@@ -1,10 +1,11 @@
-import unittest
-import numpy as np
 import os
-from utils import PhysicsQuantities as PQ
-from utils.Plotter import PlotConfig as PC
-from plugins.PlotMaker import PlotMaker as PM
-import matplotlib.pyplot as plt
+import unittest
+
+import numpy as np
+from pyfluka.utils import PhysicsQuantities as PQ
+
+from pyfluka.plugins.PlotMaker import PlotMaker as PM
+from pyfluka.utils.Plotter import PlotConfig as PC
 
 
 class PlotMaker(unittest.TestCase):

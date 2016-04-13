@@ -1,6 +1,7 @@
-import unittest
 import os
-from utils import ShellUtils
+import unittest
+
+from pyfluka.utils import ShellUtils
 
 
 class TestShellUtils(unittest.TestCase):

@@ -1,5 +1,6 @@
 import unittest
-from utils.Plotter import PlotConfig as PC
+
+from pyfluka.utils.Plotter import PlotConfig as PC
 
 
 class testPlotConfig(unittest.TestCase):

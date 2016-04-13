@@ -1,9 +1,10 @@
 import unittest
 from collections import OrderedDict
-from base.StoredData import StoredData
-from plugins.Decorator import Decorator
-from utils import PhysicsQuantities as PQ
-from reader import _dh
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.plugins.Decorator import Decorator
+from pyfluka.reader import _dh
+from pyfluka.utils import PhysicsQuantities as PQ
 
 
 class TestDecorator(unittest.TestCase):

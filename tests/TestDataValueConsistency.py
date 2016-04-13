@@ -1,23 +1,24 @@
-import unittest
-import pickle
 import os
+import pickle
+import unittest
 from os.path import join
-import utils.PhysicsQuantities as PQ
+
+import pyfluka.utils.PhysicsQuantities as PQ
 
 _basedir = os.path.dirname(__file__)
 
 
 class DataTest(unittest.TestCase):
     def setUp(self):
-        fH10 = open(join(_basedir, "../data/Activity_H10_conversion.p"), "r")
+        fH10 = open(join(_basedir, "../pyfluka/data/Activity_H10_conversion.p"), "r")
         self.H10 = pickle.load(fH10)
         fH10.close()
 
-        fHp007 = open(join(_basedir, "../data/Activity_Hp007_conversion.p"), "r")
+        fHp007 = open(join(_basedir, "../pyfluka/data/Activity_Hp007_conversion.p"), "r")
         self.Hp007 = pickle.load(fHp007)
         fHp007.close()
 
-        fLE = open(join(_basedir, "../data/LEDB.p"), "r")
+        fLE = open(join(_basedir, "../pyfluka/data/LEDB.p"), "r")
         self.LE = pickle.load(fLE)
         fLE.close()
 

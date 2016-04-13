@@ -1,7 +1,8 @@
-import unittest
 import os
+import unittest
 from os.path import join
-import base.AnalysisBase as BC
+
+import pyfluka.base.AnalysisBase as BC
 
 _basedir = os.path.dirname(__file__)
 

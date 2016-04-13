@@ -2,12 +2,14 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import unittest
-from base import _global_data
-from base.StoredData import StoredData
-from math import sqrt
 from collections import OrderedDict
-from utils import PhysicsQuantities as PQ
-from utils import ureg
+from math import sqrt
+
+from pyfluka.base import _global_data
+from pyfluka.utils import ureg
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.utils import PhysicsQuantities as PQ
 
 
 class TestStoredData(unittest.TestCase):

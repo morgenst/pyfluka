@@ -1,6 +1,7 @@
 import argparse
 import sys
-from base.AnalysisBase import AnalysisBase
+
+from pyfluka.base.AnalysisBase import AnalysisBase
 
 
 # noinspection PyUnusedLocal

@@ -3,8 +3,10 @@ __mail__ = ''
 
 import pickle
 import re
-from utils import PhysicsQuantities as PQ
-from utils import ureg
+
+from pyfluka.utils import ureg
+
+from pyfluka.utils import PhysicsQuantities as PQ
 
 fIn = open("../data/StSV_Annex3.csv", "r")
 eing_vals = {}

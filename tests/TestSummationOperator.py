@@ -1,8 +1,10 @@
 import unittest
-from plugins.Summation import SummationOperator
-from utils import PhysicsQuantities as PQ
-from base.StoredData import StoredData
-from base import _global_data, IllegalArgumentError
+
+from pyfluka.base import _global_data, IllegalArgumentError
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.plugins.Summation import SummationOperator
+from pyfluka.utils import PhysicsQuantities as PQ
 
 
 class TestSummationOperator(unittest.TestCase):

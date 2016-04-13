@@ -1,8 +1,10 @@
 import unittest
-import utils.PhysicsQuantities as PQ
-from utils import ureg
 from math import sqrt
-from base import IllegalArgumentError
+
+from pyfluka.utils import ureg
+
+import pyfluka.utils.PhysicsQuantities as PQ
+from pyfluka.base import IllegalArgumentError
 
 
 class TestPhysicsQuantities(unittest.TestCase):

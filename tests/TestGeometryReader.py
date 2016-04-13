@@ -1,10 +1,11 @@
 __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
-import unittest
 import os
+import unittest
 from os.path import join
-from reader.GeometryReader import GeometryReader
+
+from pyfluka.reader.GeometryReader import GeometryReader
 
 _basedir = os.path.dirname(__file__)
 

@@ -1,15 +1,17 @@
 __author__ = 'morgenst'
 
-import unittest
 import os.path
-import utils.PhysicsQuantities as PQ
-from base import InvalidInputError
-from base.StoredData import StoredData
+import unittest
 from collections import OrderedDict
-from plugins.TableMaker import TableMaker as TM
-from plugins.TableMaker import Column
-from utils.ShellUtils import mkdir
 from shutil import rmtree
+
+import pyfluka.utils.PhysicsQuantities as PQ
+from pyfluka.base import InvalidInputError
+
+from pyfluka.base.StoredData import StoredData
+from pyfluka.plugins.TableMaker import Column
+from pyfluka.plugins.TableMaker import TableMaker as TM
+from pyfluka.utils.ShellUtils import mkdir
 
 
 class TableMakerTest(unittest.TestCase):

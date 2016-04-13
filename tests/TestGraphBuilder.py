@@ -2,11 +2,13 @@ __author__ = 'marcusmorgenstern'
 __mail__ = ''
 
 import os
-from os.path import join
-import base.GraphBuilder as GB
 import unittest
-import base.ConfigParser as CP
 from collections import OrderedDict
+from os.path import join
+
+import pyfluka.base.ConfigParser as CP
+
+import pyfluka.base.GraphBuilder as GB
 
 _basedir = os.path.dirname(__file__)
 
