@@ -5,6 +5,6 @@ python:
 install: python setup.py install
 # command to run tests
 script:
-  nosetests --with-coverage --cover-package=.
+  nosetests tests --with-coverage --cover-package=pyfluka
 after_success:
   - coveralls
