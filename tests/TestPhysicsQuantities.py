@@ -195,7 +195,7 @@ class TestPhysicsQuantities(unittest.TestCase):
         res = PQ.Activity(100., 0., ureg.Bq * ureg.Bq)
         self.assertEqual(product, res)
 
-    def test_multiplication_different_pq_no_unc(self):
+    def test_multiplication_different_pq_no_unc_builtin(self):
         product = PQ.Dose(PQ.Activity(10., 0.) * PQ.EInh(10.))
         res = PQ.Dose(100., -1.)
         self.assertEqual(product, res)
