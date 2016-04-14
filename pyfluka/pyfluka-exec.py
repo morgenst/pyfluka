@@ -3,6 +3,7 @@ import sys
 
 from pyfluka.base.AnalysisBase import AnalysisBase
 
+
 # noinspection PyUnusedLocal
 def main(argv):
     """
