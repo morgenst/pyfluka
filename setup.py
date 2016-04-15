@@ -4,7 +4,8 @@ setup(
     name="pyfluka",
     version="prototype",
     packages=find_packages(),
-    scripts=["pyfluka/pyfluka-exec.py"],
+    scripts=["pyfluka/pyfluka-exec.py",
+             "pyfluka/pyfluka-merge.py"],
 
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine
