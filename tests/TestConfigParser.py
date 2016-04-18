@@ -98,6 +98,17 @@ class TestConfigParser(unittest.TestCase):
         ConfigParser.parse(join(_basedir, "test_data/test.yaml"))
         self.assertEqual(_global_data["NoOfPrimaries"], 10.)
 
+    def test_detector_parsing_types_global(self):
+        config = {"global": {"NoOfPrimaries": "float:10"},
+                  "plugins": {"a": [1, 2, 3]}}
+        f_config_name = join(_basedir, "test_data/config_type_global.yaml")
+        f_config = open(f_config_name, "w")
+        dump(config, f_config)
+        f_config.close()
+        res = {"NoOfPrimaries": 10.}
+        config = ConfigParser.parse(f_config_name)
+        self.assertEqual(_global_data, res)
+        os.remove(f_config_name)
 
 if __name__ == '__main__':
     unittest.main()
