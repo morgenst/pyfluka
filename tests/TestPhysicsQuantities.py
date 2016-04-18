@@ -340,3 +340,61 @@ class TestPhysicsQuantities(unittest.TestCase):
         q = PQ.SpecificActivity(100., 0., ureg.Bq)
         q *= 5
         self.assertEqual(q._symbol, "A")
+
+    def test_comparison_larger(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(8.)
+        self.assertTrue(q1 > q2)
+
+    def test_comparison_smaller(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(8.)
+        self.assertTrue(q2 < q1)
+
+    def test_comparison_larger_different_units(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(800., unit=ureg.mBq)
+        self.assertTrue(q1 > q2)
+
+    def test_comparison_smaller_different_units(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(80000., unit=ureg.mBq)
+        self.assertTrue(q1 < q2)
+
+    def test_comparison_larger_eq(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(8.)
+        self.assertTrue(q1 >= q2)
+
+    def test_comparison_larger_eq_same(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(10.)
+        self.assertTrue(q1 >= q2)
+
+    def test_comparison_smaller_eq(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(8.)
+        self.assertTrue(q2 <= q1)
+
+    def test_comparison_smaller_eq_same(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(10.)
+        self.assertTrue(q2 <= q1)
+
+    def test_comparison_larger_eq_different_units(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(800., unit=ureg.mBq)
+        self.assertTrue(q1 >= q2)
+
+    def test_comparison_larger_eq_same_different_units(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(1000., unit=ureg.mBq)
+        self.assertTrue(q1 >= q2)
+
+    def test_comparison_smaller_eq_same_different_units(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(10000., unit=ureg.mBq)
+        self.assertTrue(q1 <= q2)
+
+
+
