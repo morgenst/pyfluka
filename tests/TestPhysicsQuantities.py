@@ -396,5 +396,19 @@ class TestPhysicsQuantities(unittest.TestCase):
         q2 = PQ.Activity(10000., unit=ureg.mBq)
         self.assertTrue(q1 <= q2)
 
+    @unittest.skip("Not implemented")
+    def test_comparison_smaller_different_quantities(self):
+        pass
 
+    @unittest.skip("Not implemented")
+    def test_comparison_larger_different_quantities(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_comparison_smaller_eq_different_quantities(self):
+        pass
+
+    @unittest.skip("Not implemented")
+    def test_comparison_larger_eq_different_quantities(self):
+        pass
 
