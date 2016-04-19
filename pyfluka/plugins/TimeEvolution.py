@@ -45,7 +45,7 @@ class TimeEvolution(BasePlugin):
         :rtype: float
         """
         half_life = _dh._hl[isotope]
-        return (1. - exp(-log(2.) * self.irr_time / half_life)) * exp(-log(2.) * self.cool_time / half_life)
+        return max(0., (1. - exp(-log(2.) * self.irr_time / half_life)) * exp(-log(2.) * self.cool_time / half_life))
 
     @staticmethod
     def _parse_config(time):
