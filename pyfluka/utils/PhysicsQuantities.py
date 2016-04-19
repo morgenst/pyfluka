@@ -300,7 +300,7 @@ class Dose(AbsPhysicsQuantity):
 
 
 class ProductionYield(AbsPhysicsQuantity):
-    def __init__(self, val, unc, unit=1. / ureg.second):
+    def __init__(self, val, unc=0., unit=1. / ureg.second):
         super(self.__class__, self).__init__(val, unc, unit)
 
 
