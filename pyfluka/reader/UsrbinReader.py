@@ -96,7 +96,6 @@ class UsrbinReader(BaseReader):
             if not merged_data["Binning"] == data["Binning"]:
                 raise InvalidInputError("Requested merging with inconsistent binning: " +
                                         str(merged_data["Binning"]) + " and " + str(data["Binning"]))
-
         for det in data.keys():
             keys = data[det].keys()
             keys.remove("Binning")
@@ -110,4 +109,4 @@ class UsrbinReader(BaseReader):
                 elif isinstance(data[det][key], np.ndarray):
                     merged_data[det][key] += data[det][key]
                 else:
-                    raise InvalidInputError("Request merge for unsupported type " + type(data[det][key]))
+                    raise InvalidInputError("Request merge for unsupported type " + str(type(data[det][key])))
