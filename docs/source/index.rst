@@ -11,10 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+:ref:`getting_started`
 
 
-Indices and tables
-==================
+API
+===
 
 * :ref:`genindex`
 * :ref:`modindex`
