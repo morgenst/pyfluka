@@ -4,7 +4,7 @@ plotting package
 Module contents
 ---------------
 
-.. automodule:: plotting
+.. automodule:: pyfluka.plotting
     :members:
     :undoc-members:
     :show-inheritance:

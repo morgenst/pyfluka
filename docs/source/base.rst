@@ -4,34 +4,34 @@ base package
 Submodules
 ----------
 
-base.AnalysisBase module
-------------------------
+AnalysisBase module
+-------------------
 
-.. automodule:: base.AnalysisBase
+.. automodule:: pyfluka.base.AnalysisBase
     :members:
     :undoc-members:
     :show-inheritance:
 
-base.ConfigParser module
-------------------------
+ConfigParser module
+-------------------
 
-.. automodule:: base.ConfigParser
+.. automodule:: pyfluka.base.ConfigParser
     :members:
     :undoc-members:
     :show-inheritance:
 
-base.GraphBuilder module
-------------------------
+GraphBuilder module
+-------------------
 
-.. automodule:: base.GraphBuilder
+.. automodule:: pyfluka.base.GraphBuilder
     :members:
     :undoc-members:
     :show-inheritance:
 
-base.StoredData module
-----------------------
+StoredData module
+-----------------
 
-.. automodule:: base.StoredData
+.. automodule:: pyfluka.base.StoredData
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,7 +40,7 @@ base.StoredData module
 Module contents
 ---------------
 
-.. automodule:: base
+.. automodule:: pyfluka.base
     :members:
     :undoc-members:
     :show-inheritance:
