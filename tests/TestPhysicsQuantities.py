@@ -415,17 +415,27 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_comparison_dimension_check_pass(self):
         q1 = PQ.Activity(10.)
         q2 = PQ.Activity(10.)
-        self.assertTrue(q1._validate_comparison_input(q2))
+        self.assertIsNone(q1._validate_comparison_input(q2))
 
     def test_comparison_dimension_check_pass_exponent(self):
         q1 = PQ.Activity(10.)
         q2 = PQ.Activity(10., unit=ureg.mBq)
-        self.assertTrue(q1._validate_comparison_input(q2))
+        self.assertIsNone(q1._validate_comparison_input(q2))
 
     def test_comparison_dimension_check_fail(self):
         q1 = PQ.Activity(10.)
         q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1._validate_comparison_input, q2)
+
+    def test_comparison_dimension_check_pass_float(self):
+        q1 = PQ.create_generic("dimless", 20.)
+        q2 = 10.
         self.assertFalse(q1._validate_comparison_input(q2))
+
+    def test_comparison_dimension_check_fail_float(self):
+        q1 = PQ.Activity(10.)
+        q2 = 10.
+        self.assertRaises(IllegalArgumentError, q1._validate_comparison_input, q2)
 
     def test_exception_dimension_le(self):
         q1 = PQ.Activity(10.)
@@ -445,4 +455,64 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_exception_dimension_gt(self):
         q1 = PQ.Activity(10.)
         q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1.__gt__, q2)
+
+    def test_float_dimensionless_le_true(self):
+        q1 = PQ.create_generic("dimless", 10.)
+        q2 = 20.
+        self.assertTrue(q1 <= q2)
+
+    def test_float_dimensionless_le_false(self):
+        q1 = PQ.create_generic("dimless", 10.)
+        q2 = 5.
+        self.assertFalse(q1 <= q2)
+
+    def test_exception_float_dimension_le(self):
+        q1 = PQ.Activity(10.)
+        q2 = 10.
+        self.assertRaises(IllegalArgumentError, q1.__le__, q2)
+
+    def test_float_dimensionless_lt_true(self):
+        q1 = PQ.create_generic("dimless", 10.)
+        q2 = 20.
+        self.assertTrue(q1 < q2)
+
+    def test_float_dimensionless_lt_false(self):
+        q1 = PQ.create_generic("dimless", 10.)
+        q2 = 5.
+        self.assertFalse(q1 < q2)
+
+    def test_exception_float_dimension_lt(self):
+        q1 = PQ.Activity(10.)
+        q2 = 10.
+        self.assertRaises(IllegalArgumentError, q1.__lt__, q2)
+
+    def test_float_dimensionless_ge_true(self):
+        q1 = PQ.create_generic("dimless", 30.)
+        q2 = 20.
+        self.assertTrue(q1 >= q2)
+
+    def test_float_dimensionless_ge_false(self):
+        q1 = PQ.create_generic("dimless", 1.)
+        q2 = 5.
+        self.assertFalse(q1 >= q2)
+
+    def test_exception_float_dimension_ge(self):
+        q1 = PQ.Activity(10.)
+        q2 = 10.
+        self.assertRaises(IllegalArgumentError, q1.__ge__, q2)
+
+    def test_float_dimensionless_gt_true(self):
+        q1 = PQ.create_generic("dimless", 30.)
+        q2 = 20.
+        self.assertTrue(q1 > q2)
+
+    def test_float_dimensionless_gt_false(self):
+        q1 = PQ.create_generic("dimless", 1.)
+        q2 = 5.
+        self.assertFalse(q1 > q2)
+
+    def test_exception_float_dimension_gt(self):
+        q1 = PQ.Activity(10.)
+        q2 = 10.
         self.assertRaises(IllegalArgumentError, q1.__gt__, q2)

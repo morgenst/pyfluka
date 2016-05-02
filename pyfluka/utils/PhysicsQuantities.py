@@ -121,31 +121,54 @@ class AbsPhysicsQuantity(object):
         return format(self)
 
     def _validate_comparison_input(self, other):
-        return self.val.to_base_units().units == other.val.to_base_units().units
+        try:
+            if not self.val.to_base_units().units == other.val.to_base_units().units:
+                raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                           str(other.val))
+        except AttributeError:
+            if self.val.units !=ureg.dimensionless.units or not isinstance(other, Number):
+                raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                           str(other))
 
     def __le__(self, other):
-        if not self._validate_comparison_input(other):
-            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
-                                       str(other.val))
-        return self.val <= other.val
+        try:
+            self._validate_comparison_input(other)
+        except IllegalArgumentError as e:
+            raise e
+        try:
+            return self.val <= other.val
+        except AttributeError:
+            return self.val <= other
 
     def __lt__(self, other):
-        if not self._validate_comparison_input(other):
-            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
-                                       str(other.val))
-        return self.val < other.val
+        try:
+            self._validate_comparison_input(other)
+        except IllegalArgumentError as e:
+            raise e
+        try:
+            return self.val < other.val
+        except AttributeError:
+            return self.val < other
 
     def __ge__(self, other):
-        if not self._validate_comparison_input(other):
-            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
-                                       str(other.val))
-        return self.val >= other.val
+        try:
+            self._validate_comparison_input(other)
+        except IllegalArgumentError as e:
+            raise e
+        try:
+            return self.val >= other.val
+        except AttributeError:
+            return self.val >= other
 
     def __gt__(self, other):
-        if not self._validate_comparison_input(other):
-            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
-                                       str(other.val))
-        return self.val > other.val
+        try:
+            self._validate_comparison_input(other)
+        except IllegalArgumentError as e:
+            raise e
+        try:
+            return self.val > other.val
+        except AttributeError:
+            return self.val > other
 
     def __format__(self, spec):
         if "L" in spec:
