@@ -412,3 +412,37 @@ class TestPhysicsQuantities(unittest.TestCase):
     def test_comparison_larger_eq_different_quantities(self):
         pass
 
+    def test_comparison_dimension_check_pass(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(10.)
+        self.assertTrue(q1._validate_comparison_input(q2))
+
+    def test_comparison_dimension_check_pass_exponent(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Activity(10., unit=ureg.mBq)
+        self.assertTrue(q1._validate_comparison_input(q2))
+
+    def test_comparison_dimension_check_fail(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Dose(10.)
+        self.assertFalse(q1._validate_comparison_input(q2))
+
+    def test_exception_dimension_le(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1.__le__, q2)
+
+    def test_exception_dimension_ge(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1.__ge__, q2)
+
+    def test_exception_dimension_lt(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1.__lt__, q2)
+
+    def test_exception_dimension_gt(self):
+        q1 = PQ.Activity(10.)
+        q2 = PQ.Dose(10.)
+        self.assertRaises(IllegalArgumentError, q1.__gt__, q2)

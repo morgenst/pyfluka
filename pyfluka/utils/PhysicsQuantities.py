@@ -6,10 +6,8 @@ import re
 from abc import ABCMeta, abstractmethod
 from copy import deepcopy, copy
 from numbers import Number
-
 from numpy import sqrt
 from pkg_resources import resource_stream
-
 from pyfluka.base import IllegalArgumentError
 from pyfluka.utils import ureg
 
@@ -22,7 +20,7 @@ class AbsPhysicsQuantity(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def __init__(self, val, unc, unit, symbol = None):
+    def __init__(self, val, unc, unit, symbol=None):
         if issubclass(type(val), AbsPhysicsQuantity):
             self.val = copy(val.val)
             self.unc = copy(val.unc)
@@ -43,6 +41,7 @@ class AbsPhysicsQuantity(object):
     def __setstate__(self, state):
         self.val = ureg.Quantity(state['val'].magnitude, state['val'].units)
         self.unc = ureg.Quantity(state['unc'].magnitude, state['unc'].units)
+        self._symbol = state["_symbol"]
 
     def __deepcopy__(self, memo):
         obj = type(self)(self.val, self.unc)
@@ -121,16 +120,31 @@ class AbsPhysicsQuantity(object):
     def __str__(self):
         return format(self)
 
+    def _validate_comparison_input(self, other):
+        return self.val.to_base_units().units == other.val.to_base_units().units
+
     def __le__(self, other):
+        if not self._validate_comparison_input(other):
+            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                       str(other.val))
         return self.val <= other.val
 
     def __lt__(self, other):
+        if not self._validate_comparison_input(other):
+            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                       str(other.val))
         return self.val < other.val
 
     def __ge__(self, other):
+        if not self._validate_comparison_input(other):
+            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                       str(other.val))
         return self.val >= other.val
 
     def __gt__(self, other):
+        if not self._validate_comparison_input(other):
+            raise IllegalArgumentError("Request comparison for different quantities: " + str(self.val) + " and " +
+                                       str(other.val))
         return self.val > other.val
 
     def __format__(self, spec):
@@ -286,7 +300,7 @@ class Mass(AbsPhysicsQuantity):
 
 class EInh(AbsPhysicsQuantity):
     def __init__(self, val, unit=ureg.Sv / ureg.Bq):
-        super(self.__class__, self).__init__(val, 0., unit)
+        super(self.__class__, self).__init__(val, 0., unit, "e_{inh}")
 
 
 class EIng(AbsPhysicsQuantity):
