@@ -48,3 +48,8 @@ class TestFilter(unittest.TestCase):
         fil.invoke(self.data)
         self.assertEqual(self.data, {"det1": {}})
 
+    def test_relative_filter_resnuc_data_single_pass(self):
+        config = {"quantity": "Activity", "threshold": "0.5"}
+        fil = Filter(**config)
+        fil.invoke(self.data)
+        self.assertEqual(self.data, {"det1": {PQ.Isotope(3, 1, 0): StoredData(PQ.Activity(10.))}})

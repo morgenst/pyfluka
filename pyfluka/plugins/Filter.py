@@ -27,15 +27,20 @@ class Filter(BasePlugin):
         try:
             try:
                 self.threshold = float(kwargs["threshold"])
+                self.type = "rel"
             except ValueError:
                 self.threshold = PQ.create_generic(self.quantity + "Threshold", kwargs["threshold"])
+                self.type = "abs"
         except KeyError:
             raise InvalidInputError("Try to initialise Filter without specifying threshold.")
-        self.type = "rel"
 
     def invoke(self, data):
         for det, values in data.iteritems():
             data[det] = self._apply_filter(values)
 
     def _apply_filter(self, values):
+        print values.items()[0][1][self.quantity]
+        if self.type is "rel":
+            total = sum(map(lambda kv: kv[1][self.quantity], values.iteritems()))
+            return dict(filter(lambda kv: kv[1][self.quantity] / total > self.threshold, values.iteritems()))
         return dict(filter(lambda kv: kv[1][self.quantity] > self.threshold, values.iteritems()))
