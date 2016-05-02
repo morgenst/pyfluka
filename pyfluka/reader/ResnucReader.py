@@ -8,8 +8,6 @@ from pyfluka.base.StoredData import StoredData
 
 class ResnucReader(BaseReader):
     def __init__(self, quantity="Activity", dim=None, weights=None):
-        print self.__class__
-        print self.__class__.__name__
         super(self.__class__, self).__init__(quantity, dim, weights)
 
     def _load(self, filename, weight):

@@ -39,7 +39,6 @@ class Filter(BasePlugin):
             data[det] = self._apply_filter(values)
 
     def _apply_filter(self, values):
-        print values.items()[0][1][self.quantity]
         if self.type is "rel":
             total = sum(map(lambda kv: kv[1][self.quantity], values.iteritems()))
             return dict(filter(lambda kv: kv[1][self.quantity] / total > self.threshold, values.iteritems()))
