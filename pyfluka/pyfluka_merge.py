@@ -38,11 +38,11 @@ class InputParser:
         self.path = path
         self.parsedInfo = {'resnuc': [], 'usrbin': []}
 
-    def __getBins(self):
+    def _get_bins(self):
         r = re.compile("([0-9]{2})$")
         self.bins = set([int(re.search(r, fN).group(1)) for fN in glob.glob(self.path + '/*fort*')])
 
-    def __dropBin(self, bin):
+    def _drop_bin(self, bin):
         try:
             self.bins.remove(bin)
             return True
@@ -63,18 +63,18 @@ class InputParser:
                 return
             if re.match(re_resnuc, line):
                 index = abs(int(line.split()[2].rstrip('.')))
-                add_bin = self.__dropBin(index)
+                add_bin = self._drop_bin(index)
                 if add_bin:
                     self.parsedInfo['resnuc'].append(index)
 
             elif re.match(re_usrbin, line):
                 index = abs(int(line.split()[3].rstrip('.')))
-                add_bin = self.__dropBin(index)
+                add_bin = self._drop_bin(index)
                 if add_bin:
                     self.parsedInfo['usrbin'].append(index)
 
     def parse(self):
-        self.__getBins()
+        self._get_bins()
         self.__parse_scoring_cards()
         return self.parsedInfo
 
@@ -122,7 +122,7 @@ class Merger(object):
 
     def merge(self, cards):
         pickle(MethodType, _pickle_method, _unpickle_method)
-        jobs = [(k,v) for k, vals in cards.items() for v in vals]
+        jobs = [(k,v) for k, values in cards.items() for v in values]
         pool = multiprocessing.Pool(processes=min(len(jobs), multiprocessing.cpu_count()))
         pool.map(self._merge_impl, jobs)
 
@@ -151,16 +151,16 @@ class Merger(object):
     def convert_to_ascii(self, card, bin):
         os.chdir(self.out_path)
         tmp_file_name = 'asciiconversion_%s_%i.txt' % (card, bin)
-        for file_nameame in glob.glob(r'%s/%s_%s_%s*' % (self.out_path,
+        for file_name in glob.glob(r'%s/%s_%s_%s*' % (self.out_path,
                                                   self.geom,
                                                   card,
                                                   bin)):
-            if file_nameame.endswith('.ascii'):
+            if file_name.endswith('.ascii'):
                 continue
-            file_nameame = os.path.split(file_nameame)[1]
+            file_name = os.path.split(file_name)[1]
             tmp_file = open(os.path.join(self.curdir, tmp_file_name), 'w+')
-            print >> tmp_file, file_nameame
-            print >> tmp_file, file_nameame + '.ascii'
+            print >> tmp_file, file_name
+            print >> tmp_file, file_name + '.ascii'
             tmp_file.close()
             os.system('%s/flutil/usbrea < %s > /dev/null' % (os.environ['FLUPRO'], os.path.join(self.curdir, tmp_file_name)))
             os.remove(os.path.join(self.curdir, tmp_file_name))
