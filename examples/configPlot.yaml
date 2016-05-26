@@ -10,3 +10,6 @@ plugins:
     plot1:
       quantity: DoseRate
       type: 2D
+      xtitle: my_x_title
+      ytitle: my_y_title
+      ztitle: my_z_title

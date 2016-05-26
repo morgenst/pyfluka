@@ -49,6 +49,7 @@ class Plotter(object):
                     vmax=None):
         x = get_axes_range(axesdata[2])
         y = get_axes_range(axesdata[1])
+        self.colorbar = True
         if use_log:
             plt.pcolor(x, y, mat.astype(float), norm=LogNorm(vmin=vmin_log, vmax=vmax_log))
         else:
@@ -60,14 +61,21 @@ class Plotter(object):
         if geometry_data is not None:
             for x, y in izip(*geometry_data):
                 plt.plot(x, y, 'k-', linewidth=2)
-        if "xtitle" in plot_config:
-            plt.xlabel(plot_config.xtitle)
-        if "ytitle" in plot_config:
-            plt.ylabel(plot_config.ytitle)
+        self._apply_style(plt, plot_config)
 
         if out_filename:
             plt.savefig(os.path.join(self.outputDir, out_filename), format=self.format)
         return plt
+
+    def _apply_style(self, plot, plot_config):
+        if "xtitle" in plot_config:
+            plot.xlabel(plot_config.xtitle)
+        if "ytitle" in plot_config:
+            plot.ylabel(plot_config.ytitle)
+        if self.colorbar:
+            ztitle = "" if "ztitle" not in plot_config else plot_config.ztitle
+            plt.colorbar().set_label(ztitle)
+
 
     def plot_matrix_short(self, data, axesdata, selection, transpose=False, use_log=True, vmin_log=None, vmax_log=None,
                           aspect_ratio_equal=True, geometry_data=None, savefilename=None, vmin=None, vmax=None):
