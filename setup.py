@@ -9,7 +9,8 @@ setup(
 
     # Project uses reStructuredText, so ensure that the docutils get
     # installed or upgraded on the target machine
-    install_requires=['numpy>=1.0',
+    install_requires=['nose-exclude>=0.4.1',
+                      'numpy>=1.0',
                       'matplotlib>=1.3.1',
                       'networkx>=1.11',
                       'PyYAML>=3.11',
