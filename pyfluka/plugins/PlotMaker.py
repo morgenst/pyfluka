@@ -55,6 +55,7 @@ class PlotMaker(BasePlugin):
                 det = ""
             try:
                 self.plotter.plot_matrix(plot_data[0], binning,
+                                         plot_config=self.current_plot_config,
                                          out_filename=self.current_plot_config.name + det)
             except TypeError:
                 raise InvalidInputError("Unable to store plot. Either plot config or detector is unnamed")

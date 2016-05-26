@@ -23,3 +23,7 @@ class testPlotConfig(unittest.TestCase):
         pc2 = PC("foo", {"type": "2D"})
         self.assertNotEqual(pc1, pc2)
 
+    def test_contains(self):
+        pc1 = PC("foo", {"xtitle": "my_x_title"})
+        self.assertTrue("xtitle" in pc1)
+
