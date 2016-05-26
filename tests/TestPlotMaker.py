@@ -8,7 +8,7 @@ from pyfluka.plugins.PlotMaker import PlotMaker as PM
 from pyfluka.utils.Plotter import PlotConfig as PC
 
 
-class PlotMaker(unittest.TestCase):
+class TestPlotMaker(unittest.TestCase):
     def setUp(self):
         plotConfigDict = {'type': "2D", 'quantity': "Activity"}
         self.plotConfig = [PC("foo", plotConfigDict)]
