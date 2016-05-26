@@ -42,7 +42,7 @@ class PlotMaker(BasePlugin):
                     raise e
 
     def _make_plot_2d(self):
-        m = importlib.import_module("utils.PhysicsQuantities")
+        m = importlib.import_module("pyfluka.utils.PhysicsQuantities")
         quantity = getattr(m, self.current_plot_config.quantity)
         for det, fullData in self.data.items():
             try:
