@@ -7,6 +7,12 @@ from pyfluka.utils.Plotter import Plotter, PlotConfig, pack_data
 
 class PlotMaker(BasePlugin):
     def __init__(self, config=None, config_name=None):
+        """
+        Constructor
+
+        :param config: dictionary containing plot config
+        :param config_name: (optional) plot specific config in case of multiple configurations in config
+        """
         self.data = None
         self.current_plot_config = None
         self.plotter = Plotter()
@@ -21,6 +27,11 @@ class PlotMaker(BasePlugin):
         self.plots = {}
 
     def invoke(self, data):
+        """
+        Execution method starting plotting
+        :param data: dictionary containing data to be plotted, binning
+        :return:
+        """
         self.data = data
         for pc in self.config:
             self.current_plot_config = pc
