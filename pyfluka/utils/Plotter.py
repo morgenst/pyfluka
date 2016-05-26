@@ -38,6 +38,7 @@ class Plotter(object):
         self.format = file_format
 
     def plot_matrix(self, mat, axesdata,
+                    plot_config=None,
                     out_filename=None,
                     use_log=True,
                     vmin_log=None,
@@ -59,6 +60,11 @@ class Plotter(object):
         if geometry_data is not None:
             for x, y in izip(*geometry_data):
                 plt.plot(x, y, 'k-', linewidth=2)
+        if "xtitle" in plot_config:
+            plt.xlabel(plot_config.xtitle)
+        if "ytitle" in plot_config:
+            plt.ylabel(plot_config.ytitle)
+
         if out_filename:
             plt.savefig(os.path.join(self.outputDir, out_filename), format=self.format)
         return plt
@@ -81,6 +87,9 @@ class PlotConfig(object):
         self.name = name
         for attr, val in kwargs.items():
             self.__setattr__(attr, val)
+
+    def __contains__(self, item):
+        return hasattr(self, item)
 
     def __eq__(self, other):
         lhs = {(k, v) for k, v in self.__dict__.items() if not k == 'name'}
