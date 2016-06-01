@@ -93,7 +93,11 @@ The Table Maker plugin provides functionality for generic creation of tabulated 
        cols:
         - col1
         - col2
+       outputdir (optional): output_path
+       multipleOutputFiles (optional): True
 
 Via cols option columns to be printed can be requested. Their names must correspond to corresponding entries in the
 central data store. By default column headers are retrieved from the corresponding PhysicsQuantity definition, but can
-be customised via ...
+be customised via ... Outputdir defines the output directory where tables will be stored. By default they will go to
+current_dir/tables which will be created automatically. If multipleOutputFiles flag is set to True (default: False) each
+requested table, e.g. for each detector, will be stored in a separate file.
