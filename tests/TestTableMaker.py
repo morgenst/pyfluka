@@ -75,3 +75,12 @@ class TableMakerTest(unittest.TestCase):
         tab_config = {"cols": ["Isotope", "Activity"], "outputdir": "non_existing_dir"}
         self.assertRaises(ValueError, TM, tab_config)
 
+    def test_eq_operator_true(self):
+        col1 = Column("foo1")
+        col2 = Column("foo1")
+        self.assertEqual(col1, col2)
+
+    def test_eq_operator_false(self):
+        col1 = Column("foo1")
+        col2 = Column("foo2")
+        self.assertNotEqual(col1, col2)
