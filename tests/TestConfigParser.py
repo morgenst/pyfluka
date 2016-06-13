@@ -110,5 +110,17 @@ class TestConfigParser(unittest.TestCase):
         self.assertEqual(_global_data, res)
         os.remove(f_config_name)
 
+    def test_weight_parsing(self):
+        config = {"global": {"weights": {"foo": 0.1, "bar": 0.8}}, "plugins": {}}
+        f_config_name = join(_basedir, "test_data/config_weights.yaml")
+        f_config = open(f_config_name, "w")
+        dump(config, f_config)
+        f_config.close()
+        res = {"weights": {"foo": 0.1, "bar": 0.8}}
+        parsed_config = ConfigParser.parse(f_config_name)
+        print _global_data.__dict__
+        self.assertEqual(_global_data, res)
+        os.remove(f_config_name)
+
 if __name__ == '__main__':
     unittest.main()
