@@ -1,0 +1,15 @@
+#: kivy 1.9.0
+#: import pyflukawidgets pyflukawidgets
+
+<DraggableWidget>:
+    size_hint: None, None
+
+<Node>:
+    size: 48, 48
+    canvas:
+        PushMatrix
+        Line:
+            circle: 24, 38, 20
+        Translate:
+            y: 48-8
+        PopMatrix

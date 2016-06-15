@@ -1,0 +1,39 @@
+#: kivy 1.9.1
+
+<PyFlukaGui>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        MenuBar:
+            id: _menu_bar
+            size_hint: 1, None
+            height: 48
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'center'
+        ToolBar:
+            id: _tool_bar
+            drawing_space: _drawing_space
+            pyfluka_gui: root
+            size_hint: None, None
+            width: 100
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'center'
+        DrawingSpace:
+            id: _drawing_space
+            menu_bar: _menu_bar
+            control_panel: _control_panel
+            tool_bar: _tool_bar
+            size_hint: None, None
+            width: root.width - _tool_bar.width
+            height: root.height - _menu_bar.height - _control_panel.height
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+        ControlPanel:
+            id: _control_panel
+            drawing_space: _drawing_space
+            size_hint: 1, None
+            #width: root.width
+            height: 48

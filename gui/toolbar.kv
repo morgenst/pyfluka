@@ -1,0 +1,24 @@
+#: kivy 1.9.1
+#: import toolbar toolbar
+
+<ToolButton>:
+    size_hint: None, None
+    size: 48, 48
+    group: 'tool'
+    canvas:
+        PushMatrix:
+        Translate:
+            xy: self.x, self.y
+    canvas.after:
+        PopMatrix
+
+<ToolBar@GridLayout>:
+    cols: 2
+    padding: 2
+    NodeButton:
+        text: '+'
+    NodeButton:
+        text: '*'
+    EdgeButton:
+        text: '-'
+
