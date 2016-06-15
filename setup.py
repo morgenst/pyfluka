@@ -17,7 +17,8 @@ setup(
                       'tabulate>=0.7.5',
                       'pint==0.6',
                       'yamlordereddictloader>=0.1.0',
-                      'coveralls>=1.1'],
+                      'coveralls>=1.1',
+                      'kivy>=1.9.0'],
     package_data={
         '': ['*.p', 'test_data/*'],
     },
