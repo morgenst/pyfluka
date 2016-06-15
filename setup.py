@@ -7,9 +7,8 @@ setup(
     scripts=["pyfluka/pyfluka-exec.py",
              "pyfluka/pyfluka_merge.py"],
 
-    # Project uses reStructuredText, so ensure that the docutils get
-    # installed or upgraded on the target machine
-    install_requires=['nose-exclude>=0.4.1',
+    install_requires=['kivy>=1.9.0',
+                      'nose-exclude>=0.4.1',
                       'numpy>=1.0',
                       'matplotlib>=1.3.1',
                       'networkx>=1.11',
@@ -18,8 +17,7 @@ setup(
                       'pint==0.6',
                       'yamlordereddictloader>=0.1.0',
                       'coveralls>=1.1',
-                      'Cython>=0.20',
-                      'kivy>=1.9.0'],
+                      'Cython>=0.20'],
     package_data={
         '': ['*.p', 'test_data/*'],
     },
