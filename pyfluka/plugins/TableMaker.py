@@ -25,14 +25,22 @@ class TableMaker(BasePlugin):
             raise InvalidInputError("No columns defined for table. Nothing to do, so giving up.")
         self.cols = config['cols']
         self.tables = OrderedDict()
-        self.outputDir = os.path.curdir
-        self.storeMultipleOutputFiles = False
+        self.output_dir = "/afs/cern.ch/work/m/morgens/flair++/examples/"
+        self.store_multiple_output_files = False
         if 'outputdir' in config:
-            self.outputDir = config['outputdir']
-            if not os.path.exists(self.outputDir):
-                raise IllegalArgumentError("Output directory " + self.outputDir + " does not exist.")
+            self.output_dir = config['outputdir']
+            if not os.path.exists(self.output_dir):
+                raise IllegalArgumentError("Output directory " + self.output_dir + " does not exist.")
         if 'multipleOutputFiles' in config:
-            self.storeMultipleOutputFiles = True
+            self.store_multiple_output_files = True
+        self.format = 'latex'
+        if 'format' in config:
+            allowed_format_options = map(str, tabulate.tabulate_formats)
+            if config['format'] not in allowed_format_options:
+                print 'Invalid formatting option %s. Set to plain' % config['format']
+                self.format = 'plain'
+            else:
+                self.format = config['format']
         self.__class__._patch_latex_escapes()
 
     def invoke(self, data):
@@ -54,15 +62,15 @@ class TableMaker(BasePlugin):
 
     def store(self):
         f = None
-        if not self.storeMultipleOutputFiles:
-            f = open(os.path.join(self.outputDir, "tables.tex"), "w")
+        if not self.store_multiple_output_files:
+            f = open(os.path.join(self.output_dir, "tables.tex"), "w")
         for det, table in self.tables.items():
-            if self.storeMultipleOutputFiles:
-                f = open(os.path.join(self.outputDir, "table_%s.tex" % det), "w")
+            if self.store_multiple_output_files:
+                f = open(os.path.join(self.output_dir, "table_%s.tex" % det), "w")
             print >> f, table
-            if self.storeMultipleOutputFiles:
+            if self.store_multiple_output_files:
                 f.close()
-        if not self.storeMultipleOutputFiles:
+        if not self.store_multiple_output_files:
             f.close()
 
     def _get_headers(self, values):

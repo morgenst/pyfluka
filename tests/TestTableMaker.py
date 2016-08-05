@@ -23,10 +23,11 @@ class TableMakerTest(unittest.TestCase):
         self.tm = TM(self.tabConfig)
 
     @classmethod
+    def setUpClass(cls):
+        os.mkdir("test_table_maker")
+
+    @classmethod
     def tearDownClass(cls):
-        os.remove("tables.tex")
-        os.remove("table_det1.tex")
-        os.remove("table_det2.tex")
         rmtree("test_table_maker")
 
     def test_config(self):
@@ -44,14 +45,14 @@ class TableMakerTest(unittest.TestCase):
 
     def test_dump_single_file(self):
         self.tm.invoke(self.data)
-        self.assertTrue(os.path.exists("tables.tex"))
+        self.assertTrue(os.path.exists("test_table_maker/tables.tex"))
 
     def test_dump_multiple_files(self):
-        tab_config = {"cols": ["Isotope", "Activity"], "multipleOutputFiles": True}
+        tab_config = {"cols": ["Isotope", "Activity"], "multipleOutputFiles": True, "outputdir": "test_table_maker"}
         tm = TM(tab_config)
         tm.invoke(self.dataMultiDet)
-        self.assertTrue(os.path.exists("table_det1.tex"))
-        self.assertTrue(os.path.exists("table_det2.tex"))
+        self.assertTrue(os.path.exists("test_table_maker/table_det1.tex"))
+        self.assertTrue(os.path.exists("test_table_maker/table_det2.tex"))
 
     def test_dump_custom_out_path_single_file(self):
         mkdir("test_table_maker")
@@ -84,3 +85,18 @@ class TableMakerTest(unittest.TestCase):
         col1 = Column("foo1")
         col2 = Column("foo2")
         self.assertNotEqual(col1, col2)
+
+    def test_format_default(self):
+        self.assertEqual(self.tm.format, 'latex')
+
+    def test_format_default_valid_option(self):
+        config = self.tabConfig
+        config.update(dict(format="rst"))
+        tm = TM(config)
+        self.assertEqual(tm.format, 'rst')
+
+    def test_format_default_invalid_option(self):
+        config = self.tabConfig
+        config.update(dict(format="rest"))
+        tm = TM(config)
+        self.assertEqual(tm.format, 'plain')
