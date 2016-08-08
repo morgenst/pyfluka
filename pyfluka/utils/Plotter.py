@@ -12,20 +12,6 @@ def get_axes_range(axisdata):
     return np.arange(start, end + step / 2., step)
 
 
-# todo: duplicate of definition in UsrbinReader
-def pack_data(dataraw, axesdata):
-    try:
-        bin_shape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
-    except:
-        bin_shape = (axesdata[0][2], axesdata[1][2])  # x,y,z
-    reverse_bin_shape = list(bin_shape)
-    reverse_bin_shape.reverse()
-    try:
-        return np.reshape(np.array(dataraw), reverse_bin_shape).transpose()
-    except:
-        return np.reshape(np.array(dataraw[:-1]), reverse_bin_shape).transpose()
-
-
 class Plotter(object):
     def __init__(self, output_dir=".", file_format="png"):
         """
@@ -76,6 +62,8 @@ class Plotter(object):
             ztitle = "" if "ztitle" not in plot_config else plot_config.ztitle
             plt.colorbar().set_label(ztitle)
 
+    def plot_histogram_1d(self, data):
+        pass
 
     def plot_matrix_short(self, data, axesdata, selection, transpose=False, use_log=True, vmin_log=None, vmax_log=None,
                           aspect_ratio_equal=True, geometry_data=None, savefilename=None, vmin=None, vmax=None):

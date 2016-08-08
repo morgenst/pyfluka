@@ -6,6 +6,7 @@ import numpy as np
 
 from BaseReader import BaseReader
 from pyfluka.base import InvalidInputError
+from pyfluka.utils.DataTransformations import pack_data
 
 
 class UsrbinReader(BaseReader):
@@ -17,19 +18,6 @@ class UsrbinReader(BaseReader):
         Incorporate search for "this is" to detect line above the first line and "error" to detect end of value block
         """
 
-        def pack_data(dataraw, axesdata):
-            try:
-                bin_shape = (axesdata[0][2], axesdata[1][2], axesdata[2][2])  # x,y,z
-            except:
-                bin_shape = (axesdata[0][2], axesdata[1][2])  # x,y,z
-            reverse_bin_shape = list(bin_shape)
-            reverse_bin_shape.reverse()
-            dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in dataraw]
-            try:
-                return np.reshape(np.array(dataraw), reverse_bin_shape).transpose()
-            except:
-                return np.reshape(np.array(dataraw[:-1]), reverse_bin_shape).transpose()
-
         usrbin_data_dict = {}
         current_detector_name = None
         data = []
@@ -38,18 +26,17 @@ class UsrbinReader(BaseReader):
         primaries_weight_info = None
         data_reached = False
         error_mode = False
-
         for (i, line) in enumerate(file(filename)):
             if line.find("error") > 0:
                 error_mode = True
             if line.find("Total number of particles followed") > 0:
                 linesplit = line.split()
                 primaries_weight_info = (float(linesplit[5][:-1]), float(linesplit[11]))
-
             if line.find("binning n.") > 0:
                 error_mode = False
                 if current_detector_name is not None:
-                    usrbin_data = pack_data(data, axesdata)
+                    dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in data]
+                    usrbin_data = pack_data(dataraw, axesdata)
                     usrbin_data_dict[current_detector_name] = (usrbin_data, axesdata, primaries_weight_info)
                     current_detector_name = None
                     data = []
@@ -60,6 +47,8 @@ class UsrbinReader(BaseReader):
                 current_detector_name = line.split("\"")[1].strip()
 
             if data_reached and not error_mode:
+                if line.find("this is") > 0 or line.find("accurate deposition") > 0:
+                    continue
                 data_line = [x for x in map(float, line.split())]
                 if data_line:
                     data.append(data_line)
@@ -71,7 +60,8 @@ class UsrbinReader(BaseReader):
                 if line.find("this is") > 0 or line.find("accurate deposition") > 0:
                     data_reached = True
         data = list(chain.from_iterable(data))
-        usrbin_data = pack_data(data, axesdata)
+        dataraw = [self.pq(v, unit=self.dim) if hasattr(self, 'dim') else self.pq(v) for v in data]
+        usrbin_data = pack_data(dataraw, axesdata)
         usrbin_data *= weight
         primaries_weight_info = tuple(map(partial(operator.mul, weight), primaries_weight_info))
         usrbin_data_dict[current_detector_name] = {self.pq.__name__: usrbin_data,
